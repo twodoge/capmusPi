@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
+    <style type="text/css">
+    body {
+        background: #ffffff;
+    }
+    .bg-dark {
+        background: #333333 !important;
+    }
+    .aui-slide-node img {
+        width: auto;
+        height: 100%;
+    }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="aui-bar aui-bar-nav" style="background-color: #00bcd4">
+        <div class="aui-title">首页</div>
+    </header>
+    <!-- 中间内容 -->
+    <section class="aui-content">
+        <div id="aui-slide">
+            <div class="aui-slide-wrap" >
+                <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+                    <div class="aui-content-padded">
+                        <span class="aui-text-danger">AUI Slide</span> 轮播组件不只局限于放置图片，可以自定义内容，分页样式有圆点(dot)，线条(line),结合AUI Flex来实现图片及内容的水平、垂直居中
+                    </div>
+                </div>
+                <div class="aui-slide-node aui-bg-warning aui-slide-node-middle aui-slide-node-center">
+                    <div class="aui-content-padded">
+                        <span class="aui-text-danger">AUI Slide</span>提供了常用的配置属性，可以自定义宽度，高度，自动播放，分页器样式等，支持无缝循环轮播
+                    </div>
+                </div>
+                <div class="aui-slide-node bg-dark">
+                    <img src="../image/l1.png" />
+                </div>
+                <div class="aui-slide-node bg-dark">
+                    <img src="../image/l2.png" />
+                </div>
+                <div class="aui-slide-node bg-dark">
+                    <img src="../image/l3.png" />
+                </div>
+            </div>
+            <div class="aui-slide-page-wrap"><!--分页容器--></div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="/static/js/aui-slide.js"></script>
+<script type="text/javascript">
+    var slide = new auiSlide({
+        container:document.getElementById("aui-slide"),
+        // "width":300,
+        "height":260,
+        "speed":300,
+        "pageShow":true,
+        "pageStyle":'dot',
+        "loop":true,
+        'dotPosition':'center',
+        currentPage:currentFun
+    })
+
+    function currentFun(index) {
+        console.log(index);
+    }
+</script>
+</html>

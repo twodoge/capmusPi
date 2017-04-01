@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+    <style type="text/css">
+        .user-info {
+            background-color: #ffffff;
+            padding: 0.75rem 0;
+        }
+        img.avatar {
+            display: block;
+            margin: 0 auto;
+            width: 20%;
+        }
+        .aui-list .aui-list-header {
+            background-color: #ffffff;
+            line-height: 1.2rem;
+        }
+        .aui-list .aui-list-item {
+            background-color: rgba(248, 246, 239, 0.44);
+        }
+        .aui-switch:checked {
+            border-color: #212121;
+            background-color: #212121;
+        }
+    </style>
+</head>
+<body>
+    <section class="aui-content user-info aui-text-center aui-margin-b-15" style="background-image: url(/static/image/IMG_1222.JPG);background-size: cover;">
+        <img src="/static/image/liulangnan.png" class="avatar aui-img-round">
+        <h2 class="aui-margin-t-15">Twodog <small><i class="aui-iconfont aui-icon-cert aui-text-danger"></i></small></h2>
+        <div class="aui-row aui-margin-t-15">
+            <div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
+                <div class="aui-label aui-label-info">LV 100</div>
+            </div>
+            <div class="aui-col-xs-6 aui-text-left aui-padded-l-10">
+                学分:1000
+            </div>
+        </div>
+        <div class="aui-row aui-margin-t-15">
+            <div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
+                <span class="aui-text-danger aui-margin-r-5">100000人</span>关注我
+            </div>
+            <div class="aui-col-xs-6 aui-text-left aui-padded-l-10">
+                我关注<span class="aui-text-danger aui-margin-l-5">100人</span>
+            </div>
+        </div>
+    </section>
+    <section class="aui-content aui-text-center aui-margin-b-15">
+        <ul class="aui-list aui-list-noborder">
+            <div class="aui-list-header">
+                <div>
+                    <i class="aui-iconfont aui-icon-my aui-text-danger"></i>
+                    个人中心
+                </div>
+            </div>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">我的帖子</div>
+                    <div class="aui-list-item-right">共888贴</div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">常用联系人</div>
+                </div>
+            </li>
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">修改资料</div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item" style="background-color: #fff">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        夜间模式
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="checkbox" class="aui-switch" checked="">
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <p></p>
+            <div class="aui-btn aui-btn-danger aui-btn-block" style="width:70%;margin-left: 15%"><a href="{% url 'mycampus:login' %}" style="color: #fff">退出账号</a></div>
+        <p></p>
+    <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-home"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:index' %}" style="color: #000">首页</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-calendar"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:learn' %}" style="color: #000">学习</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-plus"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:published' %}" style="color: #000">发表</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-like"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000">love</a></div>
+        </div>
+        <div class="aui-bar-tab-item aui-active" tapmode>
+            <div class="aui-dot"></div>
+            <i class="aui-iconfont aui-icon-my"></i>
+            <div class="aui-bar-tab-label"><a href="" style="color: #000">我的</a></div>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="/static/js/api.js" ></script>
+<script type="text/javascript">
+    apiready = function () {
+    }
+</script>
+</html>

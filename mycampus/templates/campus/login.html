@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+</head>
+<body>
+<!-- 头部 -->
+	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #00bcd4">
+	    <div class="aui-title">登录</div>
+	</header>
+    <section class="aui-content-padded">
+	        <h2 class="aui-padded-t-15 aui-text-center"><b>创建一个账号</b></h2>
+	        <div class="aui-content">
+	            <div class="aui-content aui-margin-b-15">
+			        <ul class="aui-list aui-form-list">
+			        	<li class="aui-list-item">
+			                <div class="aui-list-item-inner">
+			                    <div class="aui-list-item-label">
+			                        Name
+			                    </div>
+			                    <div class="aui-list-item-input">
+			                        <input type="text" placeholder="Name">
+			                    </div>
+			                </div>
+			            </li>
+			            <li class="aui-list-item">
+			                <div class="aui-list-item-inner">
+			                    <div class="aui-list-item-label">
+			                        Password
+			                    </div>
+			                    <div class="aui-list-item-input">
+			                        <input type="password" placeholder="Password">
+			                    </div>
+			                    <div class="aui-list-item-label-icon">
+			                        <i class="aui-iconfont aui-icon-display"></i>
+			                    </div>
+			                </div>
+			            </li>
+			            <li class="aui-list-item">
+			                <div class="aui-list-item-inner">
+			                    <div class="aui-list-item-label">
+			                        自动登录
+			                    </div>
+			                    <div class="aui-list-item-input">
+			                        <input type="checkbox" class="aui-switch" checked="">
+			                    </div>
+			                </div>
+			            </li>
+			        </ul>
+			    </div>
+	        </div><!-- endcontent -->
+	</section>
+        <p></p>
+        	<div class="aui-btn aui-btn-primary aui-btn-block" style="width:70%;margin-left: 15%"><a href="{% url 'mycampus:index' %}">登录</a></div>
+        <p></p>
+        <div class="aui-content-padded aui-text-center">
+        	<a href="" class="aui-margin-r-5">忘记密码</a>
+        	<a href="{% url 'mycampus:register' %}" class="aui-margin-l-5">注册账号</a>
+        </div>
+    
+
+	<script type="text/javascript" src="/static/js/api.js"></script>
+	<script type="text/javascript">
+	    apiready = function(){
+	        if(api.systemType == 'ios'){
+	            scaleEnabled = true;
+	            document.getElementById('wrap').style.padding = '10px';
+	        }
+	        };
+	</script>
+	        
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+	<script type="text/javascript">
+    function imgPreview(fileDom){
+        //判断是否支持FileReader
+        if (window.FileReader) {
+            var reader = new FileReader();
+        } else {
+            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+        }
+
+        //获取文件
+        var file = fileDom.files[0];
+        var imageType = /^image\//;
+        //是否是图片
+        if (!imageType.test(file.type)) {
+            alert("请选择图片！");
+            return;
+        }
+        //读取完成
+        reader.onload = function(e) {
+            //获取图片dom
+            var img = document.getElementById("preview");
+            //图片路径设置为读取的图片
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+</head>
+<body>
+<!-- 头部 -->
+	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #00bcd4">
+		<a class="aui-pull-left aui-btn" href="{% url 'mycampus:index' %}">
+	        <span class="aui-iconfont"></span>取消
+	    </a>
+	    <div class="aui-title">发帖子</div>
+	</header>
+	<section class="aui-content-padded">
+	    <div class="aui-card-list">
+
+	        <div class="aui-card-list-header">
+		            
+				    
+				    <input type="file" name="file" onchange="imgPreview(this)" />
+	        </div>
+	        <div class="aui-card-list-content-padded">
+	        	<img id="preview" /><br/>
+	            <textarea placeholder="分享新鲜事..."></textarea>
+	        </div>
+	        <div class="aui-card-list-footer">
+	              <div class="aui-btn aui-btn-primary" >发表</div>
+	        </div>
+	    </div>
+	</section>
+	<section class="aui-content-padded">
+		
+	</section>
+
+	<script type="text/javascript" src="/static/js/aui-popup.js" ></script>
+	<script type="text/javascript" src="/static/js/api.js"></script>
+	<script type="text/javascript">
+	    apiready = function(){
+	        if(api.systemType == 'ios'){
+	            scaleEnabled = true;
+	            document.getElementById('wrap').style.paddingTop = '12px';
+	        }
+	        };
+	</script>
+</body>
+</html>
