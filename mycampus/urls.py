@@ -11,4 +11,8 @@ urlpatterns = [
 	url(r'^published/$', vs.published,name='published'),
 	url(r'^love/$', vs.love,name='love'),
 	url(r'^learn/$', vs.learn,name='learn'),
+	url(r'^forgotPassword/$', vs.forgotPassword,name='forgotPassword'),
+	url(r'^setEmail/$', vs.setEmail,name='setEmail'),
+	url(r'^rePassword/$', vs.rePassword,name='rePassword'),
+	url(r'^rePasswordSubmit/$', vs.rePasswordSubmit,name='rePasswordSubmit'),
 ]

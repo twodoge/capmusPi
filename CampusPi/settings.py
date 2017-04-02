@@ -123,6 +123,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+# email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+  
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '2384236461@qq.com'
+EMAIL_HOST_PASSWORD = 'omjwqmzioglrdhji'
+DEFAULT_FROM_EMAIL = '2384236461@qq.com'
 
 STATIC_URL = '/static/'
 
