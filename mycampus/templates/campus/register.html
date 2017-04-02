@@ -19,36 +19,49 @@
     <!-- 中间 -->
     <section class="aui-content-padded">
 	        <h2 class="aui-padded-t-15 aui-text-center"><b>创建一个账号</b></h2>
+	        <form class="m-t" role="form"  action="{% url 'mycampus:register_action'  %}"  method="post" onsubmit="return check()">
+            {% csrf_token %}
 	        <div class="aui-content">
 	            <div class="aui-content aui-margin-b-15">
 			        <ul class="aui-list aui-form-list">
 			        	<li class="aui-list-item">
 			                <div class="aui-list-item-inner">
 			                    <div class="aui-list-item-label">
-			                        Name
+			                        用户名
 			                    </div>
 			                    <div class="aui-list-item-input">
-			                        <input type="text" placeholder="Name">
+			                        <input type="text" placeholder="用户名" name="userName" id="userName" onblur="ajax_request()">
+			                    </div>
+			                </div>
+			            </li>
+			            <li><div><span id="result"></span></div></li>
+			            <li class="aui-list-item">
+			                <div class="aui-list-item-inner">
+			                    <div class="aui-list-item-label">
+			                        邮箱
+			                    </div>
+			                    <div class="aui-list-item-input">
+			                        <input type="Email" placeholder="邮箱" id="email" name="email">
 			                    </div>
 			                </div>
 			            </li>
 			            <li class="aui-list-item">
 			                <div class="aui-list-item-inner">
 			                    <div class="aui-list-item-label">
-			                        Email
+			                        电话
 			                    </div>
 			                    <div class="aui-list-item-input">
-			                        <input type="Email" placeholder="Email">
+			                        <input type="telephone" placeholder="电话" id="phone" name="phone">
 			                    </div>
 			                </div>
 			            </li>
 			            <li class="aui-list-item">
 			                <div class="aui-list-item-inner">
 			                    <div class="aui-list-item-label">
-			                        Password
+			                        密码
 			                    </div>
 			                    <div class="aui-list-item-input">
-			                        <input type="password" placeholder="Password">
+			                        <input type="password" placeholder="密码" id="password" name="password">
 			                    </div>
 			                    <div class="aui-list-item-label-icon">
 			                        <i class="aui-iconfont aui-icon-display"></i>
@@ -58,20 +71,59 @@
 			        </ul>
 			    </div>
 	        </div><!-- endcontent -->
+	             <p></p>
+            <button type="submit" class="aui-btn aui-btn-info aui-btn-block" style="width:70%;margin-left: 15%" >注 册</button>
+        <p></p>
+    </form>
 	</section>
-        <p></p>
-        	<div class="aui-btn aui-btn-info aui-btn-block" style="width:70%;margin-left: 15%">注册</div>
-        <p></p>
-    
-    <script type="text/javascript" src="/static/js/api.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript" src="/static/js/api.js"></script>
+  <script type="text/javascript">
 	    apiready = function(){
 	        if(api.systemType == 'ios'){
 	            scaleEnabled = true;
 	            document.getElementById('wrap').style.paddingTop = '12px';
 	        }
 	        };
-	</script>
+</script>
+<script>
+function ajax_request()
+{
+var xmlhttp;
+if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {
+    // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function() {
+	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+      // document.getElementById("result").innerHTML=xmlhttp.responseText;
+      if(xmlhttp.responseText==""){
+      	document.getElementById("result").innerHTML=xmlhttp.responseText;
+    
+      }else{
+      	document.getElementById("result").innerHTML="<font color=\"red\">当前用户名已被注册！</font>";
+      }
+  }
+}
+
+var Name = document.getElementById("userName").value;
+xmlhttp.open("GET", "/mycampus/register_action?Name=" + Name  , true);
+xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+xmlhttp.send();
+
+// ajax 教程：http://www.ziqiangxuetang.com/ajax/ajax-tutorial.html
+}
+function check(){
+	var status = document.getElementById("result").innerHTML;
+	if(status==""){
+		return true ;
+	}else{
+		return false;
+	}
+}
+</script>
 
 </body>
 </html>

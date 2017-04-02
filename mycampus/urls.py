@@ -3,8 +3,10 @@ from mycampus import views as vs
 
 urlpatterns = [
 	url(r'^login/$', vs.login,name='login'),
-	url(r'^register/$', vs.register,name='register'),
 	url(r'^index/$', vs.index,name='index'),
+	url(r'^register/$', vs.register,name='register'),
+	url(r'^register_action/', vs.register_action,name='register_action'),
+	url(r'^loginJudge/', vs.loginJudge,name='loginJudge'),
 	url(r'^member/$', vs.member,name='member'),
 	url(r'^published/$', vs.published,name='published'),
 	url(r'^love/$', vs.love,name='love'),
