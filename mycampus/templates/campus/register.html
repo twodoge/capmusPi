@@ -51,10 +51,11 @@
 			                        电话
 			                    </div>
 			                    <div class="aui-list-item-input">
-			                        <input type="telephone" placeholder="电话" id="phone" name="phone">
+			                        <input type="telephone" placeholder="电话" id="phone" name="phone" onblur="checkPhone()">
 			                    </div>
 			                </div>
 			            </li>
+			            <li><div><span id="errorphone"></span></div></li>
 			            <li class="aui-list-item">
 			                <div class="aui-list-item-inner">
 			                    <div class="aui-list-item-label">
@@ -117,12 +118,28 @@ xmlhttp.send();
 }
 function check(){
 	var status = document.getElementById("result").innerHTML;
-	if(status==""){
+	if(!checkPhone()){
+		return false;
+	}else if(status==""){
 		return true ;
 	}else{
 		return false;
 	}
 }
+
+function checkPhone(){
+    var phone=document.getElementById("phone").value;
+    var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/ ;
+       if(phone.length!=11||!phone.match(a)){
+            document.getElementById("errorphone").innerHTML="<font color=\"red\">手机格式错误！</font>";
+            return false;
+        }
+        else{
+             document.getElementById("errorphone").innerHTML="";
+             return true
+         }
+    }
+    
 </script>
 
 </body>
