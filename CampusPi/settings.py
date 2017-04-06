@@ -75,8 +75,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'CampusPi',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': 'twodog',
+        'PASSWORD': '666666',
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -142,3 +142,9 @@ STATICFILES_FINDERS = (
      "django.contrib.staticfiles.finders.FileSystemFinder",
      "django.contrib.staticfiles.finders.AppDirectoriesFinder"
  )
+
+MEDIA_ROOT = '/common_static/'
+
+MEDIA_URL = '/common_static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'common_static')
