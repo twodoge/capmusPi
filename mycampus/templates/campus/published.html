@@ -5,6 +5,7 @@
 	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 	<title>登录</title>
+	<link rel="icon" href="data:image/ico;base64,aWNv">
 	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
 	<script type="text/javascript">
     function imgPreview(fileDom){
@@ -44,19 +45,29 @@
 	</header>
 	<section class="aui-content-padded">
 	    <div class="aui-card-list">
-
-	        <div class="aui-card-list-header">
-		            
-				    
-				    <input type="file" name="file" onchange="imgPreview(this)" />
-	        </div>
-	        <div class="aui-card-list-content-padded">
-	        	<img id="preview" /><br/>
-	            <textarea placeholder="分享新鲜事..."></textarea>
-	        </div>
-	        <div class="aui-card-list-footer">
-	              <div class="aui-btn aui-btn-primary" >发表</div>
-	        </div>
+	    	<form role="form" action="{% url 'mycampus:show_published' %}" method="post" enctype="multipart/form-data">
+	        	{% csrf_token %}
+		        <div class="aui-card-list-header">
+			            
+					    
+					    <input type="file" name="image" onchange="imgPreview(this)" />
+		        </div>
+	        	
+		        <div class="aui-card-list-content-padded">
+		        	<img id="preview" /><br/>
+		            <textarea id="title" placeholder="标题..." name="title" onblur="return cheack_title()"></textarea>
+		            </span><span id="erroretitle" style="display:none;color:red;">标题不能为空！</span>
+		            <textarea id="content" placeholder="分享新鲜事..." name="content" onblur="return cheack_content()"></textarea>
+		            </span><span id="errorcontent" style="display:none;color:red;">内容不能为空！</span>
+		        </div>
+		        <div class="aui-card-list-footer">
+		              <!-- <p><div type="submit" class="aui-btn aui-btn-primary aui-btn-block">发表</button></p> -->
+		              <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
+		              <!-- <p><div class="aui-btn aui-btn-info aui-btn-block" style="width:70%;margin-left: 15%;background-color: #00bcd4 !important" onclick="ajax_request()">登录</div>
+       				 </p> -->
+		              <!-- <button type="submit" class="btn btn-primary block full-width m-b">注 册</button> -->
+		        </div>
+	        </from>
 	    </div>
 	</section>
 	<section class="aui-content-padded">
@@ -72,6 +83,29 @@
 	            document.getElementById('wrap').style.paddingTop = '12px';
 	        }
 	        };
+	</script>
+	<script type="text/javascript">
+		function cheack_title(){
+			var title = document.getElementById('title').value;
+			if (title == '' || title==undefined ||title==null|| content == ''||content==undefined||content==null) {
+			document.getElementById('erroretitle').style.display = "block";
+			return false;
+			}
+			else{
+				document.getElementById('erroretitle').style.display = "none";
+			}
+		}
+		function cheack_content(){
+			var content = document.getElementById('content').value;
+			if (content == ''||content==undefined||content==null) {
+				document.getElementById('errorcontent').style.display = "block";
+				return false;
+		    }
+		    else{
+		    	document.getElementById('erroretitle').style.display = "none";
+		    }
+		}
+		
 	</script>
 </body>
 </html>

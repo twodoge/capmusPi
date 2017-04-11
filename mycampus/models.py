@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class User(models.Model):
 	userName = models.CharField(max_length=20)
-	userPicture = models.ImageField(upload_to='img',null=True)
+	userPicture = models.ImageField(upload_to='user_img',null=True)
 	password = models.CharField(max_length=20)
 	email = models.EmailField(max_length=30)
 	phone = models.CharField(max_length=20)
@@ -11,11 +11,11 @@ class User(models.Model):
 
 class News(models.Model):
 	publisher = models.CharField(max_length=20)
-	title = models.CharField(max_length=50)
-	content = models.CharField(max_length=2000)
+	title = models.CharField(max_length=50,null=True)
+	content = models.CharField(max_length=2000,null=True)
 	images = models.ImageField(upload_to='news-img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
-	like = models.IntegerField()
+	like = models.IntegerField(null=True)
 
 class Comments_News(models.Model):
 	critisID = models.IntegerField()
@@ -28,7 +28,7 @@ class Learns(models.Model):
 	content = models.CharField(max_length=2000)
 	images = models.ImageField(upload_to='news-img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
-	like = models.IntegerField()
+	like = models.IntegerField(null=True)
 
 class Comments_Learns(models.Model):
 	critisID = models.IntegerField()
