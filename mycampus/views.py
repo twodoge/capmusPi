@@ -172,3 +172,7 @@ def rePasswordSubmit(request):
 	user.password = password
 	user.save()
 	return redirect('/mycampus/login/')
+
+# 详细内容页面
+def content(request):
+	return render(request, 'campus/content.html')

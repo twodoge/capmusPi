@@ -39,7 +39,7 @@
 		    </div>
 		</div>
 	</div>
-	<!-- 中间轮播图 -->
+	<!-- 轮播图 -->
     <section class="aui-content">
     	<div id="aui-slide" style="position: relative; height: 260px;">
 	        <div class="aui-slide-wrap">
@@ -72,7 +72,7 @@
 	        <ul class="aui-list aui-media-list">
 	        {% for article in articles %}
 	         {% if article.images %}
-
+	         	<!-- 有图片 -->
 	            <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
@@ -84,6 +84,7 @@
 	                               <span class="aui-margin-l-5">{{article.publisher}}</span>
 	                                </div>
 	                            <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
+	                            <div class="aui-info-item aui-font-size-12">26条评论</div>
 	                        </div>
 	                    </div>
 	                  
@@ -94,26 +95,6 @@
 	                   
 	                </div>
 	            </li>
-
-	            <!-- 有图片 -->
-	           <!--  <li class="aui-list-item">
-	                <div class="aui-media-list-item-inner">
-	                    <div class="aui-list-item-inner">
-	                        <div class="aui-list-item-text">
-	                            <div class="aui-list-item-title aui-font-size-18">网吧电脑看到它 你的游戏账号网银就丢了一般了</div>
-	                        </div>
-	                        <div class="aui-info aui-padded-b-0">
-	                            <div class="aui-info-item aui-font-size-12">
-	                                <img src="/static/image/demo2.png" style="width:1rem" class="aui-img-round"><span class="aui-margin-l-5">今日头条</span>
-	                                </div>
-	                            <div class="aui-info-item aui-font-size-12">2015-07-14 10:31</div>
-	                        </div>
-	                    </div>
-	                    <div class="aui-list-item-media">
-	                        <img src="/static/image/demo/2.jpeg">
-	                    </div>
-	                </div>
-	            </li> -->
 	            {% else %}
 	            <!-- 无图片 -->
 	            <li class="aui-list-item">
@@ -132,7 +113,7 @@
 	                    </div>
 	                    <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
 	                   
-	                <!--     <div class="aui-info-item aui-font-size-12">26条评论</div> -->
+	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
 	                </div>
 	            </li> 
 	            {% endif %}
@@ -140,34 +121,7 @@
 	        </ul>
 	    </div>
     </section>
-  <!--   最后的图文内容
-	<!-- <section class="aui-content">
-        <div class="aui-card-list aui-border-t aui-border-b">
-            <div class="aui-info aui-padded-l-15 aui-padded-r-15">
-                <div class="aui-info-item aui-font-size-12">
-                    <img src="/static/image/demo1.png" style="width:1rem" class="aui-img-round">
-                    <span class="aui-margin-l-5">Sim Chen 发表的热门文章</span>
-                </div>
-                <div class="aui-info-item">
-                    <i class="aui-iconfont aui-icon-more"></i>
-                </div>
-            </div>
-            <div class="aui-card-list-content">
-                <img src="/static/image/l1.png">
-            </div>
-            <div class="aui-card-list-header aui-padded-t-5 aui-padded-b-5">
-                中国拥有世界顶级航天芯片产品：俄罗斯造不出来了只能求中国分享
-            </div>
-            <div class="aui-card-list-content-padded aui-padded-t-0 aui-padded-b-0" style="color:#7b7b7b;">
-                如果谈及中国在技术领域的短板，那么大家可能想到的是发动机，其实还有一样：高级电子芯片！人们通常所说的CPU，所谓CPU即中央处理器，就是其代表产品，它可是为电子信息产品的心脏,是集成电路产品的终端级产品。
-            </div>
-            <div class="aui-card-list-footer aui-font-size-12" style="color:#999;">
-                <div>
-                    <span>2048 赞</span> - <span>295 评论</span> - <span>去往栏目</span>
-                </div>
-            </div>
-        </div>
-    </section> -->
+
     <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
 	    <div class="aui-bar-tab-item aui-active" tapmode>
 	        <i class="aui-iconfont aui-icon-home"></i>

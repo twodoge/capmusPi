@@ -75,8 +75,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'CampusPi',
-        'USER': 'root',
-        'PASSWORD': '123456',
+        'USER': 'twodog',
+        'PASSWORD': '666666',
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC+8'
 
 USE_I18N = True
 

@@ -18,4 +18,5 @@ urlpatterns = [
 	url(r'^setEmail/', vs.setEmail,name='setEmail'),
 	url(r'^rePassword/$', vs.rePassword,name='rePassword'),
 	url(r'^rePasswordSubmit/$', vs.rePasswordSubmit,name='rePasswordSubmit'),
+	url(r'^content/$', vs.content,name='content'),
 ]
