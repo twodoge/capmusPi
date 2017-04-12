@@ -70,25 +70,25 @@
     <section class="aui-content">
     	<div class="aui-content">
 	        <ul class="aui-list aui-media-list">
-	        {% for article in articles %}
-	         {% if article.images %}
+	        {% for new in news %}
+	         {% if new.images %}
 
 	            <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
 	                        <div class="aui-list-item-text">
-	                            <div class="aui-list-item-title aui-font-size-18">{{article.title}}</div>
+	                            <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
 	                        </div>
 	                        <div class="aui-info aui-padded-b-0">
 	                            <div class="aui-info-item aui-font-size-12">
-	                               <span class="aui-margin-l-5">{{article.publisher}}</span>
+	                               <span class="aui-margin-l-5">{{new.publisher}}</span>
 	                                </div>
-	                            <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
+	                            <div class="aui-info-item aui-font-size-12">{{new.time}}</div>
 	                        </div>
 	                    </div>
 	                  
 	                    	<div class="aui-list-item-media">
-	                        <img src="/static/{{ article.images }}">
+	                        <img src="/static/{{ new.images }}">
 	                    	</div>
 	                                      	
 	                   
@@ -119,18 +119,18 @@
 	            <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
-	                        <div class="aui-list-item-title aui-font-size-18">{{article.title}}</div>
+	                        <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
 	                        <div class="aui-list-item-text">
-	                            <p class="aui-ellipsis-2">{{article.content}}</p>
+	                            <p class="aui-ellipsis-2">{{new.content}}</p>
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="aui-info">
 	                    <div class="aui-info-item aui-font-size-12">
 	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
-	                        <span class="aui-margin-l-5">{{article.publisher}}</span>
+	                        <span class="aui-margin-l-5">{{new.publisher}}</span>
 	                    </div>
-	                    <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
+	                    <div class="aui-info-item aui-font-size-12">{{new.time}}</div>
 	                   
 	                <!--     <div class="aui-info-item aui-font-size-12">26条评论</div> -->
 	                </div>

@@ -68,8 +68,8 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
-	articles = models.News.objects.all()
-	return render(request, 'campus/index.html',{'articles':articles})
+	news = models.News.objects.order_by('-id')
+	return render(request, 'campus/index.html',{'news':news})
 	
 	
 
@@ -93,8 +93,8 @@ def love(request):
 	return render(request, 'campus/love.html')
 
 def learn(request):
-	articles = models.Learns.objects.all()
-	return render(request, 'campus/learn.html',{'articles':articles})
+	learns = models.Learns.objects.order_by('-id')
+	return render(request, 'campus/learn.html',{'learns':learns})
 
 def send_learn(request):
 	userId = request.session.get('userId',default=None)
