@@ -3,7 +3,10 @@ from django.shortcuts import render, render_to_response, HttpResponse, redirect,
 from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 from . import models
-import random
+import string, os, random
+from PIL import Image, ImageDraw, ImageFont 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 def login(request):
     return render(request, 'campus/login.html')
 
@@ -38,38 +41,70 @@ def loginJudge(request):
 		userName = request.GET.get('userName')
 		password = request.GET.get('password')
 		user = models.User.objects.filter(userName=userName)
-		if user:
-			if user[0].password==password:
-
-				error = ""
-				r = HttpResponse(error)
-				return r 
-			else:
-				error = "用户名或密码不正确"
-				r = HttpResponse(error)
-				return r
+		print (user)
+		if len(user)==0:
 			error = "该用户不存在"
 			r = HttpResponse(error)
 			return r
 		else:
-			error = "该用户不存在"
-			r = HttpResponse(error)
-			return r
+			if user[0]:
+				if user[0].password==password:
+					error = ""
+					r = HttpResponse(error)
+					request.session['userId'] = user[0].id
+					return r 
+				else:
+					error = "用户名或密码不正确"
+					r = HttpResponse(error)
+					return r
+				error = "该用户不存在"
+				r = HttpResponse(error)
+				return r
+			else:
+				error = "该用户不存在"
+				r = HttpResponse(error)
+				return r
 	
 def index(request):
-	return render(request,'campus/index.html')
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	articles = models.News.objects.all()
+	return render(request, 'campus/index.html',{'articles':articles})
+	
+	
 
 def  member(request):
 	return render(request, 'campus/member.html')
+
+def show_published(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	title = request.POST.get('title','title')
+	content = request.POST.get('content','content')
+	images = request.FILES.get('image')
+
+	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images)
+	return redirect('/mycampus/index')
 	
-def  published(request):
+def published(request):
 	return render(request, 'campus/published.html')
 
 def love(request):
 	return render(request, 'campus/love.html')
 
 def learn(request):
-	return render(request, 'campus/learn.html')
+	articles = models.Learns.objects.all()
+	return render(request, 'campus/learn.html',{'articles':articles})
+
+def send_learn(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	title = request.POST.get('title','title')
+	content = request.POST.get('content','twodog')
+	image = request.FILES.get('image')
+
+	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)
+	return redirect('/mycampus/learn')
 
 def forgotPassword(request):
 	return render(request, 'campus/forgotPassword.html')

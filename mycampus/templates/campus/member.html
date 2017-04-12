@@ -5,6 +5,7 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>我的</title>
+    <link rel="icon" href="data:image/ico;base64,aWNv">
     <link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
     <style type="text/css">
         .user-info {
@@ -31,8 +32,8 @@
 </head>
 <body>
     <section class="aui-content user-info aui-text-center aui-margin-b-15" style="background-image: url(/static/image/IMG_1222.JPG);background-size: cover;">
-        <img src="/static/image/liulangnan.png" class="avatar aui-img-round">
-        <h2 class="aui-margin-t-15">Twodog <small><i class="aui-iconfont aui-icon-cert aui-text-danger"></i></small></h2>
+        <img src="/static/user_img/default.jpg" class="avatar aui-img-round">
+        <h2 class="aui-margin-t-15">sdsdd {{ request.session.user.userName}}<small><i class="aui-iconfont aui-icon-cert aui-text-danger"></i></small></h2>
         <div class="aui-row aui-margin-t-15">
             <div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
                 <div class="aui-label aui-label-info">LV 100</div>

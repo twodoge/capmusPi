@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>登录</title>
+	<title>主页</title>
+	<link rel="icon" href="data:image/ico;base64,aWNv">
 	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
 	<style type="text/css">
@@ -69,25 +70,33 @@
     <section class="aui-content">
     	<div class="aui-content">
 	        <ul class="aui-list aui-media-list">
+	        {% for article in articles %}
+	         {% if article.images %}
+
 	            <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
 	                        <div class="aui-list-item-text">
-	                            <div class="aui-list-item-title aui-font-size-18">谁在用苹果手机？赶紧看，央视已报道</div>
+	                            <div class="aui-list-item-title aui-font-size-18">{{article.title}}</div>
 	                        </div>
 	                        <div class="aui-info aui-padded-b-0">
 	                            <div class="aui-info-item aui-font-size-12">
-	                                <img src="/static/image/liulangnan.png" style="width:1rem" class="aui-img-round"><span class="aui-margin-l-5">AUI</span>
+	                               <span class="aui-margin-l-5">{{article.publisher}}</span>
 	                                </div>
-	                            <div class="aui-info-item aui-font-size-12">2015-07-14 10:31</div>
+	                            <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
 	                        </div>
 	                    </div>
-	                    <div class="aui-list-item-media">
-	                        <img src="/static/image/demo/1.jpeg">
-	                    </div>
+	                  
+	                    	<div class="aui-list-item-media">
+	                        <img src="/static/{{ article.images }}">
+	                    	</div>
+	                                      	
+	                   
 	                </div>
 	            </li>
-	            <li class="aui-list-item">
+
+	            <!-- 有图片 -->
+	           <!--  <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
 	                        <div class="aui-list-item-text">
@@ -104,29 +113,35 @@
 	                        <img src="/static/image/demo/2.jpeg">
 	                    </div>
 	                </div>
-	            </li>
+	            </li> -->
+	            {% else %}
+	            <!-- 无图片 -->
 	            <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
-	                        <div class="aui-list-item-title aui-font-size-18">小米手机的质量到底有多差？</div>
+	                        <div class="aui-list-item-title aui-font-size-18">{{article.title}}</div>
 	                        <div class="aui-list-item-text">
-	                            <p class="aui-ellipsis-2">我买了小米手机五台，还有三台小米平板&#8203;第一台是跟前女友一起买的小米 2s，用了三年，到现在没出现卡顿，后来给妈妈买了一台红米1s，老妈到现在还在用着，我因为工作需要要用电信联通两张卡</p>
+	                            <p class="aui-ellipsis-2">{{article.content}}</p>
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="aui-info">
 	                    <div class="aui-info-item aui-font-size-12">
-	                        <img src="/static/image/demo1.png" style="width:1rem" class="aui-img-round">
-	                        <span class="aui-margin-l-5">中关村在线</span>
+	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
+	                        <span class="aui-margin-l-5">{{article.publisher}}</span>
 	                    </div>
-	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                    <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
+	                   
+	                <!--     <div class="aui-info-item aui-font-size-12">26条评论</div> -->
 	                </div>
-	            </li>
+	            </li> 
+	            {% endif %}
+	            {% endfor%}
 	        </ul>
 	    </div>
     </section>
-    <!-- 最后的图文内容 -->
-	<section class="aui-content">
+  <!--   最后的图文内容
+	<!-- <section class="aui-content">
         <div class="aui-card-list aui-border-t aui-border-b">
             <div class="aui-info aui-padded-l-15 aui-padded-r-15">
                 <div class="aui-info-item aui-font-size-12">
@@ -152,7 +167,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
 	    <div class="aui-bar-tab-item aui-active" tapmode>
 	        <i class="aui-iconfont aui-icon-home"></i>
