@@ -23,7 +23,7 @@
 </head>
 <body>
 <!-- 头部 -->
-	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #27AE60">
+	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #27AE60;padding-top:12px; ">
 	    <a class="aui-pull-left">
 	        <img src="/static/image/1.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
 	    </a>
@@ -147,6 +147,14 @@
 	</footer>
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript" src="/static/js/aui-slide.js"></script>
+<!-- 	<script type="text/javascript">
+    apiready = function(){
+        if(api.systemType == 'ios'){
+            scaleEnabled = true;
+            document.getElementById('wrap').style.paddingTop = '12px';
+        }
+        };
+	</script> -->
 	<script type="text/javascript">
 	    var slide = new auiSlide({
 	        container:document.getElementById("aui-slide"),
@@ -164,14 +172,7 @@
 	        console.log(index);
 	    }
 	</script>
-	<script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.paddingTop = '12px';
-	        }
-	        };
-	</script>
+
 
 </body>
 </html>
