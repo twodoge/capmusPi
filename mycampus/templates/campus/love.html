@@ -12,7 +12,7 @@
     .hw-overlay{display:none; position: fixed; top:0;left:0;width:100%;height:100%; background-color: rgba(0,0,0,0.3);z-index:10;} 
     .hw-layer-wrap{box-sizing:border-box; width:570px; position:absolute;left:50%;top:50%; margin-left:-285px; border-radius:3px; background-color:#fff; box-shadow:1px 2px 4px 0 rgba(0,0,0,0.12); padding:45px 50px;} 
     .hwLayer-close{position:absolute; right:20px; top:20px; width:20px; height:20px; cursor:pointer; font-size:20px; color:#ccc;} 
-    .hw-layer-wrap .hw-icon{color:#b4d8f3;font-size:86px;text-align:center;} 
+    .hw-layer-wrap .hw-icon{color:#b4d8f3;font-size:86px;text-align:center;}
     .hw-layer-wrap h4{margin:5px 0 30px; font-size:24px; color:#383c3e;} 
     .hw-layer-wrap p{margin:30px 0; line-height:22px; color:#595d60; text-align:left;} 
      
@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-	<header class="aui-bar aui-bar-nav aui-margin-b-15">
+	<header class="aui-bar aui-bar-nav aui-margin-b-15" id="wrap" style="padding-top:12px;">
         <div class="aui-title">
             <div class="aui-bar aui-bar-btn aui-bar-btn-round">
                 <div class="aui-bar-btn-item aui-active love1 active" tapmode="" data-item-order="0">表白墙</div>
@@ -342,6 +342,7 @@
 	        }
 	    }
 	</script>
+<<<<<<< HEAD
 	<script type="text/javascript">
 	    apiready = function(){
 	        if(api.systemType == 'ios'){
@@ -374,6 +375,16 @@
 	</script>
    
 
+=======
+<!--     <script type="text/javascript">
+        apiready = function(){
+            if(api.systemType == 'ios'){
+                scaleEnabled = true;
+                document.getElementById('wrap').style.paddingTop = '12px';
+            }
+            };
+    </script> -->
+>>>>>>> 1dcf7d8a5e0810d99e2fe5f5693c49cf721aab6e
 	<script type="text/javascript" src="/static/js/newcommon.js"></script> 
 
 </body>

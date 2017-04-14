@@ -39,21 +39,21 @@
     <!-- 内容 -->
     <section class="aui-content">
         <ul class="aui-list aui-media-list">
-        {% for article in articles %}
+        {% for learn in learns %}
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
-                        <img src="/static/{{article.images}}">
+                        <img src="/static/{{learn.images}}">
                     </div>
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-text">
-                            <div class="aui-list-item-title" style="color:#4c5276">{{article.publisher}}</div>
+                            <div class="aui-list-item-title" style="color:#4c5276">{{learn.publisher}}</div>
                         </div>
                         <div class="aui-list-item-text" style="color:#333;">
-                            {{article.title}}
+                            {{learn.title}}
                         </div>
                         <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
-                            <div class="aui-info-item">{{article.time}}</div>
+                            <div class="aui-info-item">{{learn.time}}</div>
                             <div class="aui-info-item">
                                 <i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>
                             </div>
@@ -62,61 +62,6 @@
                 </div>
             </li>
             {% endfor %}
-           <!--  <li class="aui-list-item">
-                <div class="aui-media-list-item-inner">
-                    <div class="aui-list-item-media">
-                        <img src="/static/image/liulangnan.png">
-                    </div>
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-text">
-                            <div class="aui-list-item-title" style="color:#4c5276">流浪男</div>
-                        </div>
-                        <div class="aui-list-item-text" style="color:#333;">
-                            网传“贴吧之父”俞军加入滴滴
-                        </div>
-                        <div class="aui-list-item-text">
-                            <div class="aui-row-padded" style="max-width:90%;">
-                                <div class="aui-col-xs-4">
-                                    <img src="/static/image/l1.png">
-                                </div>
-                                <div class="aui-col-xs-4">
-                                    <img src="/static/image/l2.png">
-                                </div>
-                                <div class="aui-col-xs-4">
-                                    <img src="/static/image/l3.png">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
-                            <div class="aui-info-item">1小时前</div>
-                            <div class="aui-info-item">
-                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="aui-list-item">
-                <div class="aui-media-list-item-inner">
-                    <div class="aui-list-item-media">
-                        <img src="/static/image/liulangnan.png">
-                    </div>
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-text">
-                            <div class="aui-list-item-title" style="color:#4c5276">流浪男</div>
-                        </div>
-                        <div class="aui-list-item-text" style="color:#333;">
-                            美团、饿了么外卖小哥斗殴：约架中关村
-                        </div>
-                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
-                            <div class="aui-info-item">1小时前</div>
-                            <div class="aui-info-item">
-                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li> -->
         </ul>
     </section>
 

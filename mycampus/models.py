@@ -18,10 +18,12 @@ class News(models.Model):
 	like = models.IntegerField(null=True)
 
 class Comments_News(models.Model):
-	critisID = models.IntegerField()
+	critisID = models.CharField(max_length=20)
+	new = models.ForeignKey(News,null=True)
 	time = models.DateTimeField(auto_now_add=True)
 	content = models.CharField(max_length=255)
-
+	images = models.ImageField(upload_to='news_img',null=True)
+	
 class Learns(models.Model):
 	publisher = models.CharField(max_length=20)
 	title = models.CharField(max_length=50)
