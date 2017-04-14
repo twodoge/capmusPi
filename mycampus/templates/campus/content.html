@@ -34,7 +34,7 @@
 </head>
 <body>
     <header class="aui-bar aui-bar-nav">
-        <a class="aui-pull-left aui-btn">
+        <a class="aui-pull-left aui-btn" href="{% url 'mycampus:index'  %}">
             <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">详情</div>
@@ -42,18 +42,18 @@
     <section class="aui-content">
         <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
             <div class="aui-info-item">
-                <img src="/static/image/demo2.png" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">AUI</h3></span>
+                <img src="/static/image/demo2.png" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{ news.publisher }}</h3></span>
                 </div>
-            <div class="aui-info-item">2015-07-13 22:31</div>
+            <div class="aui-info-item">{{ news.time|date:"Y-m-d H:i" }}</div>
         </div>
     </section>
     <section class="aui-content">
         <div class="item">
             <div class="by">
-                <h2>极力推崇读书的人为什么不把时间都用来读书？</h2>
-                <p>难道他们可自由支配时间足够长以至于上知乎的时间可以忽略不计？ ---------------------------------------------------------------------------------------------- 各位上知乎都是在什么时间？每天平均上多久？如果是工作时间用所谓碎片时间来上知乎是否是一种影响工作产出的行为？如果是下班以后，假设每天有且只有两小时属于自己的整块时间，你会怎样分配？会读书还是上知乎？ 综上，在上知乎的时间里，如果做其他的事（上班时认真工作、下班时读完整的书而不是信息碎片或所谓干货），是否长远收益更大？</p>
+                <h2>{{ news.title }}</h2>
+                <p>{{ news.content }}</p>
                 <p>
-                    <img src="/static/image/IMG_1222.JPG" style="max-width: 100%;margin:20px auto 0 ">
+                    <img src="/static/{{news.images}}" style="max-width: 100%;margin:20px auto 0 ">
                 </p>
             </div>
             <div class="foot" style="text-align: right;">
@@ -69,14 +69,11 @@
         </div>
             <!-- 发表评论 -->
             <div class="aui-card-list comment_content" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
-                <form role="form" action="" method="post" enctype="multipart/form-data">
+                <form role="form" action="{% url 'mycampus:comments_news' news.id  %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
-                            
-                            
                             <input type="file" name="image" onchange="imgPreview(this)" />
                     </div>
-                    
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
                         <textarea id="content" placeholder="评论..." name="content" onblur="return cheack_title()"></textarea>
@@ -89,8 +86,50 @@
             </div>
     </section>
     <!-- 评论内容 -->
+      
     <section class="aui-content-padded">
+          {% for comment in comments %}
+    
         <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
+            <div class="aui-card-list-header" style="padding: 0;">
+                <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                    <div class="aui-info-item">
+                        <img src="/static/{{comment.images}}" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{comment.critisID}}</h3></span>
+                        </div>
+                    <div class="aui-info-item">{{ comment.time|date:"Y-m-d H:i" }}</div>
+                </div>
+            </div>
+            <div class="aui-card-list-content-padded">
+                <div>{{comment.content}}</div>
+
+                <div class="footer">
+                    <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                        <div class="aui-info-item"></div>
+                        <div class="aui-info-item">
+                            <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment2" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">10</font></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- 发表评论 -->
+            <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
+                <form role="form" action="{% url 'mycampus:comments_news' news.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="aui-card-list-header">
+                            <input type="file" name="image" onchange="imgPreview(this)" />
+                    </div>
+                    <div class="aui-card-list-content-padded">
+                        <img id="preview" /><br/>
+                        <textarea id="content" placeholder="评论..." name="content" onblur="return cheack_title()"></textarea>
+                        </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
+                    </div>
+                    <div class="aui-card-list-footer">
+                          <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
+                    </div>
+                </from>
+            </div>
+        </div>
+       <!--  <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
             <div class="aui-card-list-header" style="padding: 0;">
                 <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
                     <div class="aui-info-item">
@@ -110,17 +149,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        <!-- 发表评论 -->
-            <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
+            </div> -->
+        <!--  发表评论  -->
+      <!--       <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
                 <form role="form" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
-                            
-                            
                             <input type="file" name="image" onchange="imgPreview(this)" />
                     </div>
-                    
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
                         <textarea id="content" placeholder="评论..." name="content" onblur="return cheack_title()"></textarea>
@@ -131,50 +167,11 @@
                     </div>
                 </from>
             </div>
-        </div>
-        <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
-            <div class="aui-card-list-header" style="padding: 0;">
-                <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
-                    <div class="aui-info-item">
-                        <img src="/static/image/demo2.png" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">AUI</h3></span>
-                        </div>
-                    <div class="aui-info-item">2015-07-13 22:31</div>
-                </div>
-            </div>
-            <div class="aui-card-list-content-padded">
-                <div>内容区域，卡片列表布局样式可以实现APP中常见的各类样式</div>
-
-                <div class="footer">
-                    <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
-                        <div class="aui-info-item"></div>
-                        <div class="aui-info-item">
-                            <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment2" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">10</font></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <!-- 发表评论 -->
-            <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
-                <form role="form" action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="aui-card-list-header">
-                            
-                            
-                            <input type="file" name="image" onchange="imgPreview(this)" />
-                    </div>
-                    
-                    <div class="aui-card-list-content-padded">
-                        <img id="preview" /><br/>
-                        <textarea id="content" placeholder="评论..." name="content" onblur="return cheack_title()"></textarea>
-                        </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
-                    </div>
-                    <div class="aui-card-list-footer">
-                          <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
-                    </div>
-                </from>
-            </div>
-        </div>
+        </div>  -->
+     {% endfor %}
     </section>
+       
+    
 
 
     <script type="text/javascript" src="/static/js/api.js"></script>

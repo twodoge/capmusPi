@@ -74,52 +74,75 @@
     <section class="aui-content">
     	<div class="aui-content">
 	        <ul class="aui-list aui-media-list">
-	        {% for article in articles %}
-	         {% if article.images %}
+	        {% for new in news %}
+	         {% if new.images %}
 	         	<!-- 有图片 -->
-	            <li class="aui-list-item">
-	                <div class="aui-media-list-item-inner">
+	        <a href="{% url 'mycampus:content' new.id %}">
+		        <li class="aui-list-item">
+	   	            <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
 	                        <div class="aui-list-item-text">
-	                            <div class="aui-list-item-title aui-font-size-18">{{article.title}}</div>
+	                            <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
 	                        </div>
 	                        <div class="aui-info aui-padded-b-0">
 	                            <div class="aui-info-item aui-font-size-12">
-	                               <span class="aui-margin-l-5">{{article.publisher}}</span>
-	                                </div>
-	                            <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
+	                            <span class="aui-margin-l-5">{{new.publisher}}</span>
+	                            </div>
+	                            <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
 	                            <div class="aui-info-item aui-font-size-12">26条评论</div>
 	                        </div>
 	                    </div>
-	                  
 	                    	<div class="aui-list-item-media">
-	                        <img src="/static/{{ article.images }}">
+	                        <img src="/static/{{ new.images }}">
 	                    	</div>
-	                                      	
-	                   
 	                </div>
 	            </li>
+<<<<<<< HEAD
+			
+	            <!-- 有图片 -->
+	           <!--  <li class="aui-list-item">
+	                <div class="aui-media-list-item-inner">
+	                    <div class="aui-list-item-inner">
+	                        <div class="aui-list-item-text">
+	                            <div class="aui-list-item-title aui-font-size-18">网吧电脑看到它 你的游戏账号网银就丢了一般了</div>
+	                        </div>
+	                        <div class="aui-info aui-padded-b-0">
+	                            <div class="aui-info-item aui-font-size-12">
+	                                <img src="/static/image/demo2.png" style="width:1rem" class="aui-img-round"><span class="aui-margin-l-5">今日头条</span>
+	                                </div>
+	                            <div class="aui-info-item aui-font-size-12">2015-07-14 10:31</div>
+	                        </div>
+	                    </div>
+	                    <div class="aui-list-item-media">
+	                        <img src="/static/image/demo/2.jpeg">
+	                    </div>
+	                </div>
+	            </li> -->
+=======
+	        </a>
+>>>>>>> 1dcf7d8a5e0810d99e2fe5f5693c49cf721aab6e
 	            {% else %}
 	            <!-- 无图片 -->
+	            <a href="{% url 'mycampus:content' new.id %}">
 	            <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
-	                        <div class="aui-list-item-title aui-font-size-18">{{article.title}}</div>
+	                        <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
 	                        <div class="aui-list-item-text">
-	                            <p class="aui-ellipsis-2">{{article.content}}</p>
+	                            <p class="aui-ellipsis-2">{{new.content}}</p>
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="aui-info">
 	                    <div class="aui-info-item aui-font-size-12">
 	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
-	                        <span class="aui-margin-l-5">{{article.publisher}}</span>
+	                        <span class="aui-margin-l-5">{{new.publisher}}</span>
 	                    </div>
-	                    <div class="aui-info-item aui-font-size-12">{{article.time}}</div>
-	                   
+	                    <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
 	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
 	                </div>
 	            </li> 
+	            </a>
 	            {% endif %}
 	            {% endfor%}
 	        </ul>

@@ -40,21 +40,21 @@
     <!-- 内容 -->
     <section class="aui-content">
         <ul class="aui-list aui-media-list">
-        {% for article in articles %}
+        {% for learn in learns %}
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
-                        <img src="/static/{{article.images}}">
+                        <img src="/static/{{learn.images}}">
                     </div>
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-text">
-                            <div class="aui-list-item-title" style="color:#4c5276">{{article.publisher}}</div>
+                            <div class="aui-list-item-title" style="color:#4c5276">{{learn.publisher}}</div>
                         </div>
                         <div class="aui-list-item-text" style="color:#333;">
-                            {{article.title}}
+                            {{learn.title}}
                         </div>
                         <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
-                            <div class="aui-info-item">{{article.time}}</div>
+                            <div class="aui-info-item">{{learn.time}}</div>
                             <div class="aui-info-item">
                                 <i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>
                             </div>

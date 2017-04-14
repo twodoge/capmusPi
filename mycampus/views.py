@@ -1,6 +1,7 @@
 #coding:utf-8
 from django.shortcuts import render, render_to_response, HttpResponse, redirect, HttpResponseRedirect
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from . import models
 import string, os, random
@@ -66,10 +67,11 @@ def loginJudge(request):
 				error = "该用户不存在"
 				r = HttpResponse(error)
 				return r
-	
+#主页	
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
+<<<<<<< HEAD
 	articles = models.News.objects.all()
 	return render(request, 'campus/index.html',{'articles':articles,'user':user})
 	
@@ -80,14 +82,43 @@ def member(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	return render(request, 'campus/member.html',{'user':user})
+=======
+	news = models.News.objects.order_by('-id')
+	return render(request, 'campus/index.html',{'news':news})
+#详细内容页面
+def content(request,new_id):
+	# request.session['new_id'] = new_id
+	news =models.News.objects.get(pk=new_id)
+	comments = models.Comments_News.objects.filter(new=new_id)
+	return render(request, 'campus/content.html',{'news':news,'comments':comments})
+#发表新闻评论
+def comments_news(request,new_id):
+	news =models.News.objects.get(pk=new_id)
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	content = request.POST.get('content','content')
+	images = request.FILES.get('image')
+	models.Comments_News.objects.create(critisID=user.userName,content=content,images=images,new_id=news.id)
 
+	comments = models.Comments_News.objects.filter(pk=new_id)
+	return render(request, 'campus/content.html',{'news':news,'comments':comments})
+
+#显示新闻评论
+# def show_comments_news(request):
+# 	comments = models.Comments_News.objects.order_by('-id')
+# 	return render(request, 'campus/content.html',{'comments':comments,})
+>>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
+
+
+def member(request):
+	return render(request, 'campus/member.html')
+#发表新闻事件
 def show_published(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	title = request.POST.get('title','title')
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
-
 	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images)
 	return redirect('/mycampus/index')
 	
@@ -95,20 +126,62 @@ def published(request):
 	return render(request, 'campus/published.html')
 
 def love(request):
+
+	loves = models.Lovewall.objects.order_by('-id')
+	teasings = models.Teasingwall.objects.order_by('-id')
+	return render(request, 'campus/love.html',{'loves':loves,'teasings':teasings})
+
+def send_love(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	tosb = request.POST.get('tosb','tosb')
+	content = request.POST.get('content','content')
+	image = request.FILES.get('image')
+	fromsb = request.POST.get('fromsb','fromsb')
+
+	if fromsb=='':
+		fromsb='匿名用户'
+	
+	models.Lovewall.objects.create(publisher=user.userName,tosb=tosb,content=content,images=image,fromsb=fromsb)
+	return redirect('/mycampus/love')
+
+def teasing(request):
+ 	teasings = models.Teasingwall.objects.order_by('-id')
+ 	return render(request, 'campus/love.html',{'teasings':teasings})
+
+def send_teasing(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	tosb = request.POST.get('tosb','tosb')
+	content = request.POST.get('content','content')
+	image = request.FILES.get('image')
+	fromsb = request.POST.get('fromsb','fromsb')
+
+	if fromsb=='':
+		fromsb='匿名用户'
+
+	models.Teasingwall.objects.create(publisher=user.userName,tosb=tosb,content=content,images=image,fromsb=fromsb)
+	return redirect('/mycampus/love')
+
+
 	return render(request, 'campus/love.html')
-
+#研讨天地页面
 def learn(request):
-	articles = models.Learns.objects.all()
-	return render(request, 'campus/learn.html',{'articles':articles})
-
+	learns = models.Learns.objects.order_by('-id')
+	return render(request, 'campus/learn.html',{'learns':learns})
+#发表研讨事件
 def send_learn(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	title = request.POST.get('title','title')
-	content = request.POST.get('content','twodog')
+	content = request.POST.get('content','content')
+
 	image = request.FILES.get('image')
 
 	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)
+
+	images = request.FILES.get('images')
+	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=images)
 	return redirect('/mycampus/learn')
 
 def forgotPassword(request):
@@ -178,6 +251,7 @@ def rePasswordSubmit(request):
 	user.save()
 	return redirect('/mycampus/login/')
 
+<<<<<<< HEAD
 # 详细内容页面
 def content(request):
 	return render(request, 'campus/content.html')
@@ -191,3 +265,6 @@ def uploadImg(request):
 	print (user.userPicture)
 	user.save()
 	return redirect('/mycampus/member')
+=======
+
+>>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
