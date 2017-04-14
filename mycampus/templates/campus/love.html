@@ -29,7 +29,7 @@
         <div class="aui-title">
             <div class="aui-bar aui-bar-btn aui-bar-btn-round">
                 <div class="aui-bar-btn-item aui-active love1 active" tapmode="" data-item-order="0">表白墙</div>
-                <div class="aui-bar-btn-item love2" tapmode="" data-item-order="1">吐槽墙</div>
+                <div  class="aui-bar-btn-item love2" tapmode="" data-item-order="1" >吐槽墙</div>
             </div>
         </div>
         <a class="btn aui-btn aui-pull-right show-layer" data-show-layer="hw-layer" role="button">
@@ -38,7 +38,37 @@
     </header>
 	<!-- 表白墙 -->
 	<section class="aui-content" id="lovewall" >
-        <div class="aui-timeline">
+        
+        <ul class="aui-list aui-media-list">
+        {% for love in loves %}
+        <div class="aui-timeline-item-header">{{love.time}}</div>
+            <div class="aui-timeline-item">
+                <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
+                <div class="aui-timeline-item-inner">
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header aui-border-b">
+                            <div>{{love.tosb}}</div>
+                            <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
+                        </div>
+                        <div class="aui-card-list-content-padded">
+                            {{love.content}}
+                            <!-- <img src="/static/image/l1.png"> -->
+                            <img src="/static/{{love.images}}">
+                        </div>
+                        <div class="aui-card-list-footer aui-border-t aui-font-size-12">
+                            <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
+                            <div><i class="aui-iconfont aui-icon-laud aui-font-size-14"></i> 888</div>
+                            <div><i class="aui-iconfont aui-icon-star aui-font-size-14"></i> 888</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </ul>
+
+      
+        
+        <!-- <div class="aui-timeline">
             <div class="aui-timeline-item-header">2017年1月8日</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">twodog</div>
@@ -112,12 +142,39 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </section>
     <!-- 吐槽墙 -->
 	<section class="aui-content" id="Teasingwall" >
-        <div class="aui-timeline">
+        
+       <ul class="aui-list aui-media-list">
+        {% for teasing in teasings %}
+        <div class="aui-timeline-item-header">{{teasing.time}}</div>
+            <div class="aui-timeline-item">
+                <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
+                <div class="aui-timeline-item-inner">
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header aui-border-b">
+                            <div>{{teasing.tosb}}</div>
+                            <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
+                        </div>
+                        <div class="aui-card-list-content-padded">
+                            {{teasing.content}}
+                            <img src="/static/{{teasing.images}}">
+                        </div>
+                        <div class="aui-card-list-footer aui-border-t aui-font-size-12">
+                            <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
+                            <div><i class="aui-iconfont aui-icon-laud aui-font-size-14"></i> 888</div>
+                            <div><i class="aui-iconfont aui-icon-star aui-font-size-14"></i> 888</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+       
+
+        <!-- <div class="aui-timeline">
             <div class="aui-timeline-item-header">2017年1月8日</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">twodog</div>
@@ -191,7 +248,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </section>
 
@@ -210,7 +267,7 @@
 	    </div>
 	    <div class="aui-bar-tab-item aui-active" tapmode>
 	        <i class="aui-iconfont aui-icon-like"></i>
-	        <div class="aui-bar-tab-label"><a href="" style="color: #000;">love</a></div>
+	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000;">love</a></div>
 	    </div>
 	    <div class="aui-bar-tab-item" tapmode> 
 	        <div class="aui-dot"></div>
@@ -223,7 +280,7 @@
     <div class="hw-overlay" id="hw-layer"> 
         <div class="hw-layer-wrap"> 
             <div class="aui-card-list">
-                <form role="form" action="{% url 'mycampus:send_learn' %}" method="post" enctype="multipart/form-data">
+                <form role="form" id="form1"  method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
                             
@@ -233,20 +290,20 @@
                     
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
-                        <textarea id="title" placeholder="写给..." name="title" onblur="return cheack_title()"></textarea>
+                        <textarea id="tosb" placeholder="写给..." name="tosb" onblur="return cheack_title()"></textarea>
                         <!-- </span><span id="erroretitle" style="display:none;color:red;">标题不能为空！</span> -->
                         <textarea id="content" placeholder="想说的话..." name="content"></textarea>
                         </span><span id="errorcontent" style="display:none;color:red;">内容不能为空！</span>
-                        <textarea id="title" placeholder="from..." name="name"></textarea>
+                        <textarea id="fromsb" placeholder="from..." name="fromsb"></textarea>
                         <li class="aui-list-item aui-pull-left ">
 				            <div class="aui-list-item-inner">
-				                <label><input class="aui-radio" type="radio" name="radio2" checked>表白墙</label>
-				                <label><input class="aui-radio" type="radio" name="radio2">吐槽墙</label>
+				                <label><input onclick="optlovewall()" class="aui-radio" type="radio" name="radio2" checked>表白墙</label>
+				                <label><input  onclick="optteasingwall()" class="aui-radio" type="radio" name="radio2" >吐槽墙</label>
 				            </div>
 				        </li>
                     
                     <div class="aui-card-list-footer aui-pull-right">
-                        <button type="submit" type="button" class="aui-btn aui-btn-info  hwLayer-ok">发表</button>
+                        <button onclick="result()" type="submit" type="button" class="aui-btn aui-btn-info  hwLayer-ok" >发表</button>
                         <!-- <button class="btn btn-success hwLayer-ok">确 定</button>  -->
                         <!-- <button class="aui-btn aui-btn-primary hwLayer-cancel">取 消</button>  -->
                     </div>
@@ -292,15 +349,31 @@
 	            document.getElementById('wrap').style.marginTop = '25px';
 	        }
 	        };
-		</script>
-		<script type="text/javascript">
+	</script>
+	<script type="text/javascript">
 			function lovewall(){
-
+               
 			}
 	</script>
     <script type="text/javascript">  
-	 
+            var opt=0;
+	        function optlovewall(){
+                opt=0;
+           }
+           function optteasingwall(){
+                opt=1;
+           }
+           function result(){
+                if(opt==0){
+                    document.getElementById("form1").action="{% url 'mycampus:send_love' %}"
+                }
+                else{
+                    document.getElementById("form1").action="{% url 'mycampus:send_teasing' %}"
+                }
+           }
 	</script>
+   
+
 	<script type="text/javascript" src="/static/js/newcommon.js"></script> 
 
 </body>

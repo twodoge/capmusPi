@@ -90,7 +90,41 @@ def published(request):
 	return render(request, 'campus/published.html')
 
 def love(request):
-	return render(request, 'campus/love.html')
+	loves = models.Lovewall.objects.order_by('-id')
+	teasings = models.Teasingwall.objects.order_by('-id')
+	return render(request, 'campus/love.html',{'loves':loves,'teasings':teasings})
+
+def send_love(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	tosb = request.POST.get('tosb','tosb')
+	content = request.POST.get('content','content')
+	image = request.FILES.get('image')
+	fromsb = request.POST.get('fromsb','fromsb')
+
+	if fromsb=='':
+		fromsb='匿名用户'
+	
+	models.Lovewall.objects.create(publisher=user.userName,tosb=tosb,content=content,images=image,fromsb=fromsb)
+	return redirect('/mycampus/love')
+
+def teasing(request):
+ 	teasings = models.Teasingwall.objects.order_by('-id')
+ 	return render(request, 'campus/love.html',{'teasings':teasings})
+
+def send_teasing(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	tosb = request.POST.get('tosb','tosb')
+	content = request.POST.get('content','content')
+	image = request.FILES.get('image')
+	fromsb = request.POST.get('fromsb','fromsb')
+
+	if fromsb=='':
+		fromsb='匿名用户'
+
+	models.Teasingwall.objects.create(publisher=user.userName,tosb=tosb,content=content,images=image,fromsb=fromsb)
+	return redirect('/mycampus/love')
 
 def learn(request):
 	articles = models.Learns.objects.all()
@@ -100,7 +134,7 @@ def send_learn(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	title = request.POST.get('title','title')
-	content = request.POST.get('content','twodog')
+	content = request.POST.get('content','content')
 	image = request.FILES.get('image')
 
 	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)

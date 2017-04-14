@@ -37,8 +37,11 @@ class Comments_Learns(models.Model):
 
 class Lovewall(models.Model):
 	publisher = models.CharField(max_length=20)
-	content = models.CharField(max_length=2000)
+	tosb = models.CharField(max_length=50,null=True)
+	content = models.CharField(max_length=2000,null=True)
+	images = models.ImageField(upload_to='learn_img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
+	fromsb = models.CharField(max_length=20)
 
 class Comments_Lovewall(models.Model):
 	critisID = models.IntegerField()
@@ -49,6 +52,9 @@ class Teasingwall(models.Model):
 	publisher = models.CharField(max_length=20)
 	content = models.CharField(max_length=2000)
 	time = models.DateTimeField(auto_now_add=True)
+	images = models.ImageField(upload_to='learn_img',null=True)
+	tosb = models.CharField(max_length=50)
+	fromsb = models.CharField(max_length=20)
 
 class Comments_Teasingwall(models.Model):
 	critisID = models.IntegerField()
