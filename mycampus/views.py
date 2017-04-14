@@ -85,8 +85,7 @@ def comments_news(request,new_id):
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
 	models.Comments_News.objects.create(critisID=user.userName,content=content,images=images,new_id=news.id)
-
-	comments = models.Comments_News.objects.filter(pk=new_id)
+	comments = models.Comments_News.objects.filter(new=new_id)
 	return render(request, 'campus/content.html',{'news':news,'comments':comments})
 
 #显示新闻评论

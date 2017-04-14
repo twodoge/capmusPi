@@ -89,7 +89,6 @@
       
     <section class="aui-content-padded">
           {% for comment in comments %}
-    
         <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
             <div class="aui-card-list-header" style="padding: 0;">
                 <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
@@ -101,7 +100,6 @@
             </div>
             <div class="aui-card-list-content-padded">
                 <div>{{comment.content}}</div>
-
                 <div class="footer">
                     <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
                         <div class="aui-info-item"></div>
@@ -111,6 +109,7 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
         <!-- 发表评论 -->
             <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
                 <form role="form" action="{% url 'mycampus:comments_news' news.id %}" method="post" enctype="multipart/form-data">
@@ -168,11 +167,8 @@
                 </from>
             </div>
         </div>  -->
-     {% endfor %}
+     
     </section>
-       
-    
-
 
     <script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
