@@ -18,4 +18,8 @@ urlpatterns = [
 	url(r'^setEmail/', vs.setEmail,name='setEmail'),
 	url(r'^rePassword/$', vs.rePassword,name='rePassword'),
 	url(r'^rePasswordSubmit/$', vs.rePasswordSubmit,name='rePasswordSubmit'),
+	url(r'^content/(?P<new_id>[0-9]+)$', vs.content,name='content'),
+	url(r'^comments_news/(?P<new_id>[0-9]+)$', vs.comments_news,name='comments_news'),
+	# url(r'^show_comments_news/$', vs.show_comments_news,name='show_comments_news'),
+
 ]
