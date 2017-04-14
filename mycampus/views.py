@@ -9,6 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def login(request):
     return render(request, 'campus/login.html')
+def test(request):
+    return render(request, 'campus/test.html')
 
 def  register(request):
 	return render(request, 'campus/register.html')
@@ -69,12 +71,15 @@ def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	articles = models.News.objects.all()
-	return render(request, 'campus/index.html',{'articles':articles})
+	return render(request, 'campus/index.html',{'articles':articles,'user':user})
 	
-	
+def index1(request):
+	return render(request, 'campus/index1.html')
 
-def  member(request):
-	return render(request, 'campus/member.html')
+def member(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	return render(request, 'campus/member.html',{'user':user})
 
 def show_published(request):
 	userId = request.session.get('userId',default=None)
@@ -176,3 +181,13 @@ def rePasswordSubmit(request):
 # 详细内容页面
 def content(request):
 	return render(request, 'campus/content.html')
+
+#修改头像
+def uploadImg(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	image = request.FILES.get('image')
+	user.userPicture = image
+	print (user.userPicture)
+	user.save()
+	return redirect('/mycampus/member')

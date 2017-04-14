@@ -29,11 +29,32 @@
             background-color: #212121;
         }
     </style>
+    <style type="text/css">
+        .hw-overlay{display:none; position: fixed; top:0;left:0;width:100%;height:100%; background-color: rgba(0,0,0,0.3);z-index:10;} 
+        .hw-layer-wrap{box-sizing:border-box; width:570px; position:absolute;left:50%;top:50%; margin-left:-285px; border-radius:3px; background-color:#fff; box-shadow:1px 2px 4px 0 rgba(0,0,0,0.12); padding:45px 50px;} 
+        .hwLayer-close{position:absolute; right:20px; top:20px; width:20px; height:20px; cursor:pointer; font-size:20px; color:#ccc;} 
+        .hw-layer-wrap .hw-icon{color:#b4d8f3;font-size:86px;text-align:center;} 
+        .hw-layer-wrap h4{margin:5px 0 30px; font-size:24px; color:#383c3e;} 
+        .hw-layer-wrap p{margin:30px 0; line-height:22px; color:#595d60; text-align:left;} 
+         
+        @media (max-width:768px){ 
+            .hw-layer-wrap{width:350px; margin-left:-175px; margin-top:-200px; padding:20px 0px; text-align:center;} 
+        } 
+        @media (max-width:400px){ 
+            .hw-layer-wrap{width:250px; margin-left:-125px;padding:20px 0px;} 
+        }
+    </style>
 </head>
 <body>
     <section class="aui-content user-info aui-text-center aui-margin-b-15" style="background-image: url(/static/image/IMG_1222.JPG);background-size: cover;padding-top:12px;">
-        <img src="/static/user_img/default.jpg" class="avatar aui-img-round">
-        <h2 class="aui-margin-t-15">sdsdd {{ request.session.user.userName}}<small><i class="aui-iconfont aui-icon-cert aui-text-danger"></i></small></h2>
+        <a class="btn show-layer" data-show-layer="hw-layer" role="button">
+            {% if user.userPicture %}
+                <img src="/static/{{user.userPicture}}" class="avatar aui-img-round">
+            {% else %}
+                <img src="/static/user_img/default.jpg" class="avatar aui-img-round">
+            {% endif %}
+        </a>
+        <h2 class="aui-margin-t-15">{{ user.userName}}<small><i class="aui-iconfont aui-icon-cert aui-text-danger"></i></small></h2>
         <div class="aui-row aui-margin-t-15">
             <div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
                 <div class="aui-label aui-label-info">LV 100</div>
@@ -95,6 +116,34 @@
     <p></p>
             <div class="aui-btn aui-btn-danger aui-btn-block" style="width:70%;margin-left: 15%"><a href="{% url 'mycampus:login' %}" style="color: #fff">退出账号</a></div>
         <p></p>
+
+    <!-- 发表弹出框 -->
+    <div class="hw-overlay" id="hw-layer"> 
+        <div class="hw-layer-wrap"> 
+            <div class="aui-card-list">
+                <form role="form" action="{% url 'mycampus:uploadImg' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="aui-card-list-header">
+                            
+                            
+                        <input type="file" name="image" onchange="imgPreview(this)" />
+                    </div>
+                    
+                    <div class="aui-card-list-content-padded">
+                        <img id="preview" style="width: 50%" /><br/>
+                    </div>
+                    <div class="aui-card-list-footer">
+                          <!-- <div class="aui-btn aui-btn-primary" type="submit" id="send">发表</div> -->
+                          <!-- <button type="submit" class="btn btn-primary block full-width m-b">注 册</button> -->
+                        <button type="submit" type="button" class="aui-btn aui-btn-primary  hwLayer-ok">确定</button>
+                        <!-- <button class="btn btn-success hwLayer-ok">确 定</button>  -->
+                        <!-- <button class="aui-btn aui-btn-primary hwLayer-cancel">取 消</button>  -->
+                    </div>
+                </from>
+            </div> 
+        </div> 
+    </div> 
+      
     <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
         <div class="aui-bar-tab-item" tapmode>
             <i class="aui-iconfont aui-icon-home"></i>
@@ -119,5 +168,34 @@
         </div>
     </footer>
 </body>
-<script type="text/javascript" src="/static/js/api.js" ></script>
+    <script type="text/javascript" src="/static/js/api.js" ></script>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/newcommon.js"></script>
+        <script type="text/javascript">
+        function imgPreview(fileDom){
+            //判断是否支持FileReader
+            if (window.FileReader) {
+                var reader = new FileReader();
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+
+            //获取文件
+            var file = fileDom.files[0];
+            var imageType = /^image\//;
+            //是否是图片
+            if (!imageType.test(file.type)) {
+                alert("请选择图片！");
+                return;
+            }
+            //读取完成
+            reader.onload = function(e) {
+                //获取图片dom
+                var img = document.getElementById("preview");
+                //图片路径设置为读取的图片
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 </html>

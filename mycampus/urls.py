@@ -19,4 +19,7 @@ urlpatterns = [
 	url(r'^rePassword/$', vs.rePassword,name='rePassword'),
 	url(r'^rePasswordSubmit/$', vs.rePasswordSubmit,name='rePasswordSubmit'),
 	url(r'^content/$', vs.content,name='content'),
+	url(r'^index1/$', vs.index1 , name='index1'),
+	url(r'^test/$', vs.test , name='test'),
+	url(r'^uploadImg/$', vs.uploadImg , name='uploadImg'),
 ]
