@@ -10,6 +10,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def login(request):
     return render(request, 'campus/login.html')
+def test(request):
+    return render(request, 'campus/test.html')
 
 def  register(request):
 	return render(request, 'campus/register.html')
@@ -69,6 +71,18 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
+<<<<<<< HEAD
+	articles = models.News.objects.all()
+	return render(request, 'campus/index.html',{'articles':articles,'user':user})
+	
+def index1(request):
+	return render(request, 'campus/index1.html')
+
+def member(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	return render(request, 'campus/member.html',{'user':user})
+=======
 	news = models.News.objects.order_by('-id')
 	return render(request, 'campus/index.html',{'news':news})
 #详细内容页面
@@ -93,6 +107,7 @@ def comments_news(request,new_id):
 # def show_comments_news(request):
 # 	comments = models.Comments_News.objects.order_by('-id')
 # 	return render(request, 'campus/content.html',{'comments':comments,})
+>>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
 
 
 def member(request):
@@ -236,4 +251,20 @@ def rePasswordSubmit(request):
 	user.save()
 	return redirect('/mycampus/login/')
 
+<<<<<<< HEAD
+# 详细内容页面
+def content(request):
+	return render(request, 'campus/content.html')
 
+#修改头像
+def uploadImg(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	image = request.FILES.get('image')
+	user.userPicture = image
+	print (user.userPicture)
+	user.save()
+	return redirect('/mycampus/member')
+=======
+
+>>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
