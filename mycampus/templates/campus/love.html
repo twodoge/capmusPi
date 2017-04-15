@@ -41,7 +41,7 @@
         
         <ul class="aui-list aui-media-list">
         {% for love in loves %}
-        <div class="aui-timeline-item-header">{{love.time}}</div>
+        <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
@@ -150,7 +150,7 @@
         
        <ul class="aui-list aui-media-list">
         {% for teasing in teasings %}
-        <div class="aui-timeline-item-header">{{teasing.time}}</div>
+        <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
