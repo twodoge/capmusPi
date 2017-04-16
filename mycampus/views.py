@@ -71,9 +71,9 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
-<<<<<<< HEAD
-	articles = models.News.objects.all()
-	return render(request, 'campus/index.html',{'articles':articles,'user':user})
+
+	news = models.News.objects.all()
+	return render(request, 'campus/index.html',{'news':news,'user':user})
 	
 def index1(request):
 	return render(request, 'campus/index1.html')
@@ -82,9 +82,6 @@ def member(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	return render(request, 'campus/member.html',{'user':user})
-=======
-	news = models.News.objects.order_by('-id')
-	return render(request, 'campus/index.html',{'news':news})
 #详细内容页面
 def content(request,new_id):
 	# request.session['new_id'] = new_id
@@ -102,16 +99,6 @@ def comments_news(request,new_id):
 
 	comments = models.Comments_News.objects.filter(pk=new_id)
 	return render(request, 'campus/content.html',{'news':news,'comments':comments})
-
-#显示新闻评论
-# def show_comments_news(request):
-# 	comments = models.Comments_News.objects.order_by('-id')
-# 	return render(request, 'campus/content.html',{'comments':comments,})
->>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
-
-
-def member(request):
-	return render(request, 'campus/member.html')
 #发表新闻事件
 def show_published(request):
 	userId = request.session.get('userId',default=None)
@@ -176,12 +163,9 @@ def send_learn(request):
 	title = request.POST.get('title','title')
 	content = request.POST.get('content','content')
 
-	image = request.FILES.get('image')
-
-	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)
-
 	images = request.FILES.get('images')
-	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=images)
+
+	models.Learns.objects.create(uid=userId,publisher=user.userName,title=title,content=content,images=images)
 	return redirect('/mycampus/learn')
 
 def forgotPassword(request):
@@ -251,11 +235,6 @@ def rePasswordSubmit(request):
 	user.save()
 	return redirect('/mycampus/login/')
 
-<<<<<<< HEAD
-# 详细内容页面
-def content(request):
-	return render(request, 'campus/content.html')
-
 #修改头像
 def uploadImg(request):
 	userId = request.session.get('userId',default=None)
@@ -265,6 +244,22 @@ def uploadImg(request):
 	print (user.userPicture)
 	user.save()
 	return redirect('/mycampus/member')
-=======
 
->>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
+#我的贴子
+def mypost(request):
+	userId = request.session.get('userId',default=None)
+	mynews = models.News.objects.filter(uid = userId ).order_by("-time")
+	mynewscount = models.News.objects.filter(uid =userId).count()
+	mylearns = models.Learns.objects.filter(uid = userId).order_by("-time")
+	mylearnscount = models.Learns.objects.filter(uid =userId).count()
+	return render(request, 'campus/mypost.html',{'mynews':mynews,'mylearns':mylearns,'mynewscount':mynewscount,'mylearnscount':mylearnscount})
+
+#删除我的新闻
+def delete_mynew(request,mynew_id):
+	models.News.objects.get(pk = mynew_id).delete()	
+	return redirect('/mycampus/mypost')
+
+#删除我的研讨
+def delete_mylearn(request,mylearn_id):
+	models.Learns.objects.get(pk = mylearn_id).delete()
+	return redirect('/mycampus/mypost')

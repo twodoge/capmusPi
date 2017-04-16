@@ -16,6 +16,7 @@ class News(models.Model):
 	images = models.ImageField(upload_to='news-img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
 	like = models.IntegerField(null=True)
+	uid = models.CharField(max_length=20)
 
 class Comments_News(models.Model):
 	critisID = models.CharField(max_length=20)
@@ -31,6 +32,7 @@ class Learns(models.Model):
 	images = models.ImageField(upload_to='learn_img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
 	like = models.IntegerField(null=True)
+	uid = models.CharField(max_length=20)
 
 class Comments_Learns(models.Model):
 	critisID = models.IntegerField()
