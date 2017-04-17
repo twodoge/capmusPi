@@ -106,7 +106,7 @@ def show_published(request):
 	title = request.POST.get('title','title')
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
-	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images)
+	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images,uid=userId)
 	return redirect('/mycampus/index')
 	
 def published(request):
@@ -263,3 +263,17 @@ def delete_mynew(request,mynew_id):
 def delete_mylearn(request,mylearn_id):
 	models.Learns.objects.get(pk = mylearn_id).delete()
 	return redirect('/mycampus/mypost')
+
+#搜索页面
+def search(request):
+	userId = request.session.get('userId',default=None)
+	keyword = request.POST.get('keyword','keyword')
+	print(keyword)
+	title = models.News.objects.filter( title = keyword)
+	print(title)
+	publisher = models.News.objects.filter(publisher = keyword)
+	newstitles = models.News.objects.filter(title__contains = keyword ).order_by("-time")
+	newspublishers = models.News.objects.filter(publisher__contains = keyword ).order_by("-time")
+	return render(request,'campus/search.html', {'newstitles':newstitles ,'newspublishers':newspublishers })
+	
+		

@@ -34,13 +34,17 @@
 	    <div class="aui-title">首页</div>
 	</header>
 	<div class="aui-content aui-flex-center">
+
 		<div class="aui-searchbar" id="search">
-		    <div class="aui-searchbar-input aui-border-radius" tapmode onclick="doSearch()">
+		<form  action="{% url 'mycampus:search' %}" method="post" >
+			{% csrf_token %}
+		    <div class="aui-searchbar-input aui-border-radius" tapmode="" >
+		    	<!-- <textarea id="keyword" placeholder="请输入搜索内容..." name="keyword" "></textarea> -->
+		        <input type="text" placeholder="请输入搜索内容" id="keyword" name= "keyword" >
+		        <input type="submit" class="aui-btn" name="enter">
 		        <i class="aui-iconfont aui-icon-search"></i>
-		        <form action="javascript:search();">
-		            <input type="search" placeholder="请输入搜索内容" id="search-input">
-		        </form>
 		    </div>
+		</form>
 		</div>
 	</div>
 	<!-- 轮播图 -->

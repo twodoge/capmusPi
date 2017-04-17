@@ -30,6 +30,7 @@ urlpatterns = [
 	url(r'^mypost/$', vs.mypost,name='mypost'),
 	url(r'^delete_mynew/(?P<mynew_id>[0-9]+)$',vs.delete_mynew,name='delete_mynew'),
 	url(r'^delete_mylearn/(?P<mylearn_id>[0-9]+)$',vs.delete_mylearn,name='delete_mylearn'),
+	url(r'^search/$',vs.search,name='search'),
 	# url(r'^show_comments_news/$', vs.show_comments_news,name='show_comments_news'),
 	
 
