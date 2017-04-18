@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>登录</title>
+	<link rel="icon" href="data:image/ico;base64,aWNv">
+	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+    <style type="text/css">
+        .hw-overlay{display:none; position: fixed; top:0;left:0;width:100%;height:100%; background-color: rgba(0,0,0,0.3);z-index:10;} 
+        .hw-layer-wrap{box-sizing:border-box; width:570px; position:absolute;left:50%;top:50%; margin-left:-285px; border-radius:3px; background-color:#fff; box-shadow:1px 2px 4px 0 rgba(0,0,0,0.12); padding:45px 50px;} 
+        .hwLayer-close{position:absolute; right:20px; top:20px; width:20px; height:20px; cursor:pointer; font-size:20px; color:#ccc;} 
+        .hw-layer-wrap .hw-icon{color:#b4d8f3;font-size:86px;text-align:center;} 
+        .hw-layer-wrap h4{margin:5px 0 30px; font-size:24px; color:#383c3e;} 
+        .hw-layer-wrap p{margin:30px 0; line-height:22px; color:#595d60; text-align:left;} 
+         
+        @media (max-width:768px){ 
+            .hw-layer-wrap{width:350px; margin-left:-175px; margin-top:-200px; padding:20px 0px; text-align:center;} 
+        } 
+        @media (max-width:400px){ 
+            .hw-layer-wrap{width:250px; margin-left:-125px;padding:20px 0px;} 
+        }
+    </style>
+</head>
+<body>
+<!-- 头部 -->
+	<header class="aui-bar aui-bar-nav" id="aui-header" style="background-color: #27AE60">
+        <a href="{% url 'mycampus:user' %}" class="aui-btn aui-pull-left" tapmode="">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">修改个人信息</div>
+    </header>
+    <div class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-media-list">
+            <li class="aui-list-header">点击修改图片</li>
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media" style="width: 3rem;">
+                    	<a class="btn show-layer" data-show-layer="hw-layer" role="button">
+                            {% if user.userPicture %}
+				                <img src="/static/{{user.userPicture}}" class="aui-list-img-sm aui-img-round" style="width: 48px;height: 48px;">
+				            {% else %}
+				                <img src="/static/user_img/default.jpg" class="aui-list-img-sm aui-img-round">
+				            {% endif %}
+			            </a>
+                    </div>
+                    <div class="aui-list-item-inner ">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title aui-font-size-18">{{user.userName}}</div>
+                        </div>
+                        <div class="aui-list-item-text aui-font-size-12">
+                            <span id="id-email"></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+<form role="form" id="my_form" action="{% url 'mycampus:change_user' %}" method="post">
+{% csrf_token %}
+    <div class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        用户名
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" placeholder="{{user.userName}}" id="name" name="userName">
+                    </div>
+                </div>
+            </li>
+            <li><div><span id="result_null" style="color: red;display: none;">请输入用户名！</span></div></li>
+            <li><div id="result" style="color: red;display: none;"><span>当前用户名已被注册！</span></div></li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        密码
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input placeholder="Number" type="password" name="password" id="password">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        确认密码
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input placeholder="Number" type="password" name="repassword" id="repassword">
+                    </div>
+                </div>
+            </li>
+            <li><div><span id="result_password" style="color: red;display: none;">两次输入的密码不一样！</span></div></li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        邮箱
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="email" placeholder="{{user.email}}" name="email">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        电话
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="number" placeholder="{{user.phone}}" name="phone">
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+        <!-- 确定修改 -->
+    <div class="aui-content aui-margin-b-15 aui-padded-l-10 aui-padded-r-10">
+        <div class="aui-btn aui-btn-success aui-btn-block aui-btn-sm" id="sub">
+            确定修改
+        </div>
+    </div>
+    <a href="{% url 'mycampus:user' %}">
+    <div class="aui-content aui-margin-b-15 aui-padded-l-10 aui-padded-r-10">
+        <div class="aui-btn aui-btn-danger aui-btn-block aui-btn-sm" onclick="goLogout();">
+            取消
+        </div>
+    </div>
+    </a>
+</form>
+
+    <!-- 发表弹出框 -->
+    <div class="hw-overlay" id="hw-layer" style="z-index: 100;"> 
+        <div class="hw-layer-wrap"> 
+            <div class="aui-card-list">
+                <form role="form" action="{% url 'mycampus:uploadImg' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="aui-card-list-header">
+                            
+                            
+                        <input type="file" name="image" onchange="imgPreview(this)" />
+                    </div>
+                    
+                    <div class="aui-card-list-content-padded">
+                        <img id="preview" style="width: 50%" /><br/>
+                    </div>
+                    <div class="aui-card-list-footer">
+                        <button type="submit" type="button" class="aui-btn aui-btn-primary  hwLayer-ok">确定
+                        </button>
+                        <!-- <button class="btn btn-success hwLayer-ok">确 定</button>  -->
+                        <!-- <button class="aui-btn aui-btn-primary hwLayer-cancel">取 消</button>  -->
+                    </div>
+                </from>
+            </div> 
+        </div> 
+    </div>
+    <script type="text/javascript" src="/static/js/api.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/newcommon.js"></script>
+    	<script type="text/javascript">
+	    apiready = function(){
+	        if(api.systemType == 'ios'){
+	            scaleEnabled = true;
+	            document.getElementById('aui-header').style.paddingTop = '12px';
+	        }
+	        };
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#name").blur(function(){
+				var name = $("#name").val();
+				if(name=='' || name == null || name == undefined)
+					$("#result_null").css('display','block');
+				else{
+					$("#result_null").css('display','none');
+					$.getJSON("{% url 'mycampus:cheack_name' %}", {'name':name}, function(ret){
+						if(ret.name==0)
+							$("#result").css('display','block');
+						else
+							$("#result").css('display','none');
+					})
+				}
+			});
+		});
+
+			// 验证两次输入的密码
+			$("#repassword").blur(function(){
+				var password = $("#password").val();
+				var repassword = $("#repassword").val();
+				if($.trim(repassword)==$.trim(repassword))
+					$("#result_password").hide();
+				else
+					$("#result_password").show();
+			});
+	</script>
+	<script type="text/javascript">
+		$("#sub").click(function(){
+			$("#my_form").submit();
+		});
+	</script>
+</body>
+</html>

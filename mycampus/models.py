@@ -16,6 +16,11 @@ class News(models.Model):
 	images = models.ImageField(upload_to='news-img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
 	like = models.IntegerField(null=True)
+	def __unicode__(self):
+		return '%s' % (self.catname)
+	def toJSON(self):
+		import json
+		return json.dumps(dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]]))
 
 class Comments_News(models.Model):
 	critisID = models.CharField(max_length=20)

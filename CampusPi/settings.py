@@ -75,8 +75,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'CampusPi',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': 'twodog',
+        'PASSWORD': '666666',
         'HOST':'localhost',
         'PORT':'3306',
     }

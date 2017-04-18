@@ -16,20 +16,23 @@ urlpatterns = [
 	url(r'^teasing/$', vs.teasing,name='teasing'),
 	url(r'^send_teasing/$', vs.send_teasing,name='send_teasing'),
 	url(r'^learn/$', vs.learn,name='learn'),
+	url(r'^learn_refresh/$', vs.learn_refresh ,name='learn_refresh'),
 	url(r'^send_learn/$', vs.send_learn,name='send_learn'),
 	url(r'^forgotPassword/$', vs.forgotPassword,name='forgotPassword'),
 	url(r'^setEmail/', vs.setEmail,name='setEmail'),
 	url(r'^rePassword/$', vs.rePassword,name='rePassword'),
 	url(r'^rePasswordSubmit/$', vs.rePasswordSubmit,name='rePasswordSubmit'),
-<<<<<<< HEAD
 	url(r'^content/$', vs.content,name='content'),
-	url(r'^index1/$', vs.index1 , name='index1'),
+	url(r'^index1/$', vs.index1, name='index1'),
+	url(r'^index_refresh/$', vs.index_refresh, name='index_refresh'),
 	url(r'^test/$', vs.test , name='test'),
 	url(r'^uploadImg/$', vs.uploadImg , name='uploadImg'),
-=======
 	url(r'^content/(?P<new_id>[0-9]+)$', vs.content,name='content'),
 	url(r'^comments_news/(?P<new_id>[0-9]+)$', vs.comments_news,name='comments_news'),
 	# url(r'^show_comments_news/$', vs.show_comments_news,name='show_comments_news'),
-
->>>>>>> 33daffc0195dceee05dab16c019dfc8d13e92b01
+	url(r'^user/$', vs.user,name='user'),
+	url(r'^setting_information/$', vs.setting_information,name='setting_information'),
+	url(r'^content_learn/(?P<new_id>[0-9]+)$', vs.content_learn,name='content_learn'),
+	url(r'^cheack_name/$', vs.cheack_name ,name='cheack_name'),
+	url(r'^change_user/$', vs.change_user ,name='change_user'),
 ]
