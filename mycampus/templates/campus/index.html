@@ -25,7 +25,11 @@
 <!-- 头部 -->
 	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #27AE60;padding-top:12px; ">
 	    <a class="aui-pull-left">
-	        <img src="/static/image/1.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
+	    {% if user.userPicture %}
+	    	<img src="/static/{{user.userPicture}}" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
+        {% else %}
+            <img src="/static/user_img/default.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
+        {% endif %}
 	    </a>
 	    <div class="aui-title">首页</div>
 	</header>
@@ -34,8 +38,10 @@
 		    <div class="aui-searchbar-input aui-border-radius" tapmode onclick="doSearch()">
 		        <i class="aui-iconfont aui-icon-search"></i>
 		        <form action="javascript:search();">
-		            <input type="search" placeholder="请输入搜索内容" id="search-input">
+		            <input  type="search" placeholder="请输入搜索内容" id="search-input">
 		        </form>
+		         <input type="text" name="keyword" id="keyword"  onkeydown="entersearch()"/>
+
 		    </div>
 		</div>
 	</div>
@@ -71,9 +77,9 @@
     	<div class="aui-content">
 	        <ul class="aui-list aui-media-list">
 	        {% for new in news %}
-	         {% if new.images %}
+	        {% if new.images %}
 	         	<!-- 有图片 -->
-	        <a href="{% url 'mycampus:content' new.id %}">
+	        	<a href="{% url 'mycampus:content' new.id %}">
 		        <li class="aui-list-item">
 	   	            <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
@@ -85,7 +91,7 @@
 	                            <span class="aui-margin-l-5">{{new.publisher}}</span>
 	                            </div>
 	                            <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
-	                            <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                            <div class="aui-info-item aui-font-size-12">评论{{new.counts}}</div>
 	                        </div>
 	                    </div>
 	                    	<div class="aui-list-item-media">
@@ -93,7 +99,7 @@
 	                    	</div>
 	                </div>
 	            </li>
-	             </a>
+	            </a>
 	            <!-- 有图片 -->
 	           <!--  <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
@@ -113,7 +119,7 @@
 	                    </div>
 	                </div>
 	            </li> -->
-	            {% else %}
+	        {% else %}
 	            <!-- 无图片 -->
 	            <a href="{% url 'mycampus:content' new.id %}">
 	            <li class="aui-list-item">
@@ -131,12 +137,12 @@
 	                        <span class="aui-margin-l-5">{{new.publisher}}</span>
 	                    </div>
 	                    <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
-	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                    <div class="aui-info-item aui-font-size-12">评论{{new.counts}}</div>
 	                </div>
 	            </li> 
 	            </a>
-	            {% endif %}
-	            {% endfor%}
+	        {% endif %}
+	        {% endfor %}
 	        </ul>
 	    </div>
     </section>
@@ -166,14 +172,14 @@
 	</footer>
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript" src="/static/js/aui-slide.js"></script>
-<!-- 	<script type="text/javascript">
+	<script type="text/javascript">
     apiready = function(){
         if(api.systemType == 'ios'){
             scaleEnabled = true;
             document.getElementById('wrap').style.paddingTop = '12px';
         }
         };
-	</script> -->
+	</script>
 	<script type="text/javascript">
 	    var slide = new auiSlide({
 	        container:document.getElementById("aui-slide"),

@@ -21,8 +21,16 @@ urlpatterns = [
 	url(r'^setEmail/', vs.setEmail,name='setEmail'),
 	url(r'^rePassword/$', vs.rePassword,name='rePassword'),
 	url(r'^rePasswordSubmit/$', vs.rePasswordSubmit,name='rePasswordSubmit'),
+	url(r'^content/$', vs.content,name='content'),
+	url(r'^index1/$', vs.index1 , name='index1'),
+	url(r'^test/$', vs.test , name='test'),
+	url(r'^uploadImg/$', vs.uploadImg , name='uploadImg'),
 	url(r'^content/(?P<new_id>[0-9]+)$', vs.content,name='content'),
 	url(r'^comments_news/(?P<new_id>[0-9]+)$', vs.comments_news,name='comments_news'),
-	# url(r'^show_comments_news/$', vs.show_comments_news,name='show_comments_news'),
+	url(r'^content_learn/(?P<learn_id>[0-9]+)$', vs.content_learn,name='content_learn'),
+	url(r'^comments_learn/(?P<learn_id>[0-9]+)$', vs.comments_learn,name='comments_learn'),
+	url(r'^like_post/(?P<new_id>[0-9]+)$', vs.like_post,name='like_post'),
+
+	
 
 ]
