@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>登录</title>
+	<title>校园墙</title>
 	<link rel="icon" href="data:image/ico;base64,aWNv">
 	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
@@ -41,7 +41,7 @@
         
         <ul class="aui-list aui-media-list">
         {% for love in loves %}
-        <div class="aui-timeline-item-header">{{love.time}}</div>
+        <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
@@ -150,7 +150,7 @@
         
        <ul class="aui-list aui-media-list">
         {% for teasing in teasings %}
-        <div class="aui-timeline-item-header">{{teasing.time}}</div>
+        <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
@@ -373,6 +373,12 @@
                 }
            }
 	</script>
+<<<<<<< HEAD
+=======
+   
+
+
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 <!--     <script type="text/javascript">
         apiready = function(){
             if(api.systemType == 'ios'){
@@ -381,6 +387,10 @@
             }
             };
     </script> -->
+<<<<<<< HEAD
+=======
+
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	<script type="text/javascript" src="/static/js/newcommon.js"></script> 
 
 </body>

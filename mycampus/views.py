@@ -71,7 +71,12 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
+<<<<<<< HEAD
 	news = models.News.objects.order_by('-id')
+=======
+
+	news = models.News.objects.all()
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	return render(request, 'campus/index.html',{'news':news,'user':user})
 	
 def index1(request):
@@ -81,8 +86,11 @@ def member(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	return render(request, 'campus/member.html',{'user':user})
+<<<<<<< HEAD
 	news = models.News.objects.order_by('-id')
 	return render(request, 'campus/index.html',{'news':news})
+=======
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 #详细内容页面
 def content(request,new_id):
 	# request.session['new_id'] = new_id
@@ -124,6 +132,7 @@ def like_post(request,new_id):
 	comments = models.Comments_News.objects.filter(new_id=new_id)
 	news = models.News.objects.get(pk=new_id)
 	return render(request, 'campus/content.html',{'news':news,'comments':comments})
+<<<<<<< HEAD
 
 #学习详情
 def content_learn(request,learn_id):
@@ -141,6 +150,8 @@ def comments_learn(request,learn_id):
 	models.Comments_Learns.objects.create(critisID=user.userName,content=content,images=images,learn_id=learns.id)
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
 	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments})
+=======
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 #发表新闻事件
 def show_published(request):
 	userId = request.session.get('userId',default=None)
@@ -148,7 +159,7 @@ def show_published(request):
 	title = request.POST.get('title','title')
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
-	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images)
+	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images,uid=userId)
 	return redirect('/mycampus/index')
 	
 def published(request):
@@ -197,8 +208,15 @@ def send_learn(request):
 	user = models.User.objects.get(pk=userId)
 	title = request.POST.get('title','title')
 	content = request.POST.get('content','content')
+<<<<<<< HEAD
 	image = request.FILES.get('image')
 	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)
+=======
+
+	images = request.FILES.get('images')
+
+	models.Learns.objects.create(uid=userId,publisher=user.userName,title=title,content=content,images=images)
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	return redirect('/mycampus/learn')
 	
 def forgotPassword(request):
@@ -268,7 +286,10 @@ def rePasswordSubmit(request):
 	user.save()
 	return redirect('/mycampus/login/')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 #修改头像
 def uploadImg(request):
 	userId = request.session.get('userId',default=None)
@@ -278,3 +299,39 @@ def uploadImg(request):
 	print (user.userPicture)
 	user.save()
 	return redirect('/mycampus/member')
+<<<<<<< HEAD
+=======
+
+#我的贴子
+def mypost(request):
+	userId = request.session.get('userId',default=None)
+	mynews = models.News.objects.filter(uid = userId ).order_by("-time")
+	mynewscount = models.News.objects.filter(uid =userId).count()
+	mylearns = models.Learns.objects.filter(uid = userId).order_by("-time")
+	mylearnscount = models.Learns.objects.filter(uid =userId).count()
+	return render(request, 'campus/mypost.html',{'mynews':mynews,'mylearns':mylearns,'mynewscount':mynewscount,'mylearnscount':mylearnscount})
+
+#删除我的新闻
+def delete_mynew(request,mynew_id):
+	models.News.objects.get(pk = mynew_id).delete()	
+	return redirect('/mycampus/mypost')
+
+#删除我的研讨
+def delete_mylearn(request,mylearn_id):
+	models.Learns.objects.get(pk = mylearn_id).delete()
+	return redirect('/mycampus/mypost')
+
+#搜索页面
+def search(request):
+	userId = request.session.get('userId',default=None)
+	keyword = request.POST.get('keyword','keyword')
+	print(keyword)
+	title = models.News.objects.filter( title = keyword)
+	print(title)
+	publisher = models.News.objects.filter(publisher = keyword)
+	newstitles = models.News.objects.filter(title__contains = keyword ).order_by("-time")
+	newspublishers = models.News.objects.filter(publisher__contains = keyword ).order_by("-time")
+	return render(request,'campus/search.html', {'newstitles':newstitles ,'newspublishers':newspublishers })
+	
+		
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd

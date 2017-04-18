@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>主页</title>
+	<link rel="icon" href="data:image/ico;base64,aWNv">
+	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
+	<style type="text/css">
+    body {
+        background: #ffffff;
+    }
+    .bg-dark {
+        background: #333333 !important;
+    }
+    .aui-slide-node img {
+        width: auto;
+        height: 100%;
+    }
+    </style>
+</head>
+<body>
+<!-- 头部 -->
+	 <header class="aui-bar aui-bar-nav" id="aui-header" style="background-color: #27AE60">
+        <a class="aui-btn aui-pull-left" tapmode=""href="{% url 'mycampus:index' %}">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">搜索</div>
+       
+    </header>
+	<form  action="{% url 'mycampus:search' %}" method="post" >
+			{% csrf_token %}
+		    <div class="aui-searchbar-input aui-border-radius" tapmode="" >
+		    	<!-- <textarea id="keyword" placeholder="请输入搜索内容..." name="keyword" "></textarea> -->
+		        <input type="text" placeholder="请输入搜索内容" id="keyword" name= "keyword" >
+		        <input type="submit" class="aui-btn" name="enter">
+		        <i class="aui-iconfont aui-icon-search"></i>
+		    </div>
+	</form>
+	
+    <!-- 图文内容 列表-->
+    <section class="aui-content">
+   	<div class="aui-content aui-media-list">相关标题 ：</div>
+    	<div class="aui-content">
+	        <ul class="aui-list aui-media-list">
+	        {% for newstitle in newstitles %}
+	         {% if newstitle.images %}
+	         	<!-- 有图片 -->
+	        <a href="{% url 'mycampus:content' newstitle.id %}">
+		        <li class="aui-list-item">
+	   	            <div class="aui-media-list-item-inner">
+	                    <div class="aui-list-item-inner">
+	                        <div class="aui-list-item-text">
+	                            <div class="aui-list-item-title aui-font-size-18">{{newstitle.title}}</div>
+	                        </div>
+	                        <div class="aui-info aui-padded-b-0">
+	                            <div class="aui-info-item aui-font-size-12">
+	                            <span class="aui-margin-l-5">{{newstitle.publisher}}</span>
+	                            </div>
+	                            <div class="aui-info-item aui-font-size-12">{{newstitle.time|date:"Y-m-d H:i" }}</div>
+	                            <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                        </div>
+	                    </div>
+	                    	<div class="aui-list-item-media">
+	                        <img src="/static/{{ newstitle.images }}">
+	                    	</div>
+	                </div>
+	            </li>
+	        </a>
+
+	            {% else %}
+	            <!-- 无图片 -->
+	            <a href="{% url 'mycampus:content' newstitle.id %}">
+	            <li class="aui-list-item">
+	                <div class="aui-media-list-item-inner">
+	                    <div class="aui-list-item-inner">
+	                        <div class="aui-list-item-title aui-font-size-18">{{newstitle.title}}</div>
+	                        <div class="aui-list-item-text">
+	                            <p class="aui-ellipsis-2">{{newstitle.content}}</p>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="aui-info">
+	                    <div class="aui-info-item aui-font-size-12">
+	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
+	                        <span class="aui-margin-l-5">{{newstitle.publisher}}</span>
+	                    </div>
+	                    <div class="aui-info-item aui-font-size-12">{{newstitle.time|date:"Y-m-d H:i" }}</div>
+	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                </div>
+	            </li> 
+	            </a>
+	            {% endif %}
+	            {% endfor%}
+	        </ul>
+	    </div>
+    </section>
+
+    <section class="aui-content">
+    <div class="aui-content aui-media-list">相关作者 ：</div>
+    	<div class="aui-content">
+	        <ul class="aui-list aui-media-list">
+	        {% for newspublisher in newspublishers %}
+	         {% if newspublisher.images %}
+	         	<!-- 有图片 -->
+	        <a href="{% url 'mycampus:content' newspublisher.id %}">
+		        <li class="aui-list-item">
+	   	            <div class="aui-media-list-item-inner">
+	                    <div class="aui-list-item-inner">
+	                        <div class="aui-list-item-text">
+	                            <div class="aui-list-item-title aui-font-size-18">{{newspublisher.title}}</div>
+	                        </div>
+	                        <div class="aui-info aui-padded-b-0">
+	                            <div class="aui-info-item aui-font-size-12">
+	                            <span class="aui-margin-l-5">{{newspublisher.publisher}}</span>
+	                            </div>
+	                            <div class="aui-info-item aui-font-size-12">{{newspublisher.time|date:"Y-m-d H:i" }}</div>
+	                            <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                        </div>
+	                    </div>
+	                    	<div class="aui-list-item-media">
+	                        <img src="/static/{{ newspublisher.images }}">
+	                    	</div>
+	                </div>
+	            </li>
+	        </a>
+
+	            {% else %}
+	            <!-- 无图片 -->
+	            <a href="{% url 'mycampus:content' newspublisher.id %}">
+	            <li class="aui-list-item">
+	                <div class="aui-media-list-item-inner">
+	                    <div class="aui-list-item-inner">
+	                        <div class="aui-list-item-title aui-font-size-18">{{newspublisher.title}}</div>
+	                        <div class="aui-list-item-text">
+	                            <p class="aui-ellipsis-2">{{newspublisher.content}}</p>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="aui-info">
+	                    <div class="aui-info-item aui-font-size-12">
+	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
+	                        <span class="aui-margin-l-5">{{newspublisher.publisher}}</span>
+	                    </div>
+	                    <div class="aui-info-item aui-font-size-12">{{newspublisher.time|date:"Y-m-d H:i" }}</div>
+	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                </div>
+	            </li> 
+	            </a>
+	            {% endif %}
+	            {% endfor%}
+	        </ul>
+	    </div>
+    </section>
+
+
+	<script type="text/javascript" src="/static/js/api.js"></script>
+	<script type="text/javascript" src="/static/js/aui-slide.js"></script>
+	<script type="text/javascript">
+    apiready = function(){
+        if(api.systemType == 'ios'){
+            scaleEnabled = true;
+            document.getElementById('wrap').style.paddingTop = '12px';
+        }
+        };
+	</script>
+	<script type="text/javascript">
+	    var slide = new auiSlide({
+	        container:document.getElementById("aui-slide"),
+	        // "width":300,
+	        "height":260,
+	        "speed":300,
+	        "pageShow":true,
+	        "pageStyle":'dot',
+	        "loop":true,
+	        'dotPosition':'center',
+	        currentPage:currentFun
+	    })
+
+	    function currentFun(index) {
+	        console.log(index);
+	    }
+	</script>
+
+
+</body>
+</html>

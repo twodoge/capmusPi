@@ -34,15 +34,25 @@
 	    <div class="aui-title">首页</div>
 	</header>
 	<div class="aui-content aui-flex-center">
+
 		<div class="aui-searchbar" id="search">
-		    <div class="aui-searchbar-input aui-border-radius" tapmode onclick="doSearch()">
+		<form  action="{% url 'mycampus:search' %}" method="post" >
+			{% csrf_token %}
+		    <div class="aui-searchbar-input aui-border-radius" tapmode="" >
+		    	<!-- <textarea id="keyword" placeholder="请输入搜索内容..." name="keyword" "></textarea> -->
+		        <input type="text" placeholder="请输入搜索内容" id="keyword" name= "keyword" >
+		        <input type="submit" class="aui-btn" name="enter">
 		        <i class="aui-iconfont aui-icon-search"></i>
+<<<<<<< HEAD
 		        <form action="javascript:search();">
 		            <input  type="search" placeholder="请输入搜索内容" id="search-input">
 		        </form>
 		         <input type="text" name="keyword" id="keyword"  onkeydown="entersearch()"/>
 
+=======
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 		    </div>
+		</form>
 		</div>
 	</div>
 	<!-- 轮播图 -->
@@ -99,7 +109,12 @@
 	                    	</div>
 	                </div>
 	            </li>
+<<<<<<< HEAD
 	            </a>
+=======
+
+			
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	            <!-- 有图片 -->
 	           <!--  <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
@@ -119,7 +134,14 @@
 	                    </div>
 	                </div>
 	            </li> -->
+<<<<<<< HEAD
 	        {% else %}
+=======
+
+	        </a>
+
+	            {% else %}
+>>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	            <!-- 无图片 -->
 	            <a href="{% url 'mycampus:content' new.id %}">
 	            <li class="aui-list-item">
