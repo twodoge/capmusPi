@@ -40,7 +40,7 @@
     <!-- 内容 -->
     <section class="aui-content">
         <ul class="aui-list aui-media-list">
-        {% for learn in learns %}
+         {% for learn in learns %}
            <a href="{% url 'mycampus:content_learn' learn.id %}">
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
@@ -98,11 +98,8 @@
                 <form role="form" action="{% url 'mycampus:send_learn' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
-                            
-                            
                         <input type="file" name="image" onchange="imgPreview(this)" />
                     </div>
-                    
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
                         <textarea id="title" placeholder="标题..." name="title" onblur="return cheack_title()"></textarea>

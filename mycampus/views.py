@@ -36,8 +36,6 @@ def register_action(request):
 		phone =request.POST.get('phone')
 		models.User.objects.create(userName=userName,password=password,email=email,phone=phone)
 		return redirect('/mycampus/login/')
-        
-
 
 def loginJudge(request):
 	if request.is_ajax():
@@ -71,12 +69,7 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
-<<<<<<< HEAD
 	news = models.News.objects.order_by('-id')
-=======
-
-	news = models.News.objects.all()
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	return render(request, 'campus/index.html',{'news':news,'user':user})
 	
 def index1(request):
@@ -86,11 +79,8 @@ def member(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	return render(request, 'campus/member.html',{'user':user})
-<<<<<<< HEAD
 	news = models.News.objects.order_by('-id')
 	return render(request, 'campus/index.html',{'news':news})
-=======
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 #详细内容页面
 def content(request,new_id):
 	# request.session['new_id'] = new_id
@@ -114,25 +104,24 @@ def like_post(request,new_id):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	news = models.News.objects.get(pk=new_id)
-	like = models.News_like.objects.filter(new=new_id)
+	like = models.News_like.objects.filter(new_id=new_id)
 	# 取消点赞
 	if(like):
 		if(like[0].liked==1):
 			news.likes-=1
 			news.save()
-			models.News_like.objects.filter(new=new_id).update(liked=0)
+			models.News_like.objects.filter(new_id=new_id).update(liked=0)
 		else:
 			news.likes+=1
 			news.save()
-			models.News_like.objects.filter(new=new_id).update(liked=1)
+			models.News_like.objects.filter(new_id=new_id).update(liked=1)
 	else:
 		news.likes+=1
 		news.save()
-		models.News_like.objects.create(critis=user,new=news,liked=1)
+		models.News_like.objects.create(critisID=user.userName,new_id=news.id,liked=1)
 	comments = models.Comments_News.objects.filter(new_id=new_id)
 	news = models.News.objects.get(pk=new_id)
 	return render(request, 'campus/content.html',{'news':news,'comments':comments})
-<<<<<<< HEAD
 
 #学习详情
 def content_learn(request,learn_id):
@@ -150,8 +139,7 @@ def comments_learn(request,learn_id):
 	models.Comments_Learns.objects.create(critisID=user.userName,content=content,images=images,learn_id=learns.id)
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
 	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments})
-=======
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
+
 #发表新闻事件
 def show_published(request):
 	userId = request.session.get('userId',default=None)
@@ -201,26 +189,19 @@ def send_teasing(request):
 #研讨天地页面
 def learn(request):
 	learns = models.Learns.objects.order_by('-id')
-	return render(request, 'campus/learn.html',{'learns':learns})
+	return render(request,'campus/learn.html',{'learns':learns})
 #发表研讨事件
 def send_learn(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	title = request.POST.get('title','title')
 	content = request.POST.get('content','content')
-<<<<<<< HEAD
 	image = request.FILES.get('image')
 	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)
-=======
-
-	images = request.FILES.get('images')
-
-	models.Learns.objects.create(uid=userId,publisher=user.userName,title=title,content=content,images=images)
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 	return redirect('/mycampus/learn')
 	
 def forgotPassword(request):
-	return render(request, 'campus/forgotPassword.html')
+	return render(request,'campus/forgotPassword.html')
 
 #发送邮件
 def setEmail(request):
@@ -285,11 +266,6 @@ def rePasswordSubmit(request):
 	user.password = password
 	user.save()
 	return redirect('/mycampus/login/')
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 #修改头像
 def uploadImg(request):
 	userId = request.session.get('userId',default=None)
@@ -299,9 +275,6 @@ def uploadImg(request):
 	print (user.userPicture)
 	user.save()
 	return redirect('/mycampus/member')
-<<<<<<< HEAD
-=======
-
 #我的贴子
 def mypost(request):
 	userId = request.session.get('userId',default=None)
@@ -332,6 +305,4 @@ def search(request):
 	newstitles = models.News.objects.filter(title__contains = keyword ).order_by("-time")
 	newspublishers = models.News.objects.filter(publisher__contains = keyword ).order_by("-time")
 	return render(request,'campus/search.html', {'newstitles':newstitles ,'newspublishers':newspublishers })
-	
-		
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
+

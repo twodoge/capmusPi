@@ -27,20 +27,12 @@ urlpatterns = [
 	url(r'^uploadImg/$', vs.uploadImg , name='uploadImg'),
 	url(r'^content/(?P<new_id>[0-9]+)$', vs.content,name='content'),
 	url(r'^comments_news/(?P<new_id>[0-9]+)$', vs.comments_news,name='comments_news'),
-<<<<<<< HEAD
 	url(r'^content_learn/(?P<learn_id>[0-9]+)$', vs.content_learn,name='content_learn'),
 	url(r'^comments_learn/(?P<learn_id>[0-9]+)$', vs.comments_learn,name='comments_learn'),
 	url(r'^like_post/(?P<new_id>[0-9]+)$', vs.like_post,name='like_post'),
-
-	
-=======
 	url(r'^mypost/$', vs.mypost,name='mypost'),
 	url(r'^delete_mynew/(?P<mynew_id>[0-9]+)$',vs.delete_mynew,name='delete_mynew'),
 	url(r'^delete_mylearn/(?P<mylearn_id>[0-9]+)$',vs.delete_mylearn,name='delete_mylearn'),
 	url(r'^search/$',vs.search,name='search'),
-	# url(r'^show_comments_news/$', vs.show_comments_news,name='show_comments_news'),
-	
-
->>>>>>> 425f69d5d2f1ca0475da22c065568ff824ec71cd
 
 ]
