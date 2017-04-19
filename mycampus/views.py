@@ -72,7 +72,7 @@ def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 
-	news = models.News.objects.all()
+	news = models.News.objects.order_by('-id')
 	return render(request, 'campus/index.html',{'news':news,'user':user})
 	
 def index1(request):
@@ -268,9 +268,7 @@ def delete_mylearn(request,mylearn_id):
 def search(request):
 	userId = request.session.get('userId',default=None)
 	keyword = request.POST.get('keyword','keyword')
-	print(keyword)
 	title = models.News.objects.filter( title = keyword)
-	print(title)
 	publisher = models.News.objects.filter(publisher = keyword)
 	newstitles = models.News.objects.filter(title__contains = keyword ).order_by("-time")
 	newspublishers = models.News.objects.filter(publisher__contains = keyword ).order_by("-time")

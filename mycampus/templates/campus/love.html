@@ -38,10 +38,11 @@
     </header>
 	<!-- 表白墙 -->
 	<section class="aui-content" id="lovewall" >
-        
+        <div class="aui-timeline">
         <ul class="aui-list aui-media-list">
         {% for love in loves %}
-        <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
+            {% if love.images %}
+            <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
@@ -52,7 +53,6 @@
                         </div>
                         <div class="aui-card-list-content-padded">
                             {{love.content}}
-                            <!-- <img src="/static/image/l1.png"> -->
                             <img src="/static/{{love.images}}">
                         </div>
                         <div class="aui-card-list-footer aui-border-t aui-font-size-12">
@@ -63,24 +63,18 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
-        </ul>
-
-      
-        
-        <!-- <div class="aui-timeline">
-            <div class="aui-timeline-item-header">2017年1月8日</div>
+            {% else %}
+            <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
-                <div class="aui-timeline-item-label aui-bg-info text-light">twodog</div>
+                <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-header aui-border-b">
-                            <div>To sb</div>
+                            <div>{{love.tosb}}</div>
                             <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
                         </div>
                         <div class="aui-card-list-content-padded">
-                            跟卡片列表布局结合可以完成丰富的布局样式
-                            <img src="/static/image/l1.png">
+                            {{love.content}}
                         </div>
                         <div class="aui-card-list-footer aui-border-t aui-font-size-12">
                             <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
@@ -90,67 +84,22 @@
                     </div>
                 </div>
             </div>
-            <div class="aui-timeline-item">
-                <div class="aui-timeline-item-label-icon aui-bg-danger">
-                    <i class="aui-iconfont aui-icon-like text-light"></i>
-                </div>
-                <div class="aui-timeline-item-inner">
-                    <div class="aui-card-list">
-                        <div class="aui-card-list-content-padded">
-                           一直在努力。感谢一路有大家的陪伴！！！🌹🌹🌹🌹🌹🌹
-                        </div>
-                        <div class="aui-card-list-footer aui-border-t aui-font-size-12">
-                            <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
-                            <div><i class="aui-iconfont aui-icon-laud aui-font-size-14"></i> 888</div>
-                            <div><i class="aui-iconfont aui-icon-star aui-font-size-14"></i> 888</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="aui-timeline-item-header">2016年2月8日</div>
-            <div class="aui-timeline-item">
-                <div class="aui-timeline-item-label-icon aui-bg-danger">
-                    <i class="aui-iconfont aui-icon-like text-light"></i>
-                </div>
-                <div class="aui-timeline-item-inner">
-                    <div class="aui-card-list">
-                        <div class="aui-card-list-content-padded">
-                            一直在努力。感谢一路有大家的陪伴！！！🌹🌹🌹🌹🌹🌹
-                        </div>
-                        <div class="aui-card-list-footer aui-border-t aui-font-size-12">
-                            <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
-                            <div><i class="aui-iconfont aui-icon-laud aui-font-size-14"></i> 888</div>
-                            <div><i class="aui-iconfont aui-icon-star aui-font-size-14"></i> 888</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="aui-timeline-item">
-                <div class="aui-timeline-item-label-icon aui-bg-danger">
-                    <i class="aui-iconfont aui-icon-like text-light"></i>
-                </div>
-                <div class="aui-timeline-item-inner">
-                    <div class="aui-card-list">
-                        <div class="aui-card-list-content-padded">
-                            一直在努力。感谢一路有大家的陪伴！！！🌹🌹🌹🌹🌹🌹
-                        </div>
-                        <div class="aui-card-list-footer aui-border-t aui-font-size-12">
-                            <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
-                            <div><i class="aui-iconfont aui-icon-laud aui-font-size-14"></i> 888</div>
-                            <div><i class="aui-iconfont aui-icon-star aui-font-size-14"></i> 888</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+            {% endif %}
+        {% endfor %}
+        </ul>
+        </div>
+
+      
+        
 
     </section>
     <!-- 吐槽墙 -->
 	<section class="aui-content" id="Teasingwall" >
-        
-       <ul class="aui-list aui-media-list">
+        <div class="aui-timeline">
+        <ul class="aui-list aui-media-list">
         {% for teasing in teasings %}
-        <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
+            {% if teasing.images %}
+            <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
@@ -171,7 +120,31 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
+            <div class="aui-timeline-item">
+                <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
+                <div class="aui-timeline-item-inner">
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header aui-border-b">
+                            <div>{{teasing.tosb}}</div>
+                            <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
+                        </div>
+                        <div class="aui-card-list-content-padded">
+                            {{teasing.content}}
+                        </div>
+                        <div class="aui-card-list-footer aui-border-t aui-font-size-12">
+                            <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
+                            <div><i class="aui-iconfont aui-icon-laud aui-font-size-14"></i> 888</div>
+                            <div><i class="aui-iconfont aui-icon-star aui-font-size-14"></i> 888</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         {% endfor %}
+        </ul>
+        </div>
        
 
         <!-- <div class="aui-timeline">
