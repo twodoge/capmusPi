@@ -44,13 +44,16 @@
 	    <div class="aui-title">首页</div>
 	</header>
 	<div class="aui-content aui-flex-center">
+
 		<div class="aui-searchbar" id="search">
-		    <div class="aui-searchbar-input aui-border-radius" tapmode onclick="doSearch()">
-		        <i class="aui-iconfont aui-icon-search"></i>
-		        <form action="javascript:search();">
-		            <input type="search" placeholder="请输入搜索内容" id="search-input">
-		        </form>
+		<form  action="{% url 'mycampus:search' %}" method="post" id="my_form">
+			{% csrf_token %}
+		    <div class="aui-searchbar-input aui-border-radius" tapmode="" >
+		        <input type="text" placeholder="请输入搜索内容" id="keyword" name= "keyword" style="width: 90%">
+		        <input type="submit" class="aui-btn" name="enter" style="display: none;">
+		        <i class="aui-iconfont aui-icon-search" style="font-size: 20px;padding: 5px;" id="sub"></i>
 		    </div>
+		</form>
 		</div>
 	</div>
 	<!-- 轮播图 -->
@@ -99,7 +102,7 @@
 	                            <span class="aui-margin-l-5">{{new.publisher}}</span>
 	                            </div>
 	                            <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
-	                            <div class="aui-info-item aui-font-size-12">26条评论</div>
+	                            <div class="aui-info-item aui-font-size-12">评论{{new.counts}}</div>
 	                        </div>
 	                    </div>
 	                    	<div class="aui-list-item-media">
@@ -108,30 +111,30 @@
 	                </div>
 	            </li>
         	</a>
-	            {% else %}
-	            <!-- 无图片 -->
-	            <a href="{% url 'mycampus:content' new.id %}" class="aui-card-list">
-	            <li class="aui-list-item">
-	                <div class="aui-media-list-item-inner">
-	                    <div class="aui-list-item-inner">
-	                        <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
-	                        <div class="aui-list-item-text">
-	                            <p class="aui-ellipsis-2">{{new.content}}</p>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="aui-info">
-	                    <div class="aui-info-item aui-font-size-12">
-	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
-	                        <span class="aui-margin-l-5">{{new.publisher}}</span>
-	                    </div>
-	                    <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
-	                    <div class="aui-info-item aui-font-size-12">26条评论</div>
-	                </div>
-	            </li> 
-	            </a>
-	            {% endif %}
-	            {% endfor%}
+            {% else %}
+            <!-- 无图片 -->
+            <a href="{% url 'mycampus:content' new.id %}" class="aui-card-list">
+            <li class="aui-list-item">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
+                        <div class="aui-list-item-text">
+                            <p class="aui-ellipsis-2">{{new.content}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-info">
+                    <div class="aui-info-item aui-font-size-12">
+                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
+                        <span class="aui-margin-l-5">{{new.publisher}}</span>
+                    </div>
+                    <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
+                    <div class="aui-info-item aui-font-size-12">评论{{new.counts}}</div>
+                </div>
+            </li> 
+            </a>
+	        {% endif %}
+	        {% endfor %}
 	        </ul>
 	    </div>
     </section>
@@ -171,6 +174,12 @@
 	            document.getElementById('wrap').style.paddingTop = '12px';
 	        }
 	    };
+	</script>
+	<!-- 提交搜索表单 -->
+	<script type="text/javascript">
+		$("#sub").click(function(){
+			$("#my_form").submit();
+		});
 	</script>
 	<!-- 图片滚动 -->
 	<script type="text/javascript">

@@ -60,15 +60,17 @@
             </ul>
         </div>
 
-        <!-- 记账相关 -->
+        <!--  -->
         <div class="aui-content aui-margin-b-15">
             <ul class="aui-list aui-list-in">
-                <li class="aui-list-item aui-list-item-middle" onclick="alert('年度统计');">
+               <a href="{% url 'mycampus:mypost' %}" style="color: #000">
+                <li class="aui-list-item aui-list-item-middle">
                     <div class="aui-list-item-inner aui-list-item-arrow">
                         <div class="aui-list-item-title">我的发表</div>
                         <div class="aui-badge" style="position:relative;top:0; left:0;background-color: #27AE60"">25</div>
                     </div>
                 </li>
+               </a>
                 <li class="aui-list-item aui-list-item-middle" onclick="openWin('class_win');">
                     <div class="aui-list-item-inner aui-list-item-arrow">
                         <div class="aui-list-item-title">我的关注</div>

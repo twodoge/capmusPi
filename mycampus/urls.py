@@ -35,4 +35,10 @@ urlpatterns = [
 	url(r'^content_learn/(?P<new_id>[0-9]+)$', vs.content_learn,name='content_learn'),
 	url(r'^cheack_name/$', vs.cheack_name ,name='cheack_name'),
 	url(r'^change_user/$', vs.change_user ,name='change_user'),
+	url(r'^comments_learn/(?P<learn_id>[0-9]+)$', vs.comments_learn,name='comments_learn'),
+	url(r'^like_post/(?P<new_id>[0-9]+)$', vs.like_post,name='like_post'),
+	url(r'^mypost/$', vs.mypost,name='mypost'),
+	url(r'^delete_mynew/(?P<mynew_id>[0-9]+)$',vs.delete_mynew,name='delete_mynew'),
+	url(r'^delete_mylearn/(?P<mylearn_id>[0-9]+)$',vs.delete_mylearn,name='delete_mylearn'),
+	url(r'^search/$',vs.search,name='search'),
 ]
