@@ -191,12 +191,9 @@ def content_learn(request,learn_id):
 	user = models.User.objects.get(pk=userId)
 	learns =models.Learns.objects.get(pk=learn_id)
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
-<<<<<<< HEAD
 	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
-	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'childcomments':childcomments})
-=======
-	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'user':user})
->>>>>>> 6c7ef5b3a06a961fe27703a0f56ba976d7967025
+	return render(request, 'campus/content_learn.html',{'user':user,'learns':learns,'comments':comments,'childcomments':childcomments})
+
 #评论学习
 def comments_learn(request,learn_id):
 	learns =models.Learns.objects.get(pk=learn_id)

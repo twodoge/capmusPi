@@ -29,18 +29,14 @@ urlpatterns = [
 	url(r'^uploadImg/$', vs.uploadImg , name='uploadImg'),
 	url(r'^content/(?P<new_id>[0-9]+)$', vs.content,name='content'),
 	url(r'^comments_news/(?P<new_id>[0-9]+)$', vs.comments_news,name='comments_news'),
-<<<<<<< HEAD
 	url(r'^childcomments_news/(?P<comment_id>[0-9]+)$', vs.childcomments_news,name='childcomments_news'),
 	url(r'^childcomments_learns/(?P<comment_id>[0-9]+)$', vs.childcomments_learns,name='childcomments_learns'),
 	url(r'^content_learn/(?P<learn_id>[0-9]+)$', vs.content_learn,name='content_learn'),
-=======
-	# url(r'^show_comments_news/$', vs.show_comments_news,name='show_comments_news'),
 	url(r'^user/$', vs.user,name='user'),
 	url(r'^setting_information/$', vs.setting_information,name='setting_information'),
 	url(r'^content_learn/(?P<new_id>[0-9]+)$', vs.content_learn,name='content_learn'),
 	url(r'^cheack_name/$', vs.cheack_name ,name='cheack_name'),
 	url(r'^change_user/$', vs.change_user ,name='change_user'),
->>>>>>> 6c7ef5b3a06a961fe27703a0f56ba976d7967025
 	url(r'^comments_learn/(?P<learn_id>[0-9]+)$', vs.comments_learn,name='comments_learn'),
 	url(r'^news_like_post/(?P<new_id>[0-9]+)$', vs.news_like_post,name='news_like_post'),
 	url(r'^learns_like_post/(?P<learn_id>[0-9]+)$', vs.learns_like_post,name='learns_like_post'),
