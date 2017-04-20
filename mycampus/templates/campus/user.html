@@ -15,13 +15,13 @@
     </style>
 </head>
 <body>
-	<header class="aui-bar aui-bar-nav" id="header" style="padding-top:px; position:fixed;background-color: #27AE60">
+	<header class="aui-bar aui-bar-nav" id="header" style="background-color: #27AE60;padding-top:12px; ">
         <div class="aui-title">我</div>
         <div class="aui-pull-right">
             <a class="aui-btn aui-iconfont aui-icon-refresh" href=""></a>
         </div>
     </header>
-    <section class="aui-content aui-refresh-content aui-padded-t-15" style="padding-top: 2.75rem !important">
+    <section class="aui-content aui-refresh-content aui-padded-t-15">
         <!-- 用户信息 -->
         <div class="aui-content aui-margin-b-15">
             <ul class="aui-list aui-media-list">
@@ -50,7 +50,7 @@
         </div>
 
         <!-- 账号与安全 -->
-        <div class="aui-content aui-margin-b-15">
+<!--         <div class="aui-content aui-margin-b-15">
             <ul class="aui-list aui-list-in">
                 <li class="aui-list-item aui-list-item-middle" onclick="alert('弹出账号与安全');">
                     <div class="aui-list-item-inner aui-list-item-arrow">
@@ -58,7 +58,7 @@
                     </div>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <!--  -->
         <div class="aui-content aui-margin-b-15">
@@ -131,9 +131,11 @@
         <!-- 退出登录 -->
         <a href="{% url 'mycampus:login' %}">
         <div class="aui-content aui-margin-b-15 aui-padded-l-10 aui-padded-r-10">
-            <div class="aui-btn aui-btn-danger aui-btn-block aui-btn-sm" onclick="goLogout();">
+           <a href="{% url 'mycampus:login' %}" style="color: #fff">
+            <div class="aui-btn aui-btn-danger aui-btn-block aui-btn-sm">
                 退出登录
             </div>
+           </a>
         </div>
         </a>
     </section>
@@ -165,28 +167,17 @@
     <script type="text/javascript" src="/static/js/api.js" ></script>
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
     <!-- IOS兼容 -->
-	<script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.paddingTop = '12px';
-	        }
-	    };
-	    /** 打开指定窗体 */
-	    function openWin(){
-	        api.openWin({
-	            name: about,
-	            url: '{% url 'mycampus:published' %}',
-	            slidBackEnabled: true,
-	            slidBackType: 'edge',
-	            animation: {
-	                type: 'movein',
-	                subtype: 'from_bottom'
-	            },
-	            // softInputMode: 'pan',
-	            delay: 100
-	        });
-	    }
-	</script>
+    <script type="text/javascript">
+        apiready = function(){
+                if(api.systemType == 'ios'){
+                    scaleEnabled = true;
+                    // document.getElementById('header').style.paddingTop = '10px';
+                }
+                //支持沉浸式效果
+                if (!api.statusBarAppearance) {
+                   document.getElementById('header').style.paddingTop = '0px';
+                }
+            };
+    </script>
 </body>
 </html>

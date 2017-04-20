@@ -30,7 +30,7 @@
 </head>
 <body>
 <div id="content">
-    <header class="aui-bar aui-bar-nav" id="aui-header" style="background-color: #27AE60">
+    <header class="aui-bar aui-bar-nav" id="header" style="background-color: #27AE60;padding-top:12px; ">
         <a class="aui-btn aui-pull-left" tapmode="" onclick="closeWin()">
             <span class="aui-iconfont aui-icon-left"></span>
         </a>
@@ -126,17 +126,21 @@
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/static/js/newcommon.js"></script>
     <script type="text/javascript" src="/static/js/aui-pull-refresh.js"></script>
-    	<script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('aui-header').style.paddingTop = '12px';
-	        }
-	        };
-	</script>
+    <script type="text/javascript">
+        apiready = function(){
+                if(api.systemType == 'ios'){
+                    scaleEnabled = true;
+                    // document.getElementById('header').style.paddingTop = '10px';
+                }
+                //支持沉浸式效果
+                if (!api.statusBarAppearance) {
+                   document.getElementById('header').style.paddingTop = '0px';
+                }
+            };
+    </script>
     <!-- 下拉刷新 -->
     <script type="text/javascript">
-        var count=0;
+        var count=4;
         var pullRefresh = new auiPullToRefresh({
             container: document.querySelector('.aui-refresh-content'),
             triggerDistance: 100

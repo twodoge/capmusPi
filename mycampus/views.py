@@ -73,7 +73,7 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
-	news = models.News.objects.order_by('-id').filter()[0:4]
+	news = models.News.objects.order_by('-id').filter()[0:5]
 	return render(request, 'campus/index.html',{'news':news,'user':user})
 	
 def index1(request):
@@ -84,20 +84,11 @@ def index1(request):
 # 主页下拉刷新
 def index_refresh(request):
 	a = int(request.GET.get('a'))
-	# a = a+2
-	news = models.News.objects.filter()[a:a+4]
-	# news.images = str(news.images)
-	# print(news.images)
-	# person_list=[news.title,news.content,str(news.images)]
+	news = models.News.objects.order_by('-id').filter()[a:a+4]
 	person_list=[]
 	for i in news:
 		person_list.append([i.id,i.publisher,i.title,i.content,str(i.images),i.time])
-
-	# u_dict = model_to_dict(news)
-	# newelist = 
-	# json_data = serializers.serialize("json", news)
 	return JsonResponse(person_list,safe=False)
-	# return HttpResponse(json.dumps(person_list),content_type='application/json')
 
 def member(request):
 	userId = request.session.get('userId',default=None)
@@ -210,7 +201,7 @@ def send_teasing(request):
 	return render(request, 'campus/love.html')
 #研讨天地页面
 def learn(request):
-	learns = models.Learns.objects.order_by('-id').filter()[0:4]
+	learns = models.Learns.objects.order_by('-id').filter()[0:6]
 	return render(request, 'campus/learn.html',{'learns':learns})
 #发表研讨事件
 def send_learn(request):
@@ -224,7 +215,7 @@ def send_learn(request):
 #研讨天地页面===下拉刷新
 def learn_refresh(request):
 	a = int(request.GET.get('a'))
-	news = models.Learns.objects.filter()[a:a+4]
+	news = models.Learns.objects.order_by('-id').filter()[a:a+4]
 	learn_list=[]
 	for i in news:
 		learn_list.append([i.id,i.publisher,i.title,i.content,str(i.images),i.time,i.like])

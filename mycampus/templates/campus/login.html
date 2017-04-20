@@ -10,9 +10,10 @@
 </head>
 <body>
 <!-- 头部 -->
-	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #00bcd4">
+	<header class="aui-bar aui-bar-nav" id="header" style="background-color: #00bcd4;padding-top: 10px;">
 	    <div class="aui-title">登录</div>
 	</header>
+	<div id="header-bottom"></div>
     <section class="aui-content-padded">
 	        <h2 class="aui-padded-t-15 aui-text-center"><b>登录你的账号</b></h2>
 	        <div class="aui-content">
@@ -69,10 +70,14 @@
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript">
 	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.padding = '10px';
-	        }
+		        if(api.systemType == 'ios'){
+		            scaleEnabled = true;
+		            // document.getElementById('header').style.paddingTop = '10px';
+		        }
+                //支持沉浸式效果
+		        if (!api.statusBarAppearance) {
+		           document.getElementById('header').style.paddingTop = '0px';
+		        }
 	        };
 	</script>
 	      
