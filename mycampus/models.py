@@ -31,6 +31,14 @@ class Comments_News(models.Model):
 	content = models.CharField(max_length=255,null=True)
 	images = models.ImageField(upload_to='news_img',null=True)
 
+class ChildComments_News(models.Model):
+	critisID = models.CharField(max_length=20,null=True)
+	new_id = models.IntegerField(null=True)
+	comment_id = models.IntegerField(null=True)
+	time = models.DateTimeField(auto_now_add=True)
+	content = models.CharField(max_length=255,null=True)
+	images = models.ImageField(upload_to='news_img',null=True)
+
 class Learns(models.Model):
 	publisher = models.CharField(max_length=20)
 	title = models.CharField(max_length=50)
@@ -48,6 +56,19 @@ class Comments_Learns(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 	content = models.CharField(max_length=255)
 	images = models.ImageField(upload_to='learn_img',null=True)
+
+class ChildComments_Learns(models.Model):
+	critisID = models.CharField(max_length=20,null=True)
+	learn_id = models.IntegerField(null=True)
+	comment_id = models.IntegerField(null=True)
+	time = models.DateTimeField(auto_now_add=True)
+	content = models.CharField(max_length=255,null=True)
+	images = models.ImageField(upload_to='news_img',null=True)
+
+class Learns_like(models.Model):
+	critisID = models.CharField(max_length=20,null=True)
+	learn_id = models.IntegerField(null=True)
+	liked = models.IntegerField(default=0)
 	
 class Lovewall(models.Model):
 	publisher = models.CharField(max_length=20)

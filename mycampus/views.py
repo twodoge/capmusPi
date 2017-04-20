@@ -83,10 +83,10 @@ def member(request):
 	return render(request, 'campus/index.html',{'news':news})
 #详细内容页面
 def content(request,new_id):
-	# request.session['new_id'] = new_id
 	news =models.News.objects.get(pk=new_id)
 	comments = models.Comments_News.objects.filter(new_id=new_id)
-	return render(request, 'campus/content.html',{'news':news,'comments':comments})
+	childcomments = models.ChildComments_News.objects.filter(new_id=new_id)
+	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
 #发表新闻评论
 def comments_news(request,new_id):
 	news =models.News.objects.get(pk=new_id)
@@ -95,40 +95,90 @@ def comments_news(request,new_id):
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
 	models.Comments_News.objects.create(critisID=user.userName,content=content,images=images,new_id=news.id)
-	news.counts = news.counts+1
+	news.counts+=1
 	news.save()
 	comments = models.Comments_News.objects.filter(new_id=new_id)
-	return render(request, 'campus/content.html',{'news':news,'comments':comments})
-#点赞
-def like_post(request,new_id):
+	childcomments = models.ChildComments_News.objects.filter(new_id=new_id)
+	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
+#发表子评论
+def childcomments_news(request,comment_id):
+	comment = models.Comments_News.objects.get(pk=comment_id)
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	content = request.POST.get('content','content')
+	images = request.FILES.get('image')
+	models.ChildComments_News.objects.create(critisID=user.userName,new_id=comment.new_id,comment_id=comment_id,content=content,images=images)
+	news = models.News.objects.get(id=comment.new_id)
+	childcomments = models.ChildComments_News.objects.filter(comment_id=comment_id)
+	comments = models.Comments_News.objects.filter(pk=comment_id)
+	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
+#发表子评论
+def childcomments_learns(request,comment_id):
+	comment = models.Comments_Learns.objects.get(pk=comment_id)
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	content = request.POST.get('content','content')
+	images = request.FILES.get('image')
+	models.ChildComments_Learns.objects.create(critisID=user.userName,learn_id=comment.learn_id,comment_id=comment_id,content=content,images=images)
+	learns = models.Learns.objects.get(id=comment.learn_id)
+	childcomments = models.ChildComments_Learns.objects.filter(comment_id=comment_id)
+	comments = models.Comments_Learns.objects.filter(pk=comment_id)
+	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'childcomments':childcomments})
+#新闻事件点赞
+def news_like_post(request,new_id):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	news = models.News.objects.get(pk=new_id)
-	like = models.News_like.objects.filter(new_id=new_id)
-	# 取消点赞
+	like = models.News_like.objects.filter(new_id=new_id,critisID=user.userName)
 	if(like):
 		if(like[0].liked==1):
 			news.likes-=1
 			news.save()
-			models.News_like.objects.filter(new_id=new_id).update(liked=0)
+			models.News_like.objects.filter(new_id=new_id,critisID=user.userName).update(liked=0)
 		else:
 			news.likes+=1
 			news.save()
-			models.News_like.objects.filter(new_id=new_id).update(liked=1)
+			models.News_like.objects.filter(new_id=new_id,critisID=user.userName).update(liked=1)
 	else:
 		news.likes+=1
 		news.save()
 		models.News_like.objects.create(critisID=user.userName,new_id=news.id,liked=1)
 	comments = models.Comments_News.objects.filter(new_id=new_id)
+	childcomments = models.ChildComments_News.objects.filter(new_id=new_id)
 	news = models.News.objects.get(pk=new_id)
-	return render(request, 'campus/content.html',{'news':news,'comments':comments})
+	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
+#学习事件点赞
+def learns_like_post(request,learn_id):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	learns = models.Learns.objects.get(pk=learn_id)
+	like = models.Learns_like.objects.filter(learn_id=learn_id,critisID=user.userName)
+	# 取消点赞
+	if(like):
+		if(like[0].liked==1):
+			learns.likes-=1
+			learns.save()
+			models.Learns_like.objects.filter(learn_id=learn_id,critisID=user.userName).update(liked=0)
+		else:
+			learns.likes+=1
+			learns.save()
+			models.Learns_like.objects.filter(learn_id=learn_id,critisID=user.userName).update(liked=1)
+	else:
+		learns.likes+=1
+		learns.save()
+		models.Learns_like.objects.create(critisID=user.userName,learn_id=learns.id,liked=1)
+	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
+	learns = models.Learns.objects.get(pk=learn_id)
+	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
+	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'childcomments':childcomments})
 
 #学习详情
 def content_learn(request,learn_id):
 	# request.session['new_id'] = new_id
 	learns =models.Learns.objects.get(pk=learn_id)
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
-	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments})
+	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
+	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'childcomments':childcomments})
 #评论学习
 def comments_learn(request,learn_id):
 	learns =models.Learns.objects.get(pk=learn_id)
@@ -137,8 +187,11 @@ def comments_learn(request,learn_id):
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
 	models.Comments_Learns.objects.create(critisID=user.userName,content=content,images=images,learn_id=learns.id)
+	learns.counts+=1
+	learns.save()
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
-	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments})
+	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
+	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'childcomments':childcomments})
 
 #发表新闻事件
 def show_published(request):
