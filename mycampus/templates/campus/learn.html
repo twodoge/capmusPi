@@ -8,7 +8,7 @@
     <link rel="icon" href="data:image/ico;base64,aWNv">
 	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
-
+    <link rel="stylesheet" type="text/css" href="/static/css/aui-pull-refresh.css" />
     <style type="text/css">
         .hw-overlay{display:none; position: fixed; top:0;left:0;width:100%;height:100%; background-color: rgba(0,0,0,0.3);z-index:10;} 
         .hw-layer-wrap{box-sizing:border-box; width:570px; position:absolute;left:50%;top:50%; margin-left:-285px; border-radius:3px; background-color:#fff; box-shadow:1px 2px 4px 0 rgba(0,0,0,0.12); padding:45px 50px;} 
@@ -23,6 +23,9 @@
         @media (max-width:400px){ 
             .hw-layer-wrap{width:250px; margin-left:-125px;padding:20px 0px;} 
         }
+    .aui-refresh-pull-arrow{
+        background-image: url('data:image/svg+xml;charset=utf-8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M99.225 3.528c8.34 0 15.104 6.763 15.104 15.105 0 8.34-6.766 15.105-15.105 15.105-8.342 0-15.105-6.763-15.105-15.105S90.883 3.528 99.225 3.528zM76.567 48.843h45.315c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H76.567c-4.172 0-7.553-3.38-7.553-7.552v-5.035c0-4.172 3.38-7.552 7.553-7.552zm-10.07 35.245h65.455c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H66.497c-4.172 0-7.553-3.38-7.553-7.552V91.64c0-4.172 3.38-7.552 7.553-7.552zm8.044 87.596c-20.397-23.16-45.805-52.352-45.805-52.352h140.98s-25.146 28.735-45.4 51.884c-33.454 38.234-18.118 36.4-49.774.468z" fill="#27AE60" class="transform-group"/></svg>')
+    }
     </style>
 </head>
 <body>
@@ -38,9 +41,10 @@
 
     </header>
     <!-- 内容 -->
-    <section class="aui-content">
-        <ul class="aui-list aui-media-list">
+    <section class="aui-refresh-content" style="padding-bottom: 48px;">
+        <ul class="aui-list aui-media-list" id="demo">
         {% for learn in learns %}
+           <a href="{% url 'mycampus:content_learn' learn.id %}">
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
@@ -62,6 +66,7 @@
                     </div>
                 </div>
             </li>
+           </a>
             {% endfor %}
         </ul>
     </section>
@@ -86,7 +91,7 @@
 	    <div class="aui-bar-tab-item" tapmode>
 	        <div class="aui-dot"></div>
 	        <i class="aui-iconfont aui-icon-my"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:member' %}" style="color: #000">我的</a></div>
+	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:user' %}" style="color: #000">我的</a></div>
 	    </div>
 	</footer>
     <!-- 发表弹出框 -->
@@ -96,11 +101,8 @@
                 <form role="form" action="{% url 'mycampus:send_learn' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
-                            
-                            
                         <input type="file" name="image" onchange="imgPreview(this)" />
                     </div>
-                    
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
                         <textarea id="title" placeholder="标题..." name="title" onblur="return cheack_title()"></textarea>
@@ -122,6 +124,8 @@
 </div>
     <script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/newcommon.js"></script>
+    <script type="text/javascript" src="/static/js/aui-pull-refresh.js"></script>
     	<script type="text/javascript">
 	    apiready = function(){
 	        if(api.systemType == 'ios'){
@@ -130,6 +134,56 @@
 	        }
 	        };
 	</script>
-    <script type="text/javascript" src="/static/js/newcommon.js"></script>
+    <!-- 下拉刷新 -->
+    <script type="text/javascript">
+        var count=0;
+        var pullRefresh = new auiPullToRefresh({
+            container: document.querySelector('.aui-refresh-content'),
+            triggerDistance: 100
+        },function(ret){
+            if(ret.status=="success"){
+                setTimeout(function(){
+                    var j=0;
+                    var urls = 'mycampus:content_learn';
+                    $.getJSON("{% url 'mycampus:learn_refresh' %}",{'a':count},function(item){
+                        //返回值 ret 在这里是一个列表 把 ret 的每一项显示在网页上
+                        var wrap = document.getElementById("demo")
+                        // var lis = wrap.querySelectorAll('.aui-card-list');
+                        for (var i = 0, length = 4; i < length; i++,j++) {
+                            var html ='<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
+                                            +'<li class="aui-list-item">'
+                                                +'<div class="aui-media-list-item-inner">'
+                                                    +'<div class="aui-list-item-media">'
+                                                        +'<img src="/static/'+item[j][4]+'">'
+                                                    +'</div>'
+                                                    +'<div class="aui-list-item-inner">'
+                                                        +'<div class="aui-list-item-text">'
+                                                            +'<div class="aui-list-item-title" style="color:#4c5276">'+item[j][1]
+                                                            +'</div>'
+                                                        +'</div>'
+                                                        +'<div class="aui-list-item-text" style="color:#333;">'
+                                                            +item[j][2]
+                                                        +'</div>'
+                                                        +'<div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">'
+                                                            +'<div class="aui-info-item">'+item[j][5]+'</div>'
+                                                            +'<div class="aui-info-item">'
+                                                                +'<i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>'
+                                                            +'</div>'
+                                                        +'</div>'
+                                                    +'</div>'
+                                                +'</div>'
+                                            +'</li>'
+                                        +'</a>';
+                            wrap.insertAdjacentHTML('afterbegin', html);
+                        }
+                        count =count+j;
+                        // }
+                        
+                    })
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                },1500)
+            }
+        })
+    </script>
 </body>
 </html>

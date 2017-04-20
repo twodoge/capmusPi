@@ -49,7 +49,7 @@
     <section class="aui-content user-info aui-text-center aui-margin-b-15" style="background-image: url(/static/image/IMG_1222.JPG);background-size: cover;padding-top:12px;">
         <a class="btn show-layer" data-show-layer="hw-layer" role="button">
             {% if user.userPicture %}
-                <img src="/static/{{user.userPicture}}" class="avatar aui-img-round">
+                <img src="/static/{{user.userPicture}}" class="avatar aui-img-round" style="width: 83px;height: 83px;">
             {% else %}
                 <img src="/static/user_img/default.jpg" class="avatar aui-img-round">
             {% endif %}

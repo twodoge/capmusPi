@@ -61,8 +61,10 @@
                 <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
                     <div class="aui-info-item"></div>
                     <div class="aui-info-item" style="">
-                        <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">10</font></i>
-                        <i class="aui-iconfont aui-icon-like" style="color:#e91e63;font-size: 1.4rem"><font style="font-size: 15px;">100</font></i>
+                        <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">{{news.counts}}</font></i>
+                         <a href="{% url 'mycampus:like_post' news.id  %}" >
+                        <i class="aui-iconfont aui-icon-like" style="color:#e91e63;font-size: 1.4rem"><font style="font-size: 15px;">{{news.likes}}</font></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -82,26 +84,24 @@
                     <div class="aui-card-list-footer">
                           <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
                     </div>
-                </from>
+                </form>
             </div>
     </section>
     <!-- 评论内容 -->
       
     <section class="aui-content-padded">
           {% for comment in comments %}
-    
         <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
             <div class="aui-card-list-header" style="padding: 0;">
                 <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
                     <div class="aui-info-item">
                         <img src="/static/{{comment.images}}" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{comment.critisID}}</h3></span>
-                        </div>
+                    </div>
                     <div class="aui-info-item">{{ comment.time|date:"Y-m-d H:i" }}</div>
-                </div>
             </div>
+        </div>
             <div class="aui-card-list-content-padded">
                 <div>{{comment.content}}</div>
-
                 <div class="footer">
                     <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
                         <div class="aui-info-item"></div>
@@ -111,6 +111,8 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            
         <!-- 发表评论 -->
             <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
                 <form role="form" action="{% url 'mycampus:comments_news' news.id %}" method="post" enctype="multipart/form-data">
@@ -168,11 +170,8 @@
                 </from>
             </div>
         </div>  -->
-     {% endfor %}
-    </section>
-       
     
-
+    </section>
 
     <script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>

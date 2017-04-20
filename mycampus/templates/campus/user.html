@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的</title>
+    <link rel="icon" href="data:image/ico;base64,aWNv">
+    <link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+    <style type="text/css">
+    	.aui-switch:checked {
+            border-color: #212121;
+            background-color: #212121;
+        }
+    </style>
+</head>
+<body>
+	<header class="aui-bar aui-bar-nav" id="header" style="padding-top:px; position:fixed;background-color: #27AE60">
+        <div class="aui-title">我</div>
+        <div class="aui-pull-right">
+            <a class="aui-btn aui-iconfont aui-icon-refresh" href=""></a>
+        </div>
+    </header>
+    <section class="aui-content aui-refresh-content aui-padded-t-15" style="padding-top: 2.75rem !important">
+        <!-- 用户信息 -->
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-media-list">
+            	<a href="{% url 'mycampus:setting_information' %}">
+	                <li class="aui-list-item aui-list-item-middle">
+	                    <div class="aui-media-list-item-inner">
+	                        <div class="aui-list-item-media" style="width: 3rem;">
+		                            {% if user.userPicture %}
+						                <img src="/static/{{user.userPicture}}" class="aui-list-img-sm aui-img-round" style="width: 48px;height: 48px;">
+						            {% else %}
+						                <img src="/static/user_img/default.jpg" class="aui-list-img-sm aui-img-round">
+						            {% endif %}
+	                        </div>
+	                        <div class="aui-list-item-inner aui-list-item-arrow">
+	                            <div class="aui-list-item-text">
+	                                <div class="aui-list-item-title aui-font-size-18" id="id-username">{{user.userName}}</div>
+	                            </div>
+	                            <div class="aui-list-item-text aui-font-size-12">
+	                                <span id="id-email">{{user.email}}</span>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </li>
+	            </a>
+            </ul>
+        </div>
+
+        <!-- 账号与安全 -->
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-list-in">
+                <li class="aui-list-item aui-list-item-middle" onclick="alert('弹出账号与安全');">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">账号与安全</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!--  -->
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-list-in">
+               <a href="{% url 'mycampus:mypost' %}" style="color: #000">
+                <li class="aui-list-item aui-list-item-middle">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">我的发表</div>
+                        <div class="aui-badge" style="position:relative;top:0; left:0;background-color: #27AE60"">25</div>
+                    </div>
+                </li>
+               </a>
+                <li class="aui-list-item aui-list-item-middle" onclick="openWin('class_win');">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">我的关注</div>
+                        <div class="aui-badge" style="position:relative;top:0; left:0">88</div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle" onclick="openWin('calculator_win');">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">我的粉丝</div>
+                        <div class="aui-badge" style="position:relative;top:0; left:0">88</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- APP处理 -->
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-list-in">
+                <!-- 检查更新 -->
+                <li class="aui-list-item aui-list-item-middle" onclick="cheakUpdata();">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">检查更新</div>
+                    </div>
+                </li>
+                <!-- 清除缓存 -->
+                <li class="aui-list-item aui-list-item-middle" onclick="clearCache();">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">清除缓存</div>
+                        <div class="aui-list-item-right" id="id-cache-size">正在计算</div>
+                    </div>
+                </li>
+                <!-- 关于我们 -->
+                <li class="aui-list-item aui-list-item-middle" onclick="openWin();">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">关于我们</div>
+                    </div>
+                </li>
+            </ul>
+            <p class="aui-list-item-text aui-font-size-12">
+                &nbsp;&nbsp;&nbsp;&nbsp;当APP运行出现问题可以尝试清除缓存并重启应用。
+            </p> 
+        </div>
+        <section class="aui-content aui-margin-b-15">
+	        <ul class="aui-list aui-form-list">
+	            <li class="aui-list-item" style="background-color: #fff">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                        夜间模式
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="checkbox" class="aui-switch" checked="">
+	                    </div>
+	                </div>
+	            </li>
+	        </ul>
+	    </section>
+
+        <!-- 退出登录 -->
+        <a href="{% url 'mycampus:login' %}">
+        <div class="aui-content aui-margin-b-15 aui-padded-l-10 aui-padded-r-10">
+            <div class="aui-btn aui-btn-danger aui-btn-block aui-btn-sm" onclick="goLogout();">
+                退出登录
+            </div>
+        </div>
+        </a>
+    </section>
+
+    <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-home"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:index' %}" style="color: #000">首页</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-calendar"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:learn' %}" style="color: #000">学习</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-plus"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:published' %}" style="color: #000">发表</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-like"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000">love</a></div>
+        </div>
+        <div class="aui-bar-tab-item aui-active" tapmode>
+            <div class="aui-dot"></div>
+            <i class="aui-iconfont aui-icon-my"></i>
+            <div class="aui-bar-tab-label"><a href="" style="color: #000">我的</a></div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="/static/js/api.js" ></script>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <!-- IOS兼容 -->
+	<script type="text/javascript">
+	    apiready = function(){
+	        if(api.systemType == 'ios'){
+	            scaleEnabled = true;
+	            document.getElementById('wrap').style.paddingTop = '12px';
+	        }
+	    };
+	    /** 打开指定窗体 */
+	    function openWin(){
+	        api.openWin({
+	            name: about,
+	            url: '{% url 'mycampus:published' %}',
+	            slidBackEnabled: true,
+	            slidBackType: 'edge',
+	            animation: {
+	                type: 'movein',
+	                subtype: 'from_bottom'
+	            },
+	            // softInputMode: 'pan',
+	            delay: 100
+	        });
+	    }
+	</script>
+</body>
+</html>

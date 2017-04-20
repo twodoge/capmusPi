@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>校园墙</title>
-	<link rel="icon" href="data:image/ico;base64,aWNv">
-	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
-	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>校园墙</title>
+    <link rel="icon" href="data:image/ico;base64,aWNv">
+    <link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
     <style type="text/css">
     .hw-overlay{display:none; position: fixed; top:0;left:0;width:100%;height:100%; background-color: rgba(0,0,0,0.3);z-index:10;} 
     .hw-layer-wrap{box-sizing:border-box; width:570px; position:absolute;left:50%;top:50%; margin-left:-285px; border-radius:3px; background-color:#fff; box-shadow:1px 2px 4px 0 rgba(0,0,0,0.12); padding:45px 50px;} 
@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-	<header class="aui-bar aui-bar-nav aui-margin-b-15" id="wrap" style="padding-top:12px;">
+    <header class="aui-bar aui-bar-nav aui-margin-b-15" id="wrap" style="padding-top:12px;">
         <div class="aui-title">
             <div class="aui-bar aui-bar-btn aui-bar-btn-round">
                 <div class="aui-bar-btn-item aui-active love1 active" tapmode="" data-item-order="0">表白墙</div>
@@ -36,8 +36,10 @@
             <span class="aui-iconfont aui-icon-plus"></span>
         </a>
     </header>
-	<!-- 表白墙 -->
-	<section class="aui-content" id="lovewall" >
+
+    <!-- 表白墙 -->
+    <section class="aui-content" id="lovewall" >
+
         <div class="aui-timeline">
         <ul class="aui-list aui-media-list">
         {% for love in loves %}
@@ -94,7 +96,11 @@
 
     </section>
     <!-- 吐槽墙 -->
-	<section class="aui-content" id="Teasingwall" >
+
+	
+
+    <section class="aui-content" id="Teasingwall" >
+
         <div class="aui-timeline">
         <ul class="aui-list aui-media-list">
         {% for teasing in teasings %}
@@ -176,7 +182,7 @@
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-content-padded">
-                           吐槽墙吐槽墙一直在努力。感谢一路有大家的陪伴！！！🌹🌹🌹🌹🌹🌹
+                           吐槽墙吐槽墙一直在努力。感谢一路有大家的陪伴！！！????????????
                         </div>
                         <div class="aui-card-list-footer aui-border-t aui-font-size-12">
                             <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
@@ -194,7 +200,7 @@
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-content-padded">
-                            一直在努力。感谢一路有大家的陪伴！！！🌹🌹🌹🌹🌹🌹
+                            一直在努力。感谢一路有大家的陪伴！！！????????????
                         </div>
                         <div class="aui-card-list-footer aui-border-t aui-font-size-12">
                             <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
@@ -211,7 +217,7 @@
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-content-padded">
-                            一直在努力。感谢一路有大家的陪伴！！！🌹🌹🌹🌹🌹🌹
+                            一直在努力。感谢一路有大家的陪伴！！！????????????
                         </div>
                         <div class="aui-card-list-footer aui-border-t aui-font-size-12">
                             <div><i class="aui-iconfont aui-icon-note aui-font-size-14"></i> 666</div>
@@ -226,30 +232,30 @@
     </section>
 
     <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-home"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:index' %}" style="color: #000">首页</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-calendar"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:learn' %}" style="color: #000">学习</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-plus"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:published' %}" style="color: #000">发表</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item aui-active" tapmode>
-	        <i class="aui-iconfont aui-icon-like"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000;">love</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode> 
-	        <div class="aui-dot"></div>
-	        <i class="aui-iconfont aui-icon-my"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:member' %}" style="color: #000">我的</a></div>
-	    </div>
-	</footer>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-home"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:index' %}" style="color: #000">首页</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-calendar"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:learn' %}" style="color: #000">学习</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-plus"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:published' %}" style="color: #000">发表</a></div>
+        </div>
+        <div class="aui-bar-tab-item aui-active" tapmode>
+            <i class="aui-iconfont aui-icon-like"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000;">love</a></div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode> 
+            <div class="aui-dot"></div>
+            <i class="aui-iconfont aui-icon-my"></i>
+            <div class="aui-bar-tab-label"><a href="{% url 'mycampus:user' %}" style="color: #000">我的</a></div>
+        </div>
+    </footer>
 
-	<!-- 发表弹出框 -->
+    <!-- 发表弹出框 -->
     <div class="hw-overlay" id="hw-layer"> 
         <div class="hw-layer-wrap"> 
             <div class="aui-card-list">
@@ -269,11 +275,11 @@
                         </span><span id="errorcontent" style="display:none;color:red;">内容不能为空！</span>
                         <textarea id="fromsb" placeholder="from..." name="fromsb"></textarea>
                         <li class="aui-list-item aui-pull-left ">
-				            <div class="aui-list-item-inner">
-				                <label><input onclick="optlovewall()" class="aui-radio" type="radio" name="radio2" checked>表白墙</label>
-				                <label><input  onclick="optteasingwall()" class="aui-radio" type="radio" name="radio2" >吐槽墙</label>
-				            </div>
-				        </li>
+                            <div class="aui-list-item-inner">
+                                <label><input onclick="optlovewall()" class="aui-radio" type="radio" name="radio2" checked>表白墙</label>
+                                <label><input  onclick="optteasingwall()" class="aui-radio" type="radio" name="radio2" >吐槽墙</label>
+                            </div>
+                        </li>
                     
                     <div class="aui-card-list-footer aui-pull-right">
                         <button onclick="result()" type="submit" type="button" class="aui-btn aui-btn-info  hwLayer-ok" >发表</button>
@@ -285,53 +291,53 @@
         </div> 
     </div> 
 
-	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="/static/js/api.js"></script>
-	<script type="text/javascript" src="/static/js/aui-tab.js"></script>
-	<script type="text/javascript">
-	    apiready = function(){
-	        api.parseTapmode();
-	    }
-	    var bar = document.querySelectorAll(".aui-bar-btn");
-	    if(bar){
-	        for(var i=0; i<bar.length;i++){
-	            var d = bar[i];
-	            var tab = new auiTab({
-	                element:bar[i],
-	                repeatClick:true
-	            },function(ret){
-	                if(ret.dom.parentNode.getAttribute("type") && ret.dom.parentNode.getAttribute("type")=="count"){
-	                    var count = parseInt(document.getElementById("count").value);
-	                    if(ret.index==2)return;
-	                    if(ret.index==1){
-	                        document.getElementById("count").value = count-1;
-	                    }
-	                    if(ret.index==3){
-	                        document.getElementById("count").value = count+1;
-	                    }
-	                }
-	            });
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/api.js"></script>
+    <script type="text/javascript" src="/static/js/aui-tab.js"></script>
+    <script type="text/javascript">
+        apiready = function(){
+            api.parseTapmode();
+        }
+        var bar = document.querySelectorAll(".aui-bar-btn");
+        if(bar){
+            for(var i=0; i<bar.length;i++){
+                var d = bar[i];
+                var tab = new auiTab({
+                    element:bar[i],
+                    repeatClick:true
+                },function(ret){
+                    if(ret.dom.parentNode.getAttribute("type") && ret.dom.parentNode.getAttribute("type")=="count"){
+                        var count = parseInt(document.getElementById("count").value);
+                        if(ret.index==2)return;
+                        if(ret.index==1){
+                            document.getElementById("count").value = count-1;
+                        }
+                        if(ret.index==3){
+                            document.getElementById("count").value = count+1;
+                        }
+                    }
+                });
 
-	        }
-	    }
-	</script>
+            }
+        }
+    </script>
 
-	<script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.marginTop = '25px';
-	        }
-	        };
-	</script>
-	<script type="text/javascript">
-			function lovewall(){
+    <script type="text/javascript">
+        apiready = function(){
+            if(api.systemType == 'ios'){
+                scaleEnabled = true;
+                document.getElementById('wrap').style.marginTop = '25px';
+            }
+            };
+    </script>
+    <script type="text/javascript">
+            function lovewall(){
                
-			}
-	</script>
+            }
+    </script>
     <script type="text/javascript">  
             var opt=0;
-	        function optlovewall(){
+            function optlovewall(){
                 opt=0;
            }
            function optteasingwall(){
@@ -345,7 +351,7 @@
                     document.getElementById("form1").action="{% url 'mycampus:send_teasing' %}"
                 }
            }
-	</script>
+    </script>
    
 
 
@@ -358,7 +364,7 @@
             };
     </script> -->
 
-	<script type="text/javascript" src="/static/js/newcommon.js"></script> 
+    <script type="text/javascript" src="/static/js/newcommon.js"></script> 
 
 </body>
 </html>
