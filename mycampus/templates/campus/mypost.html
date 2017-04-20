@@ -25,7 +25,10 @@
     </style>
 </head>
 <body>
-	<header class="aui-bar aui-bar-nav aui-margin-b-15" id="wrap" style="padding-top:12px;">
+	<header class="aui-bar aui-bar-nav aui-margin-b-15" id="header" style="background-color: #27AE60;padding-top:12px; ">
+        <a class="aui-pull-left aui-btn" href="{% url 'mycampus:user'  %}">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
         <div class="aui-title">
             <div class="aui-bar aui-bar-btn aui-bar-btn-round">
                 <div class="aui-bar-btn-item aui-active love1 active" tapmode="" data-item-order="0">新闻</div>
@@ -43,6 +46,7 @@
         <div class="aui-list-item-right">我的新闻贴:共{{ mynewscount }}贴</div>
          <ul class="aui-list aui-media-list">
         {% for mynew in mynews %}
+            {% if mynew.images %}
             <form role="form"   method="post" enctype="multipart/form-data" >
             <li class="aui-list-item" >
                 <div class="aui-media-list-item-inner"  >
@@ -70,7 +74,36 @@
                 </div>
             </li>
             </form>
-            {% endfor %}
+            {% else %}
+            <form role="form"   method="post" enctype="multipart/form-data" >
+            <li class="aui-list-item" >
+                <div class="aui-media-list-item-inner"  >
+                    <div class="aui-list-item-media">
+                        <!-- <img src="/static/{{mynew.images}}"> -->
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title" style="color:#4c5276">{{mynew.publisher}}</div>
+                        </div>
+                        <div class="aui-list-item-text" style="color:#333;">
+                            {{mynew.title}}
+                        </div>
+                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                            <div class="aui-info-item" name="time">{{mynew.time|date:"Y-m-d H:i"}}</div>
+                            <div class="aui-info-item">
+                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276">
+                                <a  href="{% url 'mycampus:delete_mynew' mynew.id %}" style="color: #000">
+                                删除
+                                </a>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            </form>
+            {% endif %}
+        {% endfor %}
         </ul>
         
     </section>
@@ -80,6 +113,8 @@
         <div class="aui-list-item-right">我的学习贴:共{{ mylearnscount }}贴</div>
        <ul class="aui-list aui-media-list">
         {% for mylearn in mylearns %}
+            {% if mylearn.images %}
+            <form role="form"   method="post" enctype="multipart/form-data" >
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
@@ -105,34 +140,40 @@
                     </div>
                 </div>
             </li>
-            {% endfor %}
+            </form>
+            {% else %}
+            <form role="form"   method="post" enctype="multipart/form-data" >
+            <li class="aui-list-item">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <!-- <img src="/static/{{mylearn.images}}"> -->
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title" style="color:#4c5276">{{mylearn.publisher}}</div>
+                        </div>
+                        <div class="aui-list-item-text" style="color:#333;">
+                            {{mylearn.title}}
+                        </div>
+                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                            <div class="aui-info-item">{{mylearn.time|date:"Y-m-d H:i"}}</div>
+                            <div class="aui-info-item">
+                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276">
+                                <a  href="{% url 'mycampus:delete_mylearn' mylearn.id  %}" style="color: #000">
+                                删除
+                                </a>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            </form>
+            {% endif %}
+        {% endfor %}
         </ul>
 
     </section>
-
-    <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-home"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:index' %}" style="color: #000">首页</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-calendar"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:learn' %}" style="color: #000">学习</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-plus"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:published' %}" style="color: #000">发表</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item aui-active" tapmode>
-	        <i class="aui-iconfont aui-icon-like"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000;">love</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode> 
-	        <div class="aui-dot"></div>
-	        <i class="aui-iconfont aui-icon-my"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:user' %}" style="color: #000">我的</a></div>
-	    </div>
-	</footer>
 
 	<!-- 发表弹出框 -->
     <div class="hw-overlay" id="hw-layer"> 
@@ -173,6 +214,18 @@
 	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript" src="/static/js/aui-tab.js"></script>
+    <script type="text/javascript">
+        apiready = function(){
+                if(api.systemType == 'ios'){
+                    scaleEnabled = true;
+                    // document.getElementById('header').style.paddingTop = '10px';
+                }
+                //支持沉浸式效果
+                if (!api.statusBarAppearance) {
+                   document.getElementById('header').style.paddingTop = '0px';
+                }
+            };
+    </script>
 	<script type="text/javascript">
 	    apiready = function(){
 	        api.parseTapmode();
@@ -199,15 +252,6 @@
 
 	        }
 	    }
-	</script>
-
-	<script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.marginTop = '25px';
-	        }
-	        };
 	</script>
 	<script type="text/javascript">
 			function lovewall(){

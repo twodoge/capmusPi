@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-    <header class="aui-bar aui-bar-nav aui-margin-b-15" id="wrap" style="padding-top:12px;">
+    <header class="aui-bar aui-bar-nav aui-margin-b-15" id="header" style="background-color: #27AE60;padding-top:12px; ">
         <div class="aui-title">
             <div class="aui-bar aui-bar-btn aui-bar-btn-round">
                 <div class="aui-bar-btn-item aui-active love1 active" tapmode="" data-item-order="0">表白墙</div>
@@ -41,16 +41,15 @@
     <section class="aui-content" id="lovewall" >
 
         <div class="aui-timeline">
-        <ul class="aui-list aui-media-list">
+        <div class="aui-timeline-item-header"><!-- {{loves.time|date:"Y-m-d H:i" }} --></div>
         {% for love in loves %}
             {% if love.images %}
-            <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-header aui-border-b">
-                            <div>{{love.tosb}}</div>
+                            <div>To {{love.tosb}}</div>
                             <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
                         </div>
                         <div class="aui-card-list-content-padded">
@@ -66,13 +65,12 @@
                 </div>
             </div>
             {% else %}
-            <div class="aui-timeline-item-header">{{love.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{love.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-header aui-border-b">
-                            <div>{{love.tosb}}</div>
+                            <div>To {{love.tosb}}</div>
                             <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
                         </div>
                         <div class="aui-card-list-content-padded">
@@ -88,30 +86,22 @@
             </div>
             {% endif %}
         {% endfor %}
-        </ul>
         </div>
-
-      
-        
-
     </section>
+
     <!-- 吐槽墙 -->
-
-	
-
     <section class="aui-content" id="Teasingwall" >
 
         <div class="aui-timeline">
-        <ul class="aui-list aui-media-list">
+        <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
         {% for teasing in teasings %}
             {% if teasing.images %}
-            <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-header aui-border-b">
-                            <div>{{teasing.tosb}}</div>
+                            <div>To {{teasing.tosb}}</div>
                             <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
                         </div>
                         <div class="aui-card-list-content-padded">
@@ -127,13 +117,12 @@
                 </div>
             </div>
             {% else %}
-            <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
             <div class="aui-timeline-item">
                 <div class="aui-timeline-item-label aui-bg-info text-light">{{teasing.fromsb}}</div>
                 <div class="aui-timeline-item-inner">
                     <div class="aui-card-list">
                         <div class="aui-card-list-header aui-border-b">
-                            <div>{{teasing.tosb}}</div>
+                            <div>To {{teasing.tosb}}</div>
                             <i class="aui-iconfont aui-icon-star aui-text-danger"></i>
                         </div>
                         <div class="aui-card-list-content-padded">
@@ -149,7 +138,6 @@
             </div>
             {% endif %}
         {% endfor %}
-        </ul>
         </div>
        
 
@@ -296,6 +284,18 @@
     <script type="text/javascript" src="/static/js/aui-tab.js"></script>
     <script type="text/javascript">
         apiready = function(){
+                if(api.systemType == 'ios'){
+                    scaleEnabled = true;
+                    // document.getElementById('header').style.paddingTop = '10px';
+                }
+                //支持沉浸式效果
+                if (!api.statusBarAppearance) {
+                   document.getElementById('header').style.paddingTop = '0px';
+                }
+            };
+    </script>
+    <script type="text/javascript">
+        apiready = function(){
             api.parseTapmode();
         }
         var bar = document.querySelectorAll(".aui-bar-btn");
@@ -320,15 +320,6 @@
 
             }
         }
-    </script>
-
-    <script type="text/javascript">
-        apiready = function(){
-            if(api.systemType == 'ios'){
-                scaleEnabled = true;
-                document.getElementById('wrap').style.marginTop = '25px';
-            }
-            };
     </script>
     <script type="text/javascript">
             function lovewall(){

@@ -33,12 +33,12 @@
 </head>
 <body>
 <!-- 头部 -->
-	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #27AE60;padding-top:12px; ">
+	<header class="aui-bar aui-bar-nav" id="header" style="background-color: #27AE60;padding-top:12px; ">
 	    <a class="aui-pull-left">
 	    {% if user.userPicture %}
-	    	<img src="/static/{{user.userPicture}}" class="aui-img-round" style="width:32px;height: 32px;" />
+	    	<img src="/static/{{user.userPicture}}" class="aui-img-round" style="width:32px;height: 32px;margin: 5px 0 5px 0;" />
         {% else %}
-            <img src="/static/user_img/default.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
+            <img src="/static/user_img/default.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;margin: 5px 0 5px 0;" />
         {% endif %}
 	    </a>
 	    <div class="aui-title">首页</div>
@@ -96,7 +96,7 @@
 	                        </div>
 	                    </div>
 	                    	<div class="aui-list-item-media">
-	                        <img src="/static/{{ new.images }}">
+	                        <img src="/static/{{ new.images }}" style="max-height: 4.5rem">
 	                    	</div>
 	                </div>
 	            </li>
@@ -156,14 +156,23 @@
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript" src="/static/js/aui-slide.js"></script>
 	<script type="text/javascript" src="/static/js/aui-pull-refresh.js"></script>
+	<script type="text/javascript" src="/static/js/aui-lazyload.js" ></script>
 	<!-- IOS兼容 -->
 	<script type="text/javascript">
 	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.paddingTop = '12px';
-	        }
-	    };
+		        if(api.systemType == 'ios'){
+		            scaleEnabled = true;
+		            // document.getElementById('header').style.paddingTop = '10px';
+		        }
+                //支持沉浸式效果
+		        if (!api.statusBarAppearance) {
+		           document.getElementById('header').style.paddingTop = '0px';
+		        }
+				// <!-- 图片懒加载 -->
+			    new auiLazyload({
+			        errorImage:'../image/error-img.png'
+			    });
+	        };
 	</script>
 	<!-- 提交搜索表单 -->
 	<script type="text/javascript">
@@ -191,7 +200,7 @@
 	</script>
 	<!-- 下拉刷新 -->
 	<script type="text/javascript">
-        var count=0;
+        var count=4;
         var pullRefresh = new auiPullToRefresh({
             container: document.querySelector('.aui-refresh-content'),
             triggerDistance: 100
