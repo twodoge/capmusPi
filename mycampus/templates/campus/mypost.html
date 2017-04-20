@@ -25,7 +25,10 @@
     </style>
 </head>
 <body>
-	<header class="aui-bar aui-bar-nav aui-margin-b-15" id="wrap" style="padding-top:12px;">
+	<header class="aui-bar aui-bar-nav aui-margin-b-15" id="header" style="background-color: #27AE60;padding-top:12px; ">
+        <a class="aui-pull-left aui-btn" href="{% url 'mycampus:user'  %}">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
         <div class="aui-title">
             <div class="aui-bar aui-bar-btn aui-bar-btn-round">
                 <div class="aui-bar-btn-item aui-active love1 active" tapmode="" data-item-order="0">新闻</div>
@@ -110,30 +113,6 @@
 
     </section>
 
-    <footer class="aui-bar aui-bar-tab" id="footer" style="background-color: #27AE60">
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-home"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:index' %}" style="color: #000">首页</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-calendar"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:learn' %}" style="color: #000">学习</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode>
-	        <i class="aui-iconfont aui-icon-plus"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:published' %}" style="color: #000">发表</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item aui-active" tapmode>
-	        <i class="aui-iconfont aui-icon-like"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:love' %}" style="color: #000;">love</a></div>
-	    </div>
-	    <div class="aui-bar-tab-item" tapmode> 
-	        <div class="aui-dot"></div>
-	        <i class="aui-iconfont aui-icon-my"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:member' %}" style="color: #000">我的</a></div>
-	    </div>
-	</footer>
-
 	<!-- 发表弹出框 -->
     <div class="hw-overlay" id="hw-layer"> 
         <div class="hw-layer-wrap"> 
@@ -173,6 +152,18 @@
 	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript" src="/static/js/aui-tab.js"></script>
+    <script type="text/javascript">
+        apiready = function(){
+                if(api.systemType == 'ios'){
+                    scaleEnabled = true;
+                    // document.getElementById('header').style.paddingTop = '10px';
+                }
+                //支持沉浸式效果
+                if (!api.statusBarAppearance) {
+                   document.getElementById('header').style.paddingTop = '0px';
+                }
+            };
+    </script>
 	<script type="text/javascript">
 	    apiready = function(){
 	        api.parseTapmode();
@@ -199,15 +190,6 @@
 
 	        }
 	    }
-	</script>
-
-	<script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.marginTop = '25px';
-	        }
-	        };
 	</script>
 	<script type="text/javascript">
 			function lovewall(){

@@ -5,7 +5,11 @@ from django.http import HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from . import models
 import string, os, random
-from PIL import Image, ImageDraw, ImageFont 
+from PIL import Image, ImageDraw, ImageFont
+from django.http import JsonResponse
+import json
+from django.core import serializers
+from django.forms.models import model_to_dict
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def login(request):
@@ -69,18 +73,27 @@ def loginJudge(request):
 def index(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
-	news = models.News.objects.order_by('-id')
+	news = models.News.objects.order_by('-id').filter()[0:5]
 	return render(request, 'campus/index.html',{'news':news,'user':user})
 	
 def index1(request):
-	return render(request, 'campus/index1.html')
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	news = models.News.objects.order_by('-id').filter()[0:4]
+	return render(request, 'campus/index1.html',{'news':news,'user':user})
+# 主页下拉刷新
+def index_refresh(request):
+	a = int(request.GET.get('a'))
+	news = models.News.objects.order_by('-id').filter()[a:a+4]
+	person_list=[]
+	for i in news:
+		person_list.append([i.id,i.publisher,i.title,i.content,str(i.images),i.time])
+	return JsonResponse(person_list,safe=False)
 
 def member(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	return render(request, 'campus/member.html',{'user':user})
-	news = models.News.objects.order_by('-id')
-	return render(request, 'campus/index.html',{'news':news})
 #详细内容页面
 def content(request,new_id):
 	news =models.News.objects.get(pk=new_id)
@@ -174,11 +187,16 @@ def learns_like_post(request,learn_id):
 
 #学习详情
 def content_learn(request,learn_id):
-	# request.session['new_id'] = new_id
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
 	learns =models.Learns.objects.get(pk=learn_id)
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
+<<<<<<< HEAD
 	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
 	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'childcomments':childcomments})
+=======
+	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments,'user':user})
+>>>>>>> 6c7ef5b3a06a961fe27703a0f56ba976d7967025
 #评论学习
 def comments_learn(request,learn_id):
 	learns =models.Learns.objects.get(pk=learn_id)
@@ -241,8 +259,8 @@ def send_teasing(request):
 	return render(request, 'campus/love.html')
 #研讨天地页面
 def learn(request):
-	learns = models.Learns.objects.order_by('-id')
-	return render(request,'campus/learn.html',{'learns':learns})
+	learns = models.Learns.objects.order_by('-id').filter()[0:6]
+	return render(request, 'campus/learn.html',{'learns':learns})
 #发表研讨事件
 def send_learn(request):
 	userId = request.session.get('userId',default=None)
@@ -252,7 +270,24 @@ def send_learn(request):
 	image = request.FILES.get('image')
 	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image)
 	return redirect('/mycampus/learn')
+#研讨天地页面===下拉刷新
+def learn_refresh(request):
+	a = int(request.GET.get('a'))
+	news = models.Learns.objects.order_by('-id').filter()[a:a+4]
+	learn_list=[]
+	for i in news:
+		learn_list.append([i.id,i.publisher,i.title,i.content,str(i.images),i.time,i.like])
+	return JsonResponse(learn_list,safe=False)
+
+# def content_learn(request,learn_id):
+# 	# request.session['new_id'] = new_id
+# 	learns =models.Learns.objects.get(pk=learn_id)
+# 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
+# 	return render(request, 'campus/content_learn.html',{'learns':learns,'comments':comments})
+
+# =======
 	
+# >>>>>>> 4e3625ac8e179172939e74548ac2d6d7da9fdbf8
 def forgotPassword(request):
 	return render(request,'campus/forgotPassword.html')
 
@@ -327,7 +362,37 @@ def uploadImg(request):
 	user.userPicture = image
 	print (user.userPicture)
 	user.save()
-	return redirect('/mycampus/member')
+	return redirect('/mycampus/setting_information')
+# 个人资料
+def user(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	return render(request, 'campus/user.html',{'user':user})
+# 修改个人资料
+def setting_information(request):
+	userId = request.session.get('userId',default=None)
+	user = models.User.objects.get(pk=userId)
+	return render(request, 'campus/setting_information.html',{'user':user})
+# ajax验证用户名
+def cheack_name(request):
+	name = request.GET.get('name')
+	user = models.User.objects.get(userName=name)
+	mydict1 = {'name':0}
+	mydict2 = {'name':1}
+	if user:
+		return JsonResponse(mydict1)
+	else:
+		return JsonResponse(mydict2)
+# 修改个人资料
+def change_user(request):
+	userId = request.session.get('userId')
+	print(userId)
+	userName = request.POST.get('userName')
+	password =request.POST.get('password')
+	email = request.POST.get('email')
+	phone =request.POST.get('phone')
+	models.User.objects.filter(pk=userId).update(userName=userName,password=password,email=email,phone=phone)
+	return redirect('/mycampus/user/')
 #我的贴子
 def mypost(request):
 	userId = request.session.get('userId',default=None)
@@ -358,4 +423,3 @@ def search(request):
 	newstitles = models.News.objects.filter(title__contains = keyword ).order_by("-time")
 	newspublishers = models.News.objects.filter(publisher__contains = keyword ).order_by("-time")
 	return render(request,'campus/search.html', {'newstitles':newstitles ,'newspublishers':newspublishers })
-

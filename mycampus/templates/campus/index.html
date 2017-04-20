@@ -8,6 +8,7 @@
 	<link rel="icon" href="data:image/ico;base64,aWNv">
 	<link rel="stylesheet" type="text/css" href="/static/css/aui.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/aui-pull-refresh.css" />
 	<style type="text/css">
     body {
         background: #ffffff;
@@ -19,16 +20,25 @@
         width: auto;
         height: 100%;
     }
+    .aui-refresh-load{
+    	top: -1.2rem;
+    }
+    .aui-slide-page-active{
+    	background-color: #707070;
+    }
+    .aui-refresh-pull-arrow{
+    	background-image: url('data:image/svg+xml;charset=utf-8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M99.225 3.528c8.34 0 15.104 6.763 15.104 15.105 0 8.34-6.766 15.105-15.105 15.105-8.342 0-15.105-6.763-15.105-15.105S90.883 3.528 99.225 3.528zM76.567 48.843h45.315c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H76.567c-4.172 0-7.553-3.38-7.553-7.552v-5.035c0-4.172 3.38-7.552 7.553-7.552zm-10.07 35.245h65.455c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H66.497c-4.172 0-7.553-3.38-7.553-7.552V91.64c0-4.172 3.38-7.552 7.553-7.552zm8.044 87.596c-20.397-23.16-45.805-52.352-45.805-52.352h140.98s-25.146 28.735-45.4 51.884c-33.454 38.234-18.118 36.4-49.774.468z" fill="#27AE60" class="transform-group"/></svg>')
+    }
     </style>
 </head>
 <body>
 <!-- 头部 -->
-	<header class="aui-bar aui-bar-nav" id="wrap" style="background-color: #27AE60;padding-top:12px; ">
+	<header class="aui-bar aui-bar-nav" id="header" style="background-color: #27AE60;padding-top:12px; ">
 	    <a class="aui-pull-left">
 	    {% if user.userPicture %}
-	    	<img src="/static/{{user.userPicture}}" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
+	    	<img src="/static/{{user.userPicture}}" class="aui-img-round" style="width:32px;height: 32px;margin: 5px 0 5px 0;" />
         {% else %}
-            <img src="/static/user_img/default.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;" />
+            <img src="/static/user_img/default.jpg" class="aui-img-round" style="width:1.5rem;padding-top: 8px;margin: 5px 0 5px 0;" />
         {% endif %}
 	    </a>
 	    <div class="aui-title">首页</div>
@@ -36,17 +46,12 @@
 	<div class="aui-content aui-flex-center">
 
 		<div class="aui-searchbar" id="search">
-		<form  action="{% url 'mycampus:search' %}" method="post" >
+		<form  action="{% url 'mycampus:search' %}" method="post" id="my_form">
 			{% csrf_token %}
 		    <div class="aui-searchbar-input aui-border-radius" tapmode="" >
-		    	<!-- <textarea id="keyword" placeholder="请输入搜索内容..." name="keyword" "></textarea> -->
-		        <input type="text" placeholder="请输入搜索内容" id="keyword" name= "keyword" >
-		        <input type="submit" class="aui-btn" name="enter">
-		        <i class="aui-iconfont aui-icon-search"></i>
-		        <form action="javascript:search();">
-		            <input  type="search" placeholder="请输入搜索内容" id="search-input">
-		        </form>
-		         <input type="text" name="keyword" id="keyword"  onkeydown="entersearch()"/>
+		        <input type="text" placeholder="请输入搜索内容" id="keyword" name= "keyword" style="width: 90%">
+		        <input type="submit" class="aui-btn" name="enter" style="display: none;">
+		        <i class="aui-iconfont aui-icon-search" style="font-size: 20px;padding: 5px;" id="sub"></i>
 		    </div>
 		</form>
 		</div>
@@ -79,13 +84,13 @@
 	    </div>
     </section>
     <!-- 图文内容 列表-->
-    <section class="aui-content">
+    <section class="aui-refresh-content" style="padding-bottom: 50px;">
     	<div class="aui-content">
-	        <ul class="aui-list aui-media-list">
+	        <ul class="aui-list aui-media-list" id="demo">
 	        {% for new in news %}
 	        {% if new.images %}
-	         	<!-- 有图片 -->
-	        	<a href="{% url 'mycampus:content' new.id %}">
+	        <!-- 有图片 -->
+	        <a href="{% url 'mycampus:content' new.id %}" class="aui-card-list">
 		        <li class="aui-list-item">
 	   	            <div class="aui-media-list-item-inner">
 	                    <div class="aui-list-item-inner">
@@ -101,33 +106,33 @@
 	                        </div>
 	                    </div>
 	                    	<div class="aui-list-item-media">
-	                        <img src="/static/{{ new.images }}">
+	                        <img src="/static/{{ new.images }}" style="max-height: 4.5rem">
 	                    	</div>
 	                </div>
 	            </li>
-	            </a>
-	        {% else %}
-	            <!-- 无图片 -->
-	            <a href="{% url 'mycampus:content' new.id %}">
-	            <li class="aui-list-item">
-	                <div class="aui-media-list-item-inner">
-	                    <div class="aui-list-item-inner">
-	                        <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
-	                        <div class="aui-list-item-text">
-	                            <p class="aui-ellipsis-2">{{new.content}}</p>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="aui-info">
-	                    <div class="aui-info-item aui-font-size-12">
-	                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
-	                        <span class="aui-margin-l-5">{{new.publisher}}</span>
-	                    </div>
-	                    <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
-	                    <div class="aui-info-item aui-font-size-12">评论{{new.counts}}</div>
-	                </div>
-	            </li> 
-	            </a>
+        	</a>
+            {% else %}
+            <!-- 无图片 -->
+            <a href="{% url 'mycampus:content' new.id %}" class="aui-card-list">
+            <li class="aui-list-item">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title aui-font-size-18">{{new.title}}</div>
+                        <div class="aui-list-item-text">
+                            <p class="aui-ellipsis-2">{{new.content}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-info">
+                    <div class="aui-info-item aui-font-size-12">
+                       <!--  <img src="/static/{{article.images}}" style="width:1rem" class="aui-img-round"> -->
+                        <span class="aui-margin-l-5">{{new.publisher}}</span>
+                    </div>
+                    <div class="aui-info-item aui-font-size-12">{{new.time|date:"Y-m-d H:i" }}</div>
+                    <div class="aui-info-item aui-font-size-12">评论{{new.counts}}</div>
+                </div>
+            </li> 
+            </a>
 	        {% endif %}
 	        {% endfor %}
 	        </ul>
@@ -154,19 +159,38 @@
 	    <div class="aui-bar-tab-item" tapmode>
 	        <div class="aui-dot"></div>
 	        <i class="aui-iconfont aui-icon-my"></i>
-	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:member' %}" style="color: #000">我的</a></div>
+	        <div class="aui-bar-tab-label"><a href="{% url 'mycampus:user' %}" style="color: #000">我的</a></div>
 	    </div>
 	</footer>
+	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript" src="/static/js/aui-slide.js"></script>
+	<script type="text/javascript" src="/static/js/aui-pull-refresh.js"></script>
+	<script type="text/javascript" src="/static/js/aui-lazyload.js" ></script>
+	<!-- IOS兼容 -->
 	<script type="text/javascript">
-    apiready = function(){
-        if(api.systemType == 'ios'){
-            scaleEnabled = true;
-            document.getElementById('wrap').style.paddingTop = '12px';
-        }
-        };
+	    apiready = function(){
+		        if(api.systemType == 'ios'){
+		            scaleEnabled = true;
+		            // document.getElementById('header').style.paddingTop = '10px';
+		        }
+                //支持沉浸式效果
+		        if (!api.statusBarAppearance) {
+		           document.getElementById('header').style.paddingTop = '0px';
+		        }
+				// <!-- 图片懒加载 -->
+			    new auiLazyload({
+			        errorImage:'../image/error-img.png'
+			    });
+	        };
 	</script>
+	<!-- 提交搜索表单 -->
+	<script type="text/javascript">
+		$("#sub").click(function(){
+			$("#my_form").submit();
+		});
+	</script>
+	<!-- 图片滚动 -->
 	<script type="text/javascript">
 	    var slide = new auiSlide({
 	        container:document.getElementById("aui-slide"),
@@ -184,7 +208,77 @@
 	        console.log(index);
 	    }
 	</script>
-
+	<!-- 下拉刷新 -->
+	<script type="text/javascript">
+        var count=4;
+        var pullRefresh = new auiPullToRefresh({
+            container: document.querySelector('.aui-refresh-content'),
+            triggerDistance: 100
+        },function(ret){
+            if(ret.status=="success"){
+                setTimeout(function(){
+                    var j=0;
+                    var urls = 'mycampus:content';
+                    $.getJSON("{% url 'mycampus:index_refresh' %}",{'a':count},function(item){
+                        //返回值 ret 在这里是一个列表 把 ret 的每一项显示在网页上
+                        var wrap = document.getElementById("demo")
+                        // var lis = wrap.querySelectorAll('.aui-card-list');
+                        for (var i = 0, length = 4; i < length; i++,j++) {
+                        	if(item[j][4]=='')
+                        		var html ='<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
+                        						+'<li class="aui-list-item">'
+		                                            +'<div class="aui-media-list-item-inner">'
+		                                                +'<div class="aui-list-item-inner">'
+		                                                	+'<div class="aui-list-item-title aui-font-size-18">'+item[j][2]+'</div>'
+		                        							+'<div class="aui-list-item-text">'
+		                            							+'<p class="aui-ellipsis-2">'+item[j][3]+'</p>'
+		                        							+'</div>'
+		                        						+'</div>'
+	                        						+'</div>'
+	                        						+'<div class="aui-info">'
+		                    							+'<div class="aui-info-item aui-font-size-12">'
+		                        							+'<span class="aui-margin-l-5">'+item[j][1]+'</span>'
+		                    							+'</div>'
+		                    							+'<div class="aui-info-item aui-font-size-12">'+item[j][5]+'</div>'
+		                    							+'<div class="aui-info-item aui-font-size-12">26条评论</div>'
+		               								+'</div>'
+	               								+'</li>'
+               								+'</a>'
+                        	else{
+                        		var html ='<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
+		                                        +'<li class="aui-list-item">'
+		                                            +'<div class="aui-media-list-item-inner">'
+		                                                +'<div class="aui-list-item-inner">'
+		                                                    +'<div class="aui-list-item-text">'
+		                                                        +'<div class="aui-list-item-title aui-font-size-18">'+item[j][2]+'</div>'
+		                                                    +'</div>'
+		                                                    +'<div class="aui-info aui-padded-b-0">'
+		                                                        +'<div class="aui-info-item aui-font-size-12">'
+		                                                            +'<span class="aui-margin-l-5">'+item[j][1]+'</span>'
+		                                                        +'</div>'
+		                                                        +'<div class="aui-info-item aui-font-size-12">'+(item[j][5])+'</div>'
+		                                                        +'<div class="aui-info-item aui-font-size-12">26条评论</div>'
+		                                                    +'</div>'
+		                                                +'</div>'
+		                                                +'<div class="aui-list-item-media">'
+		                                                    +'<img src="/static/'+item[j][4]+'">'
+		                                                +'</div>'
+		                                            +'</div>'
+		                                        +'</li>'
+		                                    +'</a>';
+                        	}
+                            
+                            wrap.insertAdjacentHTML('afterbegin', html);
+                        }
+                        count =count+j;
+                        // }
+                        
+                    })
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                },1500)
+            }
+        })
+    </script>
 
 </body>
 </html>

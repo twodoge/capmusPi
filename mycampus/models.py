@@ -15,6 +15,14 @@ class News(models.Model):
 	content = models.CharField(max_length=2000,null=True)
 	images = models.ImageField(upload_to='news-img',null=True)
 	time = models.DateTimeField(auto_now_add=True)
+# <<<<<<< HEAD
+# 	like = models.IntegerField(null=True)
+# 	def __unicode__(self):
+# 		return '%s' % (self.catname)
+# 	def toJSON(self):
+# 		import json
+# 		return json.dumps(dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]]))
+# =======
 	likes = models.IntegerField(default=0,null=True)
 	counts = models.IntegerField(default=0,null=True)
 	uid = models.CharField(max_length=20)
