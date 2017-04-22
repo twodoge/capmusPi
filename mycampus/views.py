@@ -100,9 +100,10 @@ def member(request):
 #详细内容页面
 def content(request,new_id):
 	news =models.News.objects.get(pk=new_id)
+	new_user = models.User.objects.get(userName=news.publisher)
 	comments = models.Comments_News.objects.filter(new_id=new_id)
 	childcomments = models.ChildComments_News.objects.filter(new_id=new_id)
-	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
+	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments,'new_user_pictrue':new_user.userPicture})
 #发表新闻评论
 def comments_news(request,new_id):
 	news =models.News.objects.get(pk=new_id)
@@ -193,9 +194,11 @@ def content_learn(request,learn_id):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	learns =models.Learns.objects.get(pk=learn_id)
+	new_user = models.User.objects.get(userName=learns.publisher)
+	print (new_user.userPicture)
 	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
 	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
-	return render(request, 'campus/content_learn.html',{'user':user,'learns':learns,'comments':comments,'childcomments':childcomments})
+	return render(request, 'campus/content_learn.html',{'user':user,'learns':learns,'comments':comments,'childcomments':childcomments,'new_user_pictrue':new_user.userPicture})
 
 #评论学习
 def comments_learn(request,learn_id):
@@ -366,7 +369,10 @@ def uploadImg(request):
 def user(request):
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
-	return render(request, 'campus/user.html',{'user':user})
+	news_count = models.News.objects.filter(publisher=user.userName).count()
+	learn_count = models.Learns.objects.filter(publisher=user.userName).count()
+	count = news_count+learn_count
+	return render(request, 'campus/user.html',{'user':user,'count':count})
 # 修改个人资料
 def setting_information(request):
 	userId = request.session.get('userId',default=None)
@@ -420,3 +426,10 @@ def search(request):
 	newstitles = models.News.objects.filter(title__contains = keyword ).order_by("-time")
 	newspublishers = models.News.objects.filter(publisher__contains = keyword ).order_by("-time")
 	return render(request,'campus/search.html', {'newstitles':newstitles ,'newspublishers':newspublishers })
+# 退出登录
+def login_out(request):
+	try:
+		del request.session['userId']
+	except KeyError:
+		pass
+	return render(request, 'campus/login.html')

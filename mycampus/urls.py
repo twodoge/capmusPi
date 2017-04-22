@@ -44,4 +44,5 @@ urlpatterns = [
 	url(r'^delete_mynew/(?P<mynew_id>[0-9]+)$',vs.delete_mynew,name='delete_mynew'),
 	url(r'^delete_mylearn/(?P<mylearn_id>[0-9]+)$',vs.delete_mylearn,name='delete_mylearn'),
 	url(r'^search/$',vs.search,name='search'),
+	url(r'login_out/$',vs.login_out ,name='login_out'),
 ]

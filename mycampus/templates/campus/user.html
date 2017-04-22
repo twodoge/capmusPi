@@ -48,26 +48,13 @@
 	            </a>
             </ul>
         </div>
-
-        <!-- 账号与安全 -->
-<!--         <div class="aui-content aui-margin-b-15">
-            <ul class="aui-list aui-list-in">
-                <li class="aui-list-item aui-list-item-middle" onclick="alert('弹出账号与安全');">
-                    <div class="aui-list-item-inner aui-list-item-arrow">
-                        <div class="aui-list-item-title">账号与安全</div>
-                    </div>
-                </li>
-            </ul>
-        </div> -->
-
-        <!--  -->
         <div class="aui-content aui-margin-b-15">
             <ul class="aui-list aui-list-in">
                <a href="{% url 'mycampus:mypost' %}" style="color: #000">
                 <li class="aui-list-item aui-list-item-middle">
                     <div class="aui-list-item-inner aui-list-item-arrow">
                         <div class="aui-list-item-title">我的发表</div>
-                        <div class="aui-badge" style="position:relative;top:0; left:0;background-color: #27AE60"">25</div>
+                        <div class="aui-badge" style="position:relative;top:0; left:0;background-color: #27AE60"">{{count}}</div>
                     </div>
                 </li>
                </a>
@@ -129,13 +116,13 @@
 	    </section>
 
         <!-- 退出登录 -->
-        <a href="{% url 'mycampus:login' %}">
+        <a href="{% url 'mycampus:login_out' %}">
         <div class="aui-content aui-margin-b-15 aui-padded-l-10 aui-padded-r-10">
-           <a href="{% url 'mycampus:login' %}" style="color: #fff">
+           <!-- <a href="{% url 'mycampus:login' %}" style="color: #fff" -->
             <div class="aui-btn aui-btn-danger aui-btn-block aui-btn-sm">
                 退出登录
             </div>
-           </a>
+           <!-- </a> -->
         </div>
         </a>
     </section>
