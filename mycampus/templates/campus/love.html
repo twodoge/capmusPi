@@ -36,8 +36,10 @@
             <span class="aui-iconfont aui-icon-plus"></span>
         </a>
     </header>
+
     <!-- 表白墙 -->
     <section class="aui-content" id="lovewall" >
+
         <div class="aui-timeline">
         <div class="aui-timeline-item-header"><!-- {{loves.time|date:"Y-m-d H:i" }} --></div>
         {% for love in loves %}
@@ -85,13 +87,11 @@
             {% endif %}
         {% endfor %}
         </div>
-
-      
-        
-
     </section>
+
     <!-- 吐槽墙 -->
     <section class="aui-content" id="Teasingwall" >
+
         <div class="aui-timeline">
         <div class="aui-timeline-item-header">{{teasing.time|date:"Y-m-d H:i" }}</div>
         {% for teasing in teasings %}

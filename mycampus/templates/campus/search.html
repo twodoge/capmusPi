@@ -42,7 +42,9 @@
 	
     <!-- 图文内容 列表-->
     <section class="aui-content">
+    {% if newstitle %}
    	<div class="aui-content aui-media-list">相关标题 ：</div>
+   	{% endif %}
     	<div class="aui-content">
 	        <ul class="aui-list aui-media-list">
 	        {% for newstitle in newstitles %}
@@ -99,7 +101,9 @@
     </section>
 
     <section class="aui-content">
+    {% if newspublisher %}
     <div class="aui-content aui-media-list">相关作者 ：</div>
+    {% endif %}
     	<div class="aui-content">
 	        <ul class="aui-list aui-media-list">
 	        {% for newspublisher in newspublishers %}

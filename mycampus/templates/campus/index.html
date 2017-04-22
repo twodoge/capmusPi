@@ -60,25 +60,15 @@
     <section class="aui-content">
     	<div id="aui-slide" style="position: relative; height: 260px;">
 	        <div class="aui-slide-wrap">
-	            <div class="aui-slide-node bg-dark" style="transform: translate3d(-1532px, 0px, 0px); transition-duration: 0ms;">
-	                <img src="/static/image/IMG_1222.JPG">
+	        {% for slide in slides %}
+	        {% if slide.images %}
+	        <a href="{% url 'mycampus:content' slide.id %}" >
+	         	<div class="aui-slide-node bg-dark" style="transform: translate3d(-1532px, 0px, 0px); transition-duration: 10ms;">
+	                <img src="/static/{{slide.images}}">
 	            </div>
-	            <div class="aui-slide-node bg-dark" style="transform: translate3d(-1902px, 0px, 0px); transition-duration: 0ms;">
-	                <img src="/static/image/l3.png">
-	            </div>
-	            <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center" style="transform: translate3d(1532px, 0px, 0px); transition-duration: 300ms;">
-	                <div class="aui-content-padded">
-	                    <span class="aui-text-danger">AUI Slide</span> 轮播组件不只局限于放置图片，可以自定义内容，分页样式有圆点(dot)，线条(line),结合AUI Flex来实现图片及内容的水平、垂直居中
-	                </div>
-	            </div>
-	            <div class="aui-slide-node aui-bg-warning aui-slide-node-middle aui-slide-node-center" style="transform: translate3d(-1532px, 0px, 0px); transition-duration: 0ms;">
-	                <div class="aui-content-padded">
-	                    <span class="aui-text-danger">AUI Slide</span>提供了常用的配置属性，可以自定义宽度，高度，自动播放，分页器样式等，支持无缝循环轮播
-	                </div>
-	            </div>
-	            <div class="aui-slide-node bg-dark" style="transform: translate3d(-1532px, 0px, 0px); transition-duration: 0ms;">
-	                <img src="/static/image/l1.png">
-	            </div>
+	        </a>
+	        {% endif %}
+	        {% endfor %}
 	        </div>
 	        <div class="aui-slide-page-wrap" style="text-align: center;"><span class="aui-slide-page aui-slide-page-dot aui-slide-page-active"></span><span class="aui-slide-page aui-slide-page-dot"></span><span class="aui-slide-page aui-slide-page-dot"></span><span class="aui-slide-page aui-slide-page-dot"></span><span class="aui-slide-page aui-slide-page-dot"></span><span class="aui-slide-page aui-slide-page-dot"></span></div>
 	    </div>

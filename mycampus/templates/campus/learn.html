@@ -44,7 +44,8 @@
     <section class="aui-refresh-content" style="padding-bottom: 48px;">
         <ul class="aui-list aui-media-list" id="demo">
         {% for learn in learns %}
-           <a href="{% url 'mycampus:content_learn' learn.id %}">
+            {% if learn.images %}
+            <a href="{% url 'mycampus:content_learn' learn.id %}">
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
@@ -66,8 +67,33 @@
                     </div>
                 </div>
             </li>
-           </a>
-            {% endfor %}
+            </a>
+            {% else %}
+            <a href="{% url 'mycampus:content_learn' learn.id %}">
+            <li class="aui-list-item">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <!-- <img src="/static/{{learn.images}}"> -->
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title" style="color:#4c5276">{{learn.publisher}}</div>
+                        </div>
+                        <div class="aui-list-item-text" style="color:#333;">
+                            {{learn.title}}
+                        </div>
+                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                            <div class="aui-info-item">{{learn.time|date:"Y-m-d H:i"}}</div>
+                            <div class="aui-info-item">
+                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            </a>
+            {% endif %}
+        {% endfor %}
         </ul>
     </section>
 

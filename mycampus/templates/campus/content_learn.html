@@ -61,13 +61,15 @@
                 <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
                     <div class="aui-info-item"></div>
                     <div class="aui-info-item" style="">
-                        <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">10</font></i>
-                        <i class="aui-iconfont aui-icon-like" style="color:#e91e63;font-size: 1.4rem"><font style="font-size: 15px;">100</font></i>
+                        <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">{{learns.counts}}</font></i>
+                        <a href="{% url 'mycampus:learns_like_post' learns.id  %}" >
+                        <i class="aui-iconfont aui-icon-like" style="color:#e91e63;font-size: 1.4rem"><font style="font-size: 15px;">{{learns.likes}}</font></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-            <!-- 发表评论 -->
+            <!-- 发表父评论 -->
             <div class="aui-card-list comment_content" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
                 <form role="form" action="{% url 'mycampus:comments_learn' learns.id  %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -85,10 +87,10 @@
                 </form>
             </div>
     </section>
-    <!-- 评论内容 -->
+    <!-- 显示父评论内容 -->
       
     <section class="aui-content-padded">
-          {% for comment in comments %}
+        {% for comment in comments %}
         <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
             <div class="aui-card-list-header" style="padding: 0;">
                 <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
@@ -109,10 +111,9 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        <!-- 发表评论 -->
+        <!-- 发表子评论 -->
             <div class="aui-card-list comment_content2" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
-                <form role="form" action="{% url 'mycampus:comments_learn' learns.id %}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{% url 'mycampus:childcomments_learns' comment.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
                             <input type="file" name="image" onchange="imgPreview(this)" />
@@ -128,6 +129,29 @@
                 </form>
             </div>
         </div>
+        {% endfor %}
+        {% for childcomment in childcomments %}
+        <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
+            <div class="aui-card-list-header" style="padding: 0;">
+                <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                    <div class="aui-info-item">
+                        <img src="/static/{{childcomment.images}}" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{childcomment.critisID}}</h3></span>
+                    </div>
+                    <div class="aui-info-item">{{ childcomment.time|date:"Y-m-d H:i" }}</div>
+            </div>
+        </div>
+            <div class="aui-card-list-content-padded">
+                <div>{{childcomment.content}}</div>
+                <div class="footer">
+                    <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                        <div class="aui-info-item"></div>
+                        <div class="aui-info-item">
+                            <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment2" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">10</font></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
        <!--  <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
             <div class="aui-card-list-header" style="padding: 0;">
                 <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">

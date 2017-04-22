@@ -46,6 +46,7 @@
         <div class="aui-list-item-right">我的新闻贴:共{{ mynewscount }}贴</div>
          <ul class="aui-list aui-media-list">
         {% for mynew in mynews %}
+            {% if mynew.images %}
             <form role="form"   method="post" enctype="multipart/form-data" >
             <li class="aui-list-item" >
                 <div class="aui-media-list-item-inner"  >
@@ -73,7 +74,36 @@
                 </div>
             </li>
             </form>
-            {% endfor %}
+            {% else %}
+            <form role="form"   method="post" enctype="multipart/form-data" >
+            <li class="aui-list-item" >
+                <div class="aui-media-list-item-inner"  >
+                    <div class="aui-list-item-media">
+                        <!-- <img src="/static/{{mynew.images}}"> -->
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title" style="color:#4c5276">{{mynew.publisher}}</div>
+                        </div>
+                        <div class="aui-list-item-text" style="color:#333;">
+                            {{mynew.title}}
+                        </div>
+                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                            <div class="aui-info-item" name="time">{{mynew.time|date:"Y-m-d H:i"}}</div>
+                            <div class="aui-info-item">
+                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276">
+                                <a  href="{% url 'mycampus:delete_mynew' mynew.id %}" style="color: #000">
+                                删除
+                                </a>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            </form>
+            {% endif %}
+        {% endfor %}
         </ul>
         
     </section>
@@ -83,6 +113,8 @@
         <div class="aui-list-item-right">我的学习贴:共{{ mylearnscount }}贴</div>
        <ul class="aui-list aui-media-list">
         {% for mylearn in mylearns %}
+            {% if mylearn.images %}
+            <form role="form"   method="post" enctype="multipart/form-data" >
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
@@ -108,7 +140,37 @@
                     </div>
                 </div>
             </li>
-            {% endfor %}
+            </form>
+            {% else %}
+            <form role="form"   method="post" enctype="multipart/form-data" >
+            <li class="aui-list-item">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <!-- <img src="/static/{{mylearn.images}}"> -->
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title" style="color:#4c5276">{{mylearn.publisher}}</div>
+                        </div>
+                        <div class="aui-list-item-text" style="color:#333;">
+                            {{mylearn.title}}
+                        </div>
+                        <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                            <div class="aui-info-item">{{mylearn.time|date:"Y-m-d H:i"}}</div>
+                            <div class="aui-info-item">
+                                <i class="aui-iconfont aui-icon-comment" style="color:#4c5276">
+                                <a  href="{% url 'mycampus:delete_mylearn' mylearn.id  %}" style="color: #000">
+                                删除
+                                </a>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            </form>
+            {% endif %}
+        {% endfor %}
         </ul>
 
     </section>
