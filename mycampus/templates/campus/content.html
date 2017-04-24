@@ -88,15 +88,15 @@
         </div>
             <!-- 发表父评论 -->
             <div class="aui-card-list comment_content" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
-                <form role="form" action="{% url 'mycampus:comments_news' news.id  %}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{% url 'mycampus:comments_news' news.id  %}" method="post" enctype="multipart/form-data" onsubmit="return check_father()">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
                             <input type="file" name="image" onchange="imgPreview(this)" />
                     </div>
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
-                        <textarea id="content" placeholder="评论..." name="content" onblur="return cheack_title()"></textarea>
-                        </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
+                        <textarea id="content" placeholder="评论..." name="content"></textarea>
+                        </span><span id="errorecontent" style="display:none;color:red;">评论不能为空！</span>
                     </div>
                     <div class="aui-card-list-footer">
                           <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
@@ -123,18 +123,18 @@
                             <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
                                 <div class="aui-info-item"></div>
                                 <div class="aui-info-item"> 
-                                    <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment1" onclick="get_id('{{comment.id}}')" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;"><!-- {{childcomments}} --></font></i>
+                                    <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment1" onclick="get_id('{{comment.id}}')" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">…</font></i>
                                 </div>
                             </div>
                         </div>
                     </div>  
                     <!-- 发表子评论 -->
                     <div class="aui-card-list comment{{comment.id}}" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
-                        <form role="form" action="{% url 'mycampus:childcomments_news' comment.id %}" method="post" enctype="multipart/form-data">
+                        <form role="form" action="{% url 'mycampus:childcomments_news' comment.id %}" method="post" enctype="multipart/form-data" onsubmit="return check_child()">
                             {% csrf_token %}
                             <div class="aui-card-list-content-padded">
                                 <!-- <img id="preview" /><br/> -->
-                                <textarea id="content" placeholder="回复..." name="content" onblur="return cheack_title()"></textarea>
+                                <textarea id="title" placeholder="回复..." name="content" onblur="return cheack_title()"></textarea>
                                 </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
                             </div>
                             <div class="aui-card-list-footer">
@@ -169,15 +169,11 @@
             </div>  
             <!-- 发表子评论 -->
             <div class="aui-card-list comment{{comment.id}}" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
-                <!-- <input type="text" name="comment_content_id" id="comment_content_id" value="comment_content{{comment.id}}" style="display: none;"> -->
-                <form role="form" action="{% url 'mycampus:childcomments_news' comment.id %}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{% url 'mycampus:childcomments_news' comment.id %}" method="post" enctype="multipart/form-data" onsubmit="return check_child()">
                     {% csrf_token %}
-                    <!-- <div class="aui-card-list-header">
-                            <input type="file" name="image" onchange="imgPreview(this)" />
-                    </div> -->
                     <div class="aui-card-list-content-padded">
                         <!-- <img id="preview" /><br/> -->
-                        <textarea id="content" placeholder="回复..." name="content" onblur="return cheack_title()"></textarea>
+                        <textarea id="title" placeholder="回复..." name="content"></textarea>
                         </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
                     </div>
                     <div class="aui-card-list-footer">
@@ -228,6 +224,32 @@
                 }
             });
         });
+    </script>
+    <script type="text/javascript">
+        function check_father(){
+            var content = $("#content").val();
+            if(content.length<1){
+                $("#errorecontent").show();
+                return false;
+            }
+            else{
+                $("#errorecontent").hide();
+                return true;
+            }
+
+        }
+        function check_child(){
+            var title = $("#title").val();
+            if(title.length<1){
+                $("#erroretitle").show();
+                return false;
+            }
+            else{
+                $("#erroretitle").hide();
+                return true;
+            }
+
+        }
     </script>
 </body>
 </html>
