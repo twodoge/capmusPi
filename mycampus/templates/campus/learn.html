@@ -31,9 +31,6 @@
 <body>
 <div id="content">
     <header class="aui-bar aui-bar-nav" id="header" style="background-color: #27AE60;padding-top:12px; ">
-        <a class="aui-btn aui-pull-left" tapmode="" onclick="closeWin()">
-            <span class="aui-iconfont aui-icon-left"></span>
-        </a>
         <div class="aui-title">研讨天地</div>
         <a class="btn aui-btn aui-pull-right show-layer" data-show-layer="hw-layer" role="button">
             <span class="aui-iconfont aui-icon-plus"></span>
@@ -49,13 +46,13 @@
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media">
-                        <img src="/static/{{learn.images}}">
+                        <img src="/static/{{learn.images}}" style="height:3.5rem;">
                     </div>
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-text">
-                            <div class="aui-list-item-title" style="color:#4c5276">{{learn.publisher}}</div>
+                            <div class="aui-list-item-title" style="color:#333;font-size:19px;">{{learn.publisher}}</div>
                         </div>
-                        <div class="aui-list-item-text" style="color:#333;">
+                        <div class="aui-list-item-text" style="color:#4c5276;">
                             {{learn.title}}
                         </div>
                         <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
@@ -72,14 +69,14 @@
             <a href="{% url 'mycampus:content_learn' learn.id %}">
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
-                    <div class="aui-list-item-media">
-                        <!-- <img src="/static/{{learn.images}}"> -->
-                    </div>
+                    <!-- <div class="aui-list-item-media">
+                        <img src="/static/{{learn.images}}">
+                    </div> -->
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-text">
-                            <div class="aui-list-item-title" style="color:#4c5276">{{learn.publisher}}</div>
+                            <div class="aui-list-item-title" style="color:#333;font-size:19px;">{{learn.publisher}}</div>
                         </div>
-                        <div class="aui-list-item-text" style="color:#333;">
+                        <div class="aui-list-item-text" style="color:#4c5276;">
                             {{learn.title}}
                         </div>
                         <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
@@ -124,14 +121,14 @@
     <div class="hw-overlay" id="hw-layer"> 
         <div class="hw-layer-wrap"> 
             <div class="aui-card-list">
-                <form role="form" action="{% url 'mycampus:send_learn' %}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{% url 'mycampus:send_learn' %}" method="post" enctype="multipart/form-data" onsubmit="return check()">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
                         <input type="file" name="image" onchange="imgPreview(this)" />
                     </div>
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
-                        <textarea id="title" placeholder="标题..." name="title" onblur="return cheack_title()"></textarea>
+                        <textarea id="title" placeholder="标题..." name="title" onblur="cheack_title()"></textarea>
                         </span><span id="erroretitle" style="display:none;color:red;">标题不能为空！</span>
                         <textarea id="content" placeholder="研讨天地..." name="content"></textarea>
                        <!--  </span><span id="errorcontent" style="display:none;color:red;">内容不能为空！</span> -->
@@ -163,6 +160,25 @@
                    document.getElementById('header').style.paddingTop = '0px';
                 }
             };
+        function cheack_title(){
+            var title = document.getElementById('title').value;
+            if (title == '' || title==undefined ||title==null|| content == ''||content==undefined||content==null) {
+            document.getElementById('erroretitle').style.display = "block";
+            return false;
+            }
+            else{
+                document.getElementById('erroretitle').style.display = "none";
+                return true;
+            }
+        }
+        function check(){
+            if(!cheack_title()){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
     </script>
     <!-- 下拉刷新 -->
     <script type="text/javascript">
@@ -174,36 +190,62 @@
             if(ret.status=="success"){
                 setTimeout(function(){
                     var j=0;
-                    var urls = 'mycampus:content_learn';
+                    // var urls = 'mycampus:content_learn';
+                    var urls = '/mycampus/content_learn/';
                     $.getJSON("{% url 'mycampus:learn_refresh' %}",{'a':count},function(item){
                         //返回值 ret 在这里是一个列表 把 ret 的每一项显示在网页上
                         var wrap = document.getElementById("demo")
                         // var lis = wrap.querySelectorAll('.aui-card-list');
                         for (var i = 0, length = 4; i < length; i++,j++) {
-                            var html ='<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
-                                            +'<li class="aui-list-item">'
-                                                +'<div class="aui-media-list-item-inner">'
-                                                    +'<div class="aui-list-item-media">'
-                                                        +'<img src="/static/'+item[j][4]+'">'
-                                                    +'</div>'
-                                                    +'<div class="aui-list-item-inner">'
-                                                        +'<div class="aui-list-item-text">'
-                                                            +'<div class="aui-list-item-title" style="color:#4c5276">'+item[j][1]
+                            var date1 = item[j][5].substr(0,10);
+                            var date2 = item[j][5].substr(11,5);
+                            if(item[j][4])
+                                var html ='<a href="'+urls+item[j][0]+'" >'
+                                                +'<li class="aui-list-item">'
+                                                    +'<div class="aui-media-list-item-inner">'
+                                                        +'<div class="aui-list-item-media">'
+                                                            +'<img src="/static/'+item[j][4]+'" style="height:3.5rem;">'
+                                                        +'</div>'
+                                                        +'<div class="aui-list-item-inner">'
+                                                            +'<div class="aui-list-item-text">'
+                                                                +'<div class="aui-list-item-title" style="color:#333;font-size:19px;">'+item[j][1]
+                                                                +'</div>'
+                                                            +'</div>'
+                                                            +'<div class="aui-list-item-text" style="color:#4c5276;">'
+                                                                +item[j][2]
+                                                            +'</div>'
+                                                            +'<div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">'
+                                                                +'<div class="aui-info-item">'+date1+' '+date2+'</div>'
+                                                                +'<div class="aui-info-item">'
+                                                                    +'<i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>'
+                                                                +'</div>'
                                                             +'</div>'
                                                         +'</div>'
-                                                        +'<div class="aui-list-item-text" style="color:#333;">'
-                                                            +item[j][2]
-                                                        +'</div>'
-                                                        +'<div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">'
-                                                            +'<div class="aui-info-item">'+item[j][5]+'</div>'
-                                                            +'<div class="aui-info-item">'
-                                                                +'<i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>'
+                                                    +'</div>'
+                                                +'</li>'
+                                            +'</a>';
+                            else
+                                var html ='<a href="'+urls+item[j][0]+'" >'
+                                                +'<li class="aui-list-item">'
+                                                    +'<div class="aui-media-list-item-inner">'
+                                                        +'<div class="aui-list-item-inner">'
+                                                            +'<div class="aui-list-item-text">'
+                                                                +'<div class="aui-list-item-title" style="color:#333;font-size:19px;">'+item[j][1]
+                                                                +'</div>'
+                                                            +'</div>'
+                                                            +'<div class="aui-list-item-text" style="color:#4c5276;">'
+                                                                +item[j][2]
+                                                            +'</div>'
+                                                            +'<div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">'
+                                                                +'<div class="aui-info-item">'+date1+' '+date2+'</div>'
+                                                                +'<div class="aui-info-item">'
+                                                                    +'<i class="aui-iconfont aui-icon-comment" style="color:#4c5276"></i>'
+                                                                +'</div>'
                                                             +'</div>'
                                                         +'</div>'
                                                     +'</div>'
-                                                +'</div>'
-                                            +'</li>'
-                                        +'</a>';
+                                                +'</li>'
+                                            +'</a>';
                             wrap.insertAdjacentHTML('afterbegin', html);
                         }
                         count =count+j;

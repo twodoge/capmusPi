@@ -42,7 +42,7 @@
     <section class="aui-content">
         <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
             <div class="aui-info-item">
-                <img src="/static/image/{{ new_user_pictrue }}" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{ learns.publisher }}</h3></span>
+                <img src="/static/{{ learns.publisher_id.userPicture }}" class="aui-img-round" style="width:32px;height: 32px;margin: 5px 0 5px 0;"/><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{ learns.publisher }}</h3></span>
                 </div>
             <div class="aui-info-item">{{ learns.time|date:"Y-m-d H:i" }}</div>
         </div>
@@ -52,9 +52,11 @@
             <div class="by">
                 <h2>{{ learns.title }}</h2>
                 <p>{{ learns.content }}</p>
+                {% if learns.images %}
                 <p>
                     <img src="/static/{{learns.images}}" style="max-width: 100%;margin:20px auto 0 ">
                 </p>
+                {% endif %}
             </div>
             <div class="foot" style="text-align: right;">
                 <!-- <p><div class="aui-btn aui-btn-info">评论 20</div></p> -->
@@ -94,7 +96,8 @@
         <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
             <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
                 <div class="aui-info-item">
-                    <img src="/static/{{comment.images}}" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{comment.critisID}}</h3></span>
+                    <!-- <img src="/static/{{comment.images}}" style="width:1.5rem" class="" /> -->
+                    <span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{comment.critisID}}</h3></span>
                 </div>
                 <div class="aui-info-item">{{ comment.time|date:"Y-m-d H:i" }}</div>
             </div>
@@ -103,9 +106,9 @@
                 <div class="footer">
                     <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
                         <div class="aui-info-item"></div>
-                        <div class="aui-info-item">
+                        <!-- <div class="aui-info-item">
                             <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment2" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">3</font></i>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -125,30 +128,9 @@
                           <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
                     </div>
                 </form>
-                {% endfor %}
-                {% for childcomment in childcomments %}
-                <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
-                    <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
-                        <div class="aui-info-item">
-                            <img src="/static/{{childcomment.images}}" style="width:1.5rem" class="" /><span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{childcomment.critisID}}</h3></span>
-                        </div>
-                        <div class="aui-info-item">{{ childcomment.time|date:"Y-m-d H:i" }}</div>
-                    </div>
-                    <div class="aui-card-list-content-padded">
-                        <div>{{childcomment.content}}</div>
-                        <div class="footer">
-                            <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
-                                <div class="aui-info-item"></div>
-                                <div class="aui-info-item">
-                                    <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment2" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">2</font></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
             </div>
         </div>
+        {% endfor %}
     </section>
 
     <script type="text/javascript" src="/static/js/api.js"></script>

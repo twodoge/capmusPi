@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>随心停 - 注册</title>
+    <link rel="icon" href="data:image/ico;base64,aWNv">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name" style="font-size:100px; ">随心停</h1>
+
+            </div>
+            <p>找回密码</p>
+            <form class="m-t" role="form" action="{% url 'mycampus:rePasswordSubmit' %}"  method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入新的密码" required="required" name="password">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请重复输入新的密码" required="required" name="repassword">
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">重置密码</button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.4.0"></script>
+
+</body>
+
+</html>
+
+    <section class="aui-content-padded">
+            {% for childcomment in childcomments %}
+                {% if childcomment %}
+                <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
+                    <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                        <div class="aui-info-item">
+                            <!-- <img src="/static/{{comments_user_image}}" style="width:1.5rem" class="" /> -->
+                            <span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{childcomment.father_Comments.critisID}}</h3></span>
+                        </div>
+                        <div class="aui-info-item">{{ childcomment.father_Comments.time|date:"Y-m-d H:i" }}</div>
+                    </div>
+                    <div class="aui-card-list-content-padded">
+                        <div>{{childcomment.father_Comments.content}}</div>
+                        <div class="footer">
+                            <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                                <div class="aui-info-item"></div>
+                                <div class="aui-info-item"> 
+                                    <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment1" onclick="get_id('{{childcomment.father_Comments.id}}')" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">2</font></i>
+                                    <!-- <input type="text" name="comment_id" id="comment_id" value="comment{{comment.id}}" style="display: none;"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <!-- 发表子评论 -->
+                    <div class="aui-card-list comment{{childcomment.father_Comments.id}}" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
+                        <!-- <input type="text" name="comment_content_id" id="comment_content_id" value="comment_content{{comment.id}}" style="display: none;"> -->
+                        <form role="form" action="{% url 'mycampus:childcomments_news' childcomment.father_Comments.id %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- <div class="aui-card-list-header">
+                                    <input type="file" name="image" onchange="imgPreview(this)" />
+                            </div> -->
+                            <div class="aui-card-list-content-padded">
+                                <!-- <img id="preview" /><br/> -->
+                                <textarea id="content" placeholder="回复..." name="content" onblur="return cheack_title()"></textarea>
+                                </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
+                            </div>
+                            <div class="aui-card-list-footer">
+                                  <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
+                            </div>
+                        </form>
+                        <!-- 显示子评论 -->
+                        
+                        <div class="aui-card-list" style="background: #f0f0f0;padding: 0;border-bottom: 1px dashed #000">
+                            <!-- <div class="aui-card-list-header" style="padding: 0;"> -->
+                            <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                                <div class="aui-info-item">
+                                    <!-- <img src="/static/{{ childcomment.images }}" style="width:1.5rem" class="" /> -->
+                                    <span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{childcomment.critisID}}</h3></span>
+                                </div>
+                                <div class="aui-info-item">{{ childcomment.time|date:"Y-m-d H:i" }}</div>
+                            </div>
+                            <div class="aui-card-list-content-padded">
+                                <div>{{childcomment.content}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% for comment in comments %}
+        {% if comment.ifchild %}
+        {% else %}
+        <div class="aui-card-list" style="background: #f0f0f0;padding: 0;">
+            <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                <div class="aui-info-item">
+                    <!-- <img src="/static/{{comments_user_image}}" style="width:1.5rem" class="" /> -->
+                    <span class="aui-margin-l-5"><h3 style="color: #333;font-weight: 900">{{comment.critisID}}</h3></span>
+                </div>
+                <div class="aui-info-item">{{ comment.time|date:"Y-m-d H:i" }}</div>
+            </div>
+            <div class="aui-card-list-content-padded">
+                <div>{{comment.content}}</div>
+                <div class="footer">
+                    <div class="aui-info aui-font-size-12 aui-padded-t-0 aui-padded-b-0">
+                        <div class="aui-info-item"></div>
+                        <div class="aui-info-item"> 
+                            <i class="aui-iconfont aui-icon-comment aui-padded-r-5 comment1" onclick="get_id('{{comment.id}}')" style="color:#00bcd4;font-size: 1.4rem;"><font style="font-size: 15px;">2</font></i>
+                            <!-- <input type="text" name="comment_id" id="comment_id" value="comment{{comment.id}}" style="display: none;"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <!-- 发表子评论 -->
+            <div class="aui-card-list comment{{comment.id}}" style="background: #f2f3f4;border: 1px solid #E7E9EA;border-radius:2px;margin: 0px 20px;display: none;">
+                <!-- <input type="text" name="comment_content_id" id="comment_content_id" value="comment_content{{comment.id}}" style="display: none;"> -->
+                <form role="form" action="{% url 'mycampus:childcomments_news' comment.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- <div class="aui-card-list-header">
+                            <input type="file" name="image" onchange="imgPreview(this)" />
+                    </div> -->
+                    <div class="aui-card-list-content-padded">
+                        <!-- <img id="preview" /><br/> -->
+                        <textarea id="content" placeholder="回复..." name="content" onblur="return cheack_title()"></textarea>
+                        </span><span id="erroretitle" style="display:none;color:red;">评论不能为空！</span>
+                    </div>
+                    <div class="aui-card-list-footer">
+                          <button type="submit" type="button" class="aui-btn aui-btn-primary">发表</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {%endif%}
+        {% endfor %}
+    </section>

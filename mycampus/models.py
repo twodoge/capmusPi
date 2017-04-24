@@ -10,7 +10,8 @@ class User(models.Model):
 	remark = models.CharField(max_length=30,null=True)
 
 class News(models.Model):
-	publisher = models.CharField(max_length=20)
+	publisher_id = models.ForeignKey(User)
+	publisher = models.CharField(max_length=20,null=True)
 	title = models.CharField(max_length=50,null=True)
 	content = models.CharField(max_length=2000,null=True)
 	images = models.ImageField(upload_to='news-img',null=True)
@@ -30,8 +31,10 @@ class Comments_News(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 	content = models.CharField(max_length=255,null=True)
 	images = models.ImageField(upload_to='news_img',null=True)
+	ifchild = models.IntegerField(default=0)
 
 class ChildComments_News(models.Model):
+	father_Comments = models.ForeignKey(Comments_News)
 	critisID = models.CharField(max_length=20,null=True)
 	new_id = models.IntegerField(null=True)
 	comment_id = models.IntegerField(null=True)
@@ -40,6 +43,7 @@ class ChildComments_News(models.Model):
 	images = models.ImageField(upload_to='news_img',null=True)
 
 class Learns(models.Model):
+	publisher_id = models.ForeignKey(User)
 	publisher = models.CharField(max_length=20)
 	title = models.CharField(max_length=50)
 	content = models.CharField(max_length=2000)

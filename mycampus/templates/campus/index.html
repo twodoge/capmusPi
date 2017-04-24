@@ -10,25 +10,24 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/aui-slide.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/aui-pull-refresh.css" />
 	<style type="text/css">
-    body {
-        background: #ffffff;
-    }
-    .bg-dark {
-        background: #333333 !important;
-    }
-/*    .aui-slide-node img {
-        width: auto;
-        height: 100%;
-    }*/
-    .aui-refresh-load{
-    	top: -1.2rem;
-    }
-    .aui-slide-page-active{
-    	background-color: #707070;
-    }
-    .aui-refresh-pull-arrow{
-    	background-image: url('data:image/svg+xml;charset=utf-8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M99.225 3.528c8.34 0 15.104 6.763 15.104 15.105 0 8.34-6.766 15.105-15.105 15.105-8.342 0-15.105-6.763-15.105-15.105S90.883 3.528 99.225 3.528zM76.567 48.843h45.315c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H76.567c-4.172 0-7.553-3.38-7.553-7.552v-5.035c0-4.172 3.38-7.552 7.553-7.552zm-10.07 35.245h65.455c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H66.497c-4.172 0-7.553-3.38-7.553-7.552V91.64c0-4.172 3.38-7.552 7.553-7.552zm8.044 87.596c-20.397-23.16-45.805-52.352-45.805-52.352h140.98s-25.146 28.735-45.4 51.884c-33.454 38.234-18.118 36.4-49.774.468z" fill="#27AE60" class="transform-group"/></svg>')
-    }
+	    body {
+	        background: #ffffff;
+	    }
+	    .bg-dark {
+	        background: #333333 !important;
+	    }
+	    .aui-refresh-load{
+	    	top: -1.2rem;
+	    }
+	    .aui-slide-page-active{
+	    	background-color: #707070;
+	    }
+	    /*.aui-list-item{
+	    	border-bottom: 1px solid #dddddd;
+	    }*/
+	    .aui-refresh-pull-arrow{
+	    	background-image: url('data:image/svg+xml;charset=utf-8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M99.225 3.528c8.34 0 15.104 6.763 15.104 15.105 0 8.34-6.766 15.105-15.105 15.105-8.342 0-15.105-6.763-15.105-15.105S90.883 3.528 99.225 3.528zM76.567 48.843h45.315c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H76.567c-4.172 0-7.553-3.38-7.553-7.552v-5.035c0-4.172 3.38-7.552 7.553-7.552zm-10.07 35.245h65.455c4.17 0 7.552 3.38 7.552 7.552v5.035c0 4.172-3.382 7.552-7.552 7.552H66.497c-4.172 0-7.553-3.38-7.553-7.552V91.64c0-4.172 3.38-7.552 7.553-7.552zm8.044 87.596c-20.397-23.16-45.805-52.352-45.805-52.352h140.98s-25.146 28.735-45.4 51.884c-33.454 38.234-18.118 36.4-49.774.468z" fill="#27AE60" class="transform-group"/></svg>')
+	    }
     </style>
 </head>
 <body>
@@ -96,7 +95,7 @@
 	                        </div>
 	                    </div>
 	                    	<div class="aui-list-item-media">
-	                        <img src="/static/{{ new.images }}" style="max-height: 4.5rem">
+	                        <img src="/static/{{ new.images }}" style="max-height: 3.5rem">
 	                    	</div>
 	                </div>
 	            </li>
@@ -208,14 +207,18 @@
             if(ret.status=="success"){
                 setTimeout(function(){
                     var j=0;
-                    var urls = 'mycampus:content';
+                    // var urls = 'mycampus:content';'<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
+                    var urls = '/mycampus/content/';
+                    // var ss = s.substr(12, 5);
                     $.getJSON("{% url 'mycampus:index_refresh' %}",{'a':count},function(item){
                         //返回值 ret 在这里是一个列表 把 ret 的每一项显示在网页上
-                        var wrap = document.getElementById("demo")
+                        var wrap = document.getElementById("demo");
                         // var lis = wrap.querySelectorAll('.aui-card-list');
                         for (var i = 0, length = 4; i < length; i++,j++) {
+                        	var date1 = item[j][5].substr(0,10);
+                        	var date2 = item[j][5].substr(11,5);
                         	if(item[j][4]=='')
-                        		var html ='<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
+                        		var html ='<a href="'+urls+item[j][0]+'" >'
                         						+'<li class="aui-list-item">'
 		                                            +'<div class="aui-media-list-item-inner">'
 		                                                +'<div class="aui-list-item-inner">'
@@ -229,13 +232,13 @@
 		                    							+'<div class="aui-info-item aui-font-size-12">'
 		                        							+'<span class="aui-margin-l-5">'+item[j][1]+'</span>'
 		                    							+'</div>'
-		                    							+'<div class="aui-info-item aui-font-size-12">'+item[j][5]+'</div>'
+		                    							+'<div class="aui-info-item aui-font-size-12">'+date1+' '+date2+'</div>'
 		                    							+'<div class="aui-info-item aui-font-size-12">26条评论</div>'
 		               								+'</div>'
 	               								+'</li>'
                								+'</a>'
                         	else{
-                        		var html ='<a href="'+'{'+'% url '+urls+' '+item[j][0]+' %}'+'" >'
+                        		var html ='<a href="'+urls+item[j][0]+'" >'
 		                                        +'<li class="aui-list-item">'
 		                                            +'<div class="aui-media-list-item-inner">'
 		                                                +'<div class="aui-list-item-inner">'
@@ -246,12 +249,12 @@
 		                                                        +'<div class="aui-info-item aui-font-size-12">'
 		                                                            +'<span class="aui-margin-l-5">'+item[j][1]+'</span>'
 		                                                        +'</div>'
-		                                                        +'<div class="aui-info-item aui-font-size-12">'+(item[j][5])+'</div>'
+		                                                        +'<div class="aui-info-item aui-font-size-12">'+date1+' '+date2+'</div>'
 		                                                        +'<div class="aui-info-item aui-font-size-12">26条评论</div>'
 		                                                    +'</div>'
 		                                                +'</div>'
 		                                                +'<div class="aui-list-item-media">'
-		                                                    +'<img src="/static/'+item[j][4]+'">'
+		                                                    +'<img src="/static/'+item[j][4]+'" style="max-height:3.5rem;">'
 		                                                +'</div>'
 		                                            +'</div>'
 		                                        +'</li>'

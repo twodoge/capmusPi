@@ -17,7 +17,7 @@ def login(request):
 def test(request):
     return render(request, 'campus/test.html')
 
-def  register(request):
+def register(request):
 	return render(request, 'campus/register.html')
 
 def register_action(request):
@@ -48,7 +48,7 @@ def loginJudge(request):
 		user = models.User.objects.filter(userName=userName)
 		print (user)
 		if len(user)==0:
-			error = "该用户不存在"
+			error = "用户名或密码不正确"
 			r = HttpResponse(error)
 			return r
 		else:
@@ -62,21 +62,24 @@ def loginJudge(request):
 					error = "用户名或密码不正确"
 					r = HttpResponse(error)
 					return r
-				error = "该用户不存在"
+				error = "用户名或密码不正确"
 				r = HttpResponse(error)
 				return r
 			else:
-				error = "该用户不存在"
+				error = "用户名或密码不正确"
 				r = HttpResponse(error)
 				return r
 #主页	
 def index(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	news = models.News.objects.order_by('-id')
-	news = models.News.objects.order_by('-id').filter()[0:4]
-	slides = models.News.objects.filter( images__isnull=False ).order_by('-likes')[0:8]
-	return render(request, 'campus/index.html',{'news':news,'user':user,'slides':slides})
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		news = models.News.objects.order_by('-id')
+		news = models.News.objects.order_by('-id').filter()[0:4]
+		slides = models.News.objects.filter( images__isnull=False ).order_by('-likes')[0:8]
+		return render(request, 'campus/index.html',{'news':news,'user':user,'slides':slides})
+	else:
+		return render(request, 'campus/login.html')
 
 	
 def index1(request):
@@ -95,15 +98,17 @@ def index_refresh(request):
 
 def member(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	return render(request, 'campus/member.html',{'user':user})
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		return render(request, 'campus/member.html',{'user':user})
+	else:
+		return render(request, 'campus/login.html')
 #详细内容页面
 def content(request,new_id):
 	news =models.News.objects.get(pk=new_id)
-	new_user = models.User.objects.get(userName=news.publisher)
 	comments = models.Comments_News.objects.filter(new_id=new_id)
-	childcomments = models.ChildComments_News.objects.filter(new_id=new_id)
-	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments,'new_user_pictrue':new_user.userPicture})
+	childcomments = len(models.ChildComments_News.objects.filter(new_id=new_id))
+	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
 #发表新闻评论
 def comments_news(request,new_id):
 	news =models.News.objects.get(pk=new_id)
@@ -115,19 +120,21 @@ def comments_news(request,new_id):
 	news.counts+=1
 	news.save()
 	comments = models.Comments_News.objects.filter(new_id=new_id)
-	childcomments = models.ChildComments_News.objects.filter(new_id=new_id)
+	childcomments = len(models.ChildComments_News.objects.filter(new_id=new_id))
 	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
 #发表子评论
 def childcomments_news(request,comment_id):
 	comment = models.Comments_News.objects.get(pk=comment_id)
+	comment.ifchild=1
+	comment.save()
 	userId = request.session.get('userId',default=None)
 	user = models.User.objects.get(pk=userId)
 	content = request.POST.get('content','content')
 	images = request.FILES.get('image')
-	models.ChildComments_News.objects.create(critisID=user.userName,new_id=comment.new_id,comment_id=comment_id,content=content,images=images)
+	models.ChildComments_News.objects.create(father_Comments=comment,critisID=user.userName,new_id=comment.new_id,comment_id=comment_id,content=content,images=images)
 	news = models.News.objects.get(id=comment.new_id)
-	childcomments = models.ChildComments_News.objects.filter(comment_id=comment_id)
-	comments = models.Comments_News.objects.filter(pk=comment_id)
+	childcomments = len(models.ChildComments_News.objects.filter(new_id=news.id))
+	comments = models.Comments_News.objects.filter(new_id=news.id)
 	return render(request, 'campus/content.html',{'news':news,'comments':comments,'childcomments':childcomments})
 #发表子评论
 def childcomments_learns(request,comment_id):
@@ -192,14 +199,14 @@ def learns_like_post(request,learn_id):
 #学习详情
 def content_learn(request,learn_id):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	learns =models.Learns.objects.get(pk=learn_id)
-	new_user = models.User.objects.get(userName=learns.publisher)
-	print (new_user.userPicture)
-	comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
-	childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
-	return render(request, 'campus/content_learn.html',{'user':user,'learns':learns,'comments':comments,'childcomments':childcomments,'new_user_pictrue':new_user.userPicture})
-
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		learns =models.Learns.objects.get(pk=learn_id)
+		comments = models.Comments_Learns.objects.filter(learn_id=learn_id)
+		childcomments = models.ChildComments_Learns.objects.filter(learn_id=learn_id)
+		return render(request, 'campus/content_learn.html',{'user':user,'learns':learns,'comments':comments,'childcomments':childcomments})
+	else:
+		return render(request, 'campus/login.html')
 #评论学习
 def comments_learn(request,learn_id):
 	learns =models.Learns.objects.get(pk=learn_id)
@@ -217,32 +224,46 @@ def comments_learn(request,learn_id):
 #发表新闻事件
 def show_published(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	title = request.POST.get('title','title')
-	content = request.POST.get('content','content')
-	images = request.FILES.get('image')
-	models.News.objects.create(publisher=user.userName,title=title,content=content,images=images,uid=userId)
-	return redirect('/mycampus/index')
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		title = request.POST.get('title','title')
+		content = request.POST.get('content','content')
+		images = request.FILES.get('image')
+		models.News.objects.create(publisher_id=user,publisher=user.userName,title=title,content=content,images=images,uid=userId)
+		return redirect('/mycampus/index')
+	else:
+		return render(request, 'campus/login.html')
 	
 def published(request):
-	return render(request, 'campus/published.html')
+	userId = request.session.get('userId',default=None)
+	if userId:
+		return render(request, 'campus/published.html')
+	else:
+		return render(request, 'campus/login.html')
 #显示表白墙
 def love(request):
-	loves = models.Lovewall.objects.order_by('-id')
-	teasings = models.Teasingwall.objects.order_by('-id')
-	return render(request, 'campus/love.html',{'loves':loves,'teasings':teasings})
+	userId = request.session.get('userId',default=None)
+	if userId:
+		loves = models.Lovewall.objects.order_by('-id')
+		teasings = models.Teasingwall.objects.order_by('-id')
+		return render(request, 'campus/love.html',{'loves':loves,'teasings':teasings})
+	else:
+		return render(request, 'campus/login.html')
 #发送表白信息
 def send_love(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	tosb = request.POST.get('tosb','tosb')
-	content = request.POST.get('content','content')
-	image = request.FILES.get('image')
-	fromsb = request.POST.get('fromsb','fromsb')
-	if fromsb=='':
-		fromsb='匿名用户'
-	models.Lovewall.objects.create(publisher=user.userName,tosb=tosb,content=content,images=image,fromsb=fromsb)
-	return redirect('/mycampus/love')
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		tosb = request.POST.get('tosb','tosb')
+		content = request.POST.get('content','content')
+		image = request.FILES.get('image')
+		fromsb = request.POST.get('fromsb','fromsb')
+		if fromsb=='':
+			fromsb='匿名用户'
+		models.Lovewall.objects.create(publisher=user.userName,tosb=tosb,content=content,images=image,fromsb=fromsb)
+		return redirect('/mycampus/love')
+	else:
+		return render(request, 'campus/login.html')
 # #显示吐槽墙
 # def teasing(request):
 #  	teasings = models.Teasingwall.objects.order_by('-id')
@@ -262,17 +283,24 @@ def send_teasing(request):
 	return render(request, 'campus/love.html')
 #研讨天地页面
 def learn(request):
-	learns = models.Learns.objects.order_by('-id').filter()[0:6]
-	return render(request, 'campus/learn.html',{'learns':learns})
+	userId = request.session.get('userId',default=None)
+	if userId:
+		learns = models.Learns.objects.order_by('-id').filter()[0:6]
+		return render(request, 'campus/learn.html',{'learns':learns})
+	else:
+		return render(request, 'campus/login.html')
 #发表研讨事件
 def send_learn(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	title = request.POST.get('title','title')
-	content = request.POST.get('content','content')
-	image = request.FILES.get('image')
-	models.Learns.objects.create(publisher=user.userName,title=title,content=content,images=image,uid=userId)
-	return redirect('/mycampus/learn')
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		title = request.POST.get('title','title')
+		content = request.POST.get('content','content')
+		image = request.FILES.get('image')
+		models.Learns.objects.create(publisher_id=user,publisher=user.userName,title=title,content=content,images=image,uid=userId)
+		return redirect('/mycampus/learn')
+	else:
+		return render(request, 'campus/login.html')
 #研讨天地页面===下拉刷新
 def learn_refresh(request):
 	a = int(request.GET.get('a'))
@@ -368,16 +396,22 @@ def uploadImg(request):
 # 个人资料
 def user(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	news_count = models.News.objects.filter(publisher=user.userName).count()
-	learn_count = models.Learns.objects.filter(publisher=user.userName).count()
-	count = news_count+learn_count
-	return render(request, 'campus/user.html',{'user':user,'count':count})
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		news_count = models.News.objects.filter(publisher=user.userName).count()
+		learn_count = models.Learns.objects.filter(publisher=user.userName).count()
+		count = news_count+learn_count
+		return render(request, 'campus/user.html',{'user':user,'count':count})
+	else:
+		return render(request, 'campus/login.html')
 # 修改个人资料
 def setting_information(request):
 	userId = request.session.get('userId',default=None)
-	user = models.User.objects.get(pk=userId)
-	return render(request, 'campus/setting_information.html',{'user':user})
+	if userId:
+		user = models.User.objects.get(pk=userId)
+		return render(request, 'campus/setting_information.html',{'user':user})
+	else:
+		return render(request, 'campus/login.html')
 # ajax验证用户名
 def cheack_name(request):
 	name = request.GET.get('name')
@@ -391,22 +425,26 @@ def cheack_name(request):
 # 修改个人资料
 def change_user(request):
 	userId = request.session.get('userId')
-	print(userId)
-	userName = request.POST.get('userName')
-	password =request.POST.get('password')
-	email = request.POST.get('email')
-	phone =request.POST.get('phone')
-	models.User.objects.filter(pk=userId).update(userName=userName,password=password,email=email,phone=phone)
-	return redirect('/mycampus/user/')
+	if userId:
+		userName = request.POST.get('userName')
+		password =request.POST.get('password')
+		email = request.POST.get('email')
+		phone =request.POST.get('phone')
+		models.User.objects.filter(pk=userId).update(userName=userName,password=password,email=email,phone=phone)
+		return redirect('/mycampus/user/')
+	else:
+		return render(request, 'campus/login.html')
 #我的贴子
 def mypost(request):
 	userId = request.session.get('userId',default=None)
-	mynews = models.News.objects.filter(uid = userId ).order_by("-time")
-	mynewscount = models.News.objects.filter(uid =userId).count()
-	mylearns = models.Learns.objects.filter(uid = userId).order_by("-time")
-	mylearnscount = models.Learns.objects.filter(uid =userId).count()
-	return render(request, 'campus/mypost.html',{'mynews':mynews,'mylearns':mylearns,'mynewscount':mynewscount,'mylearnscount':mylearnscount})
-
+	if userId:
+		mynews = models.News.objects.filter(uid = userId ).order_by("-time")
+		mynewscount = models.News.objects.filter(uid =userId).count()
+		mylearns = models.Learns.objects.filter(uid = userId).order_by("-time")
+		mylearnscount = models.Learns.objects.filter(uid =userId).count()
+		return render(request, 'campus/mypost.html',{'mynews':mynews,'mylearns':mylearns,'mynewscount':mynewscount,'mylearnscount':mylearnscount})
+	else:
+		return render(request, 'campus/login.html')
 #删除我的新闻
 def delete_mynew(request,mynew_id):
 	models.News.objects.get(pk = mynew_id).delete()	
@@ -433,3 +471,11 @@ def login_out(request):
 	except KeyError:
 		pass
 	return render(request, 'campus/login.html')
+# ajax加载父评论的子评论
+def comment_child(request):
+	a = int(request.GET.get('a'))
+	comment_childs = models.ChildComments_News.objects.order_by('-id').filter(comment_id=a)
+	comment_child_list=[]
+	for i in comment_childs:
+		comment_child_list.append([i.critisID,i.content,i.time])
+	return JsonResponse(comment_child_list,safe=False)

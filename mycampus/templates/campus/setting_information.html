@@ -57,7 +57,7 @@
             </li>
         </ul>
     </div>
-<form role="form" id="my_form" action="{% url 'mycampus:change_user' %}" method="post">
+<form role="form" id="my_form" action="{% url 'mycampus:change_user' %}" method="post" onsubmit="return check()">
 {% csrf_token %}
     <div class="aui-content aui-margin-b-15">
         <ul class="aui-list aui-form-list">
@@ -67,19 +67,18 @@
                         用户名
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" placeholder="{{user.userName}}" id="name" name="userName">
+                        <input type="text" placeholder="{{user.userName}}" id="userName" name="userName">
                     </div>
                 </div>
             </li>
-            <li><div><span id="result_null" style="color: red;display: none;">请输入用户名！</span></div></li>
-            <li><div id="result" style="color: red;display: none;"><span>当前用户名已被注册！</span></div></li>
+            <li><div><span id="result"></span></div></li>
             <li class="aui-list-item">
                 <div class="aui-list-item-inner">
                     <div class="aui-list-item-label">
                         密码
                     </div>
                     <div class="aui-list-item-input">
-                        <input placeholder="Number" type="password" name="password" id="password">
+                        <input placeholder="..." id="password" name="password"  onblur="check_password()">
                     </div>
                 </div>
             </li>
@@ -89,31 +88,33 @@
                         确认密码
                     </div>
                     <div class="aui-list-item-input">
-                        <input placeholder="Number" type="password" name="repassword" id="repassword">
+                        <input placeholder="..." type="password" id="repassword" name="repassword" onblur="check_repassword()">
                     </div>
                 </div>
             </li>
-            <li><div><span id="result_password" style="color: red;display: none;">两次输入的密码不一样！</span></div></li>
+            <li><div><span id="result_password"></span></div></li>
             <li class="aui-list-item">
                 <div class="aui-list-item-inner">
                     <div class="aui-list-item-label">
                         邮箱
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="email" placeholder="{{user.email}}" name="email">
+                        <input type="email" placeholder="{{user.email}}" id="email" name="email" onblur="check_email()">
                     </div>
                 </div>
             </li>
+            <li><div><span id="result_email"></span></div></li>
             <li class="aui-list-item">
                 <div class="aui-list-item-inner">
                     <div class="aui-list-item-label">
                         电话
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="number" placeholder="{{user.phone}}" name="phone">
+                        <input type="number" placeholder="{{user.phone}}" id="phone" name="phone" onblur="checkPhone()">
                     </div>
                 </div>
             </li>
+            <li><div><span id="errorphone"></span></div></li>
         </ul>
     </div>
 
@@ -170,36 +171,93 @@
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#name").blur(function(){
-				var name = $("#name").val();
-				if(name=='' || name == null || name == undefined)
-					$("#result_null").css('display','block');
+			$("#userName").blur(function(){
+				var userName = $("#userName").val();
+                if(userName.length<1 || userName.length>10){
+                    $("#result").show();
+                    $("#result").html("<font color=\"red\">用户名必须在1~10个字符内！</font>");
+                    return false;
+                }
 				else{
-					$("#result_null").css('display','none');
+                    $("#result").hide();
 					$.getJSON("{% url 'mycampus:cheack_name' %}", {'name':name}, function(ret){
-						if(ret.name==0)
-							$("#result").css('display','block');
+						if(ret.name==0){
+                            $("#result").show();
+							$("#result").html("<font color=\"red\">当前用户名已被注册！</font>");
+                            return false;
+                        }
 						else
-							$("#result").css('display','none');
+							$("#result").hide();
 					})
 				}
 			});
 		});
-
-			// 验证两次输入的密码
-			$("#repassword").blur(function(){
-				var password = $("#password").val();
-				var repassword = $("#repassword").val();
-				if($.trim(repassword)==$.trim(repassword))
-					$("#result_password").hide();
-				else
-					$("#result_password").show();
-			});
 	</script>
 	<script type="text/javascript">
 		$("#sub").click(function(){
 			$("#my_form").submit();
 		});
+        function check(){
+            var status = document.getElementById("result").innerHTML;
+            if(!check_email() || !check_password() || !check_repassword()|| !checkPhone() ){
+                return false;
+            }else if(status==""){
+                return true ;
+            }else{
+                return false;
+            }
+        }
+        function checkPhone(){
+            var phone=document.getElementById("phone").value;
+            var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/ ;
+               if(phone.length!=11||!phone.match(a)){
+                    document.getElementById("errorphone").innerHTML="<font color=\"red\">手机格式错误！</font>";
+                    return false;
+                }
+                else{
+                     document.getElementById("errorphone").innerHTML="";
+                     return true
+                 }
+        }
 	</script>
+    <script type="text/javascript">
+    function check_password(){
+        var password = $("#password").val();
+        if(password.length<6||password.length>16){
+            $("#result_password").show();
+            $("#result_password").html("<font color=\"red\">密码必须在6~16个字符内！</font>");
+            return false;
+        }
+        else{
+            $("#result_password").hide();
+            return true;
+        }
+    }
+    function check_repassword(){
+        var password = $("#password").val();
+        var repassword = $("#repassword").val();
+        if(password !== repassword){
+            $("#result_password").show();
+            $("#result_password").html("<font color=\"red\">两次输入密码不一样！</font>");
+            return false;
+        }
+        else{
+            $("#result_password").hide();
+            return true;
+        }
+    }
+    function check_email(){
+        var email = $("#email").val();
+        if(!email.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)){
+            $("#result_email").show();
+            $("#result_email").html("<font color=\"red\">邮箱格式不正确！</font>");
+            return false;
+        }
+        else{
+            $("#result_email").hide();
+            return true;
+        }
+    }
+    </script>
 </body>
 </html>

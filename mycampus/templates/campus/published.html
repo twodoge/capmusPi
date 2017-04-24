@@ -45,7 +45,7 @@
 	</header>
 	<section class="aui-content-padded">
 	    <div class="aui-card-list">
-	    	<form role="form" action="{% url 'mycampus:show_published' %}" method="post" enctype="multipart/form-data">
+	    	<form role="form" action="{% url 'mycampus:show_published' %}" method="post" enctype="multipart/form-data" onsubmit="return check()">
 	        	{% csrf_token %}
 		        <div class="aui-card-list-header">
 			            
@@ -73,7 +73,7 @@
 	<section class="aui-content-padded">
 		
 	</section>
-
+	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="/static/js/aui-popup.js" ></script>
 	<script type="text/javascript" src="/static/js/api.js"></script>
 	<script type="text/javascript">
@@ -93,6 +93,7 @@
 			}
 			else{
 				document.getElementById('erroretitle').style.display = "none";
+				return true;
 			}
 		}
 		function cheack_content(){
@@ -102,8 +103,17 @@
 				return false;
 		    }
 		    else{
-		    	document.getElementById('erroretitle').style.display = "none";
+		    	document.getElementById('errorcontent').style.display = "none";
+		    	return true;
 		    }
+		}
+		function check(){
+			if(!cheack_title() || !cheack_content() ){
+				return false;
+			}
+			else{
+				return true;
+			}
 		}
 		
 	</script>

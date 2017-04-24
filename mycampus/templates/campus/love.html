@@ -247,7 +247,7 @@
     <div class="hw-overlay" id="hw-layer"> 
         <div class="hw-layer-wrap"> 
             <div class="aui-card-list">
-                <form role="form" id="form1"  method="post" enctype="multipart/form-data">
+                <form role="form" id="form1"  method="post" enctype="multipart/form-data" onsubmit="return check()">
                     {% csrf_token %}
                     <div class="aui-card-list-header">
                             
@@ -257,10 +257,10 @@
                     
                     <div class="aui-card-list-content-padded">
                         <img id="preview" /><br/>
-                        <textarea id="tosb" placeholder="写给..." name="tosb" onblur="return cheack_title()"></textarea>
+                        <textarea id="tosb" placeholder="写给..." name="tosb"></textarea>
                         <!-- </span><span id="erroretitle" style="display:none;color:red;">标题不能为空！</span> -->
-                        <textarea id="content" placeholder="想说的话..." name="content"></textarea>
-                        </span><span id="errorcontent" style="display:none;color:red;">内容不能为空！</span>
+                        <textarea id="title" placeholder="想说的话..." name="content" onblur="return cheack_title2()"></textarea>
+                        </span><span id="erroretitle" style="display:none;color:red;">内容不能为空！</span>
                         <textarea id="fromsb" placeholder="from..." name="fromsb"></textarea>
                         <li class="aui-list-item aui-pull-left ">
                             <div class="aui-list-item-inner">
@@ -282,6 +282,7 @@
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/aui-tab.js"></script>
+    <script type="text/javascript" src="/static/js/newcommon.js"></script> 
     <script type="text/javascript">
         apiready = function(){
                 if(api.systemType == 'ios'){
@@ -293,6 +294,24 @@
                    document.getElementById('header').style.paddingTop = '0px';
                 }
             };
+        function cheack_title2(){
+            var title = document.getElementById('title').value;
+            if (title == '' || title==undefined ||title==null|| content == ''||content==undefined||content==null) {
+            document.getElementById('erroretitle').style.display = "block";
+            return false;
+            }
+            else{
+                document.getElementById('erroretitle').style.display = "none";
+            }
+        }
+        function check(){
+            if(!cheack_title2()){
+                return false;
+            }
+            else{
+                return false;
+            }
+        }
     </script>
     <script type="text/javascript">
         apiready = function(){
@@ -321,11 +340,6 @@
             }
         }
     </script>
-    <script type="text/javascript">
-            function lovewall(){
-               
-            }
-    </script>
     <script type="text/javascript">  
             var opt=0;
             function optlovewall(){
@@ -343,19 +357,5 @@
                 }
            }
     </script>
-   
-
-
-<!--     <script type="text/javascript">
-        apiready = function(){
-            if(api.systemType == 'ios'){
-                scaleEnabled = true;
-                document.getElementById('wrap').style.paddingTop = '12px';
-            }
-            };
-    </script> -->
-
-    <script type="text/javascript" src="/static/js/newcommon.js"></script> 
-
 </body>
 </html>

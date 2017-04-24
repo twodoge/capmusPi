@@ -39,13 +39,38 @@
 			            <li class="aui-list-item">
 			                <div class="aui-list-item-inner">
 			                    <div class="aui-list-item-label">
-			                        邮箱
+			                        密码
 			                    </div>
 			                    <div class="aui-list-item-input">
-			                        <input type="Email" placeholder="邮箱" id="email" name="email">
+			                        <input type="password" placeholder="密码" id="password" name="password"  onblur="check_password()">
+			                    </div>
+			                    <div class="aui-list-item-label-icon" id="show_pw">
+			                        <i class="aui-iconfont aui-icon-display"></i>
 			                    </div>
 			                </div>
 			            </li>
+			            <li class="aui-list-item">
+			                <div class="aui-list-item-inner">
+			                    <div class="aui-list-item-label">
+			                        确认密码
+			                    </div>
+			                    <div class="aui-list-item-input">
+			                        <input type="password" placeholder="密码" id="repassword" name="repassword" onblur="check_repassword()">
+			                    </div>
+			                </div>
+			            </li>
+			            <li><div><span id="result_password"></span></div></li>
+			            <li class="aui-list-item">
+			                <div class="aui-list-item-inner">
+			                    <div class="aui-list-item-label">
+			                        邮箱
+			                    </div>
+			                    <div class="aui-list-item-input">
+			                        <input type="Email" placeholder="邮箱" id="email" name="email" onblur="check_email()">
+			                    </div>
+			                </div>
+			            </li>
+			            <li><div><span id="result_email"></span></div></li>
 			            <li class="aui-list-item">
 			                <div class="aui-list-item-inner">
 			                    <div class="aui-list-item-label">
@@ -57,19 +82,6 @@
 			                </div>
 			            </li>
 			            <li><div><span id="errorphone"></span></div></li>
-			            <li class="aui-list-item">
-			                <div class="aui-list-item-inner">
-			                    <div class="aui-list-item-label">
-			                        密码
-			                    </div>
-			                    <div class="aui-list-item-input">
-			                        <input type="password" placeholder="密码" id="password" name="password">
-			                    </div>
-			                    <div class="aui-list-item-label-icon">
-			                        <i class="aui-iconfont aui-icon-display"></i>
-			                    </div>
-			                </div>
-			            </li>
 			        </ul>
 			    </div>
 	        </div><!-- endcontent -->
@@ -78,69 +90,134 @@
         </p>
     </form>
 	</section>
-<script type="text/javascript" src="/static/js/api.js"></script>
-  <script type="text/javascript">
-	    apiready = function(){
-	        if(api.systemType == 'ios'){
-	            scaleEnabled = true;
-	            document.getElementById('wrap').style.paddingTop = '12px';
-	        }
-	        };
-</script>
-<script>
-function ajax_request()
-{
-var xmlhttp;
-if (window.XMLHttpRequest) {
-    // code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp=new XMLHttpRequest();
-  } else {
-    // code for IE6, IE5
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-xmlhttp.onreadystatechange=function() {
-	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-      // document.getElementById("result").innerHTML=xmlhttp.responseText;
-      if(xmlhttp.responseText==""){
-      	document.getElementById("result").innerHTML=xmlhttp.responseText;
-    
-      }else{
-      	document.getElementById("result").innerHTML="<font color=\"red\">当前用户名已被注册！</font>";
-      }
-  }
-}
+	<script type="text/javascript" src="/static/js/api.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+  	<script type="text/javascript">
+		    apiready = function(){
+		        if(api.systemType == 'ios'){
+		            scaleEnabled = true;
+		            document.getElementById('wrap').style.paddingTop = '12px';
+		        }
+		        };
+	</script>
+	<script type="text/javascript">
+	function ajax_request(){
+		var userName = $("#userName").val();
+		if(userName.length<1 || userName.length>10){
+			$("#result").html("<font color=\"red\">用户名必须在1~10个字符内！</font>");
+			return false;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+		    // code for IE7+, Firefox, Chrome, Opera, Safari
+		    xmlhttp=new XMLHttpRequest();
+		  } else {
+		    // code for IE6, IE5
+		    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function() {
+			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		      // document.getElementById("result").innerHTML=xmlhttp.responseText;
+		      if(xmlhttp.responseText==""){
+		      	document.getElementById("result").innerHTML=xmlhttp.responseText;
+		    
+		      }else{
+		      	document.getElementById("result").innerHTML="<font color=\"red\">当前用户名已被注册！</font>";
+		      }
+		  }
+		}
 
-var Name = document.getElementById("userName").value;
-xmlhttp.open("GET", "/mycampus/register_action?Name=" + Name  , true);
-xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-xmlhttp.send();
+		var Name = document.getElementById("userName").value;
+		xmlhttp.open("GET", "/mycampus/register_action?Name=" + Name  , true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		xmlhttp.send();
 
-// ajax 教程：http://www.ziqiangxuetang.com/ajax/ajax-tutorial.html
-}
-function check(){
-	var status = document.getElementById("result").innerHTML;
-	if(!checkPhone()){
-		return false;
-	}else if(status==""){
-		return true ;
-	}else{
-		return false;
+	// ajax 教程：http://www.ziqiangxuetang.com/ajax/ajax-tutorial.html
 	}
-}
-
-function checkPhone(){
-    var phone=document.getElementById("phone").value;
-    var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/ ;
-       if(phone.length!=11||!phone.match(a)){
-            document.getElementById("errorphone").innerHTML="<font color=\"red\">手机格式错误！</font>";
-            return false;
-        }
-        else{
-             document.getElementById("errorphone").innerHTML="";
-             return true
-         }
-    }
+	function check(){
+		var status = document.getElementById("result").innerHTML;
+		var userName = $("#userName").val();
+		if(userName.length<1 || userName.length>10){
+			$("#result").html("<font color=\"red\">用户名必须在1~10个字符内！</font>");
+			return false;
+		}
+		if(!ajax_request || !check_email() || !check_password() || !check_repassword()|| !checkPhone() ){
+			return false;
+		}else if(status==""){
+			return true ;
+		}else{
+			return false;
+		}
+	}
+	function checkPhone(){
+	    var phone=document.getElementById("phone").value;
+	    var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/ ;
+	       if(phone.length!=11||!phone.match(a)){
+	            document.getElementById("errorphone").innerHTML="<font color=\"red\">手机格式错误！</font>";
+	            return false;
+	        }
+	        else{
+	             document.getElementById("errorphone").innerHTML="";
+	             return true;
+	         }
+	}
 </script>
-
+<script type="text/javascript">
+	function check_password(){
+		var password = $("#password").val();
+		if(password.length<6||password.length>16){
+			$("#result_password").show();
+			$("#result_password").html("<font color=\"red\">密码必须在6~16个字符内！</font>");
+			return false;
+		}
+		else{
+			$("#result_password").hide();
+			return true;
+		}
+	}
+	function check_repassword(){
+		var password = $("#password").val();
+		var repassword = $("#repassword").val();
+		if(password !== repassword){
+			$("#result_password").show();
+			$("#result_password").html("<font color=\"red\">两次输入密码不一样！</font>");
+			return false;
+		}
+		else{
+			$("#result_password").hide();
+			return true;
+		}
+	}
+	function check_email(){
+		var email = $("#email").val();
+		if(!email.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)){
+			$("#result_email").show();
+			$("#result_email").html("<font color=\"red\">邮箱格式不正确！</font>");
+			return false;
+		}
+		else{
+			$("#result_email").hide();
+			return true;
+		}
+	}
+	// $(function(){
+ //       $("show_pw").click(function(){
+ //            var $val=$("[type=password]").val();
+ //            var $val2=$("[type=text]").val();
+ //            var dp=$("[type=text]").css("display");
+ //           if(dp=="none"){
+ //                $(this).html("密码隐藏");
+ //                $("[type=text]").val($val);
+ //                $("[type=password]").hide();
+ //                $("[type=text]").show();
+ //            }else{
+ //                $("[type=password]").val($val2);
+ //                $("[type=password]").show();
+ //                $("[type=text]").hide();
+ //                $(this).html("密码可见");
+ //            }
+ //       });
+ //     });
+</script>
 </body>
 </html>
